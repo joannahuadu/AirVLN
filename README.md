@@ -6,7 +6,7 @@
 
 ---
 
-## 📖 **Table of Contents**
+### 📖 **Table of Contents**
 1. [Introduction](#introduction)
 2. [Features](#features)
 3. [Getting Started](#getting-started)
