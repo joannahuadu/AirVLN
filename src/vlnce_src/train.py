@@ -227,7 +227,8 @@ class IWTrajectoryDataset(torch.utils.data.IterableDataset):
                 self.lmdb_features_dir,
                 map_size=int(self.lmdb_map_size),
                 readonly=True,
-                lock=False,
+                # lock=False,
+                lock=True, readahead=False
             ) as lmdb_env, lmdb_env.begin(buffers=True) as txn:
                 for i in range(self.preload_size):
                     if len(self.load_ordering) == 0:
@@ -456,7 +457,7 @@ def initialize_trainer():
     observation_space = spaces.Dict({
         "rgb": spaces.Box(low=0, high=255, shape=(args.Image_Height_RGB, args.Image_Width_RGB, 3), dtype=np.uint8),
         "depth": spaces.Box(low=0, high=1, shape=(args.Image_Height_DEPTH, args.Image_Width_DEPTH, 1), dtype=np.float32),
-        "instruction": spaces.Discrete(0),
+        "instruction": spaces.Discrete(1),
         "progress": spaces.Box(low=0, high=1, shape=(1,), dtype=np.float32),
         "teacher_action": spaces.Box(low=0, high=100, shape=(1,)),
     })
@@ -488,22 +489,26 @@ def collect_data(data_it=0):
 
         return hook
 
-    rgb_features = torch.zeros((1,), device="cpu")
-    if not args.ablate_rgb:
-        rgb_hook = trainer.policy.net.rgb_encoder.layer_extract.register_forward_hook(
-            hook_builder(rgb_features)
-        )
-    else:
-        rgb_hook = None
+    # rgb_features = torch.zeros((1,), device="cpu")
+    # if not args.ablate_rgb:
+    #     rgb_hook = trainer.policy.net.rgb_encoder.layer_extract.register_forward_hook(
+    #         hook_builder(rgb_features)
+    #     )
+    # else:
+    #     rgb_hook = None
 
-    depth_features = torch.zeros((1,), device="cpu")
-    if not args.ablate_depth:
-        depth_hook = trainer.policy.net.depth_encoder.visual_encoder.register_forward_hook(
-            hook_builder(depth_features)
-        )
-    else:
-        depth_hook = None
-
+    # depth_features = torch.zeros((1,), device="cpu")
+    # if not args.ablate_depth:
+    #     depth_hook = trainer.policy.net.depth_encoder.visual_encoder.register_forward_hook(
+    #         hook_builder(depth_features)
+    #     )
+    # else:
+    #     depth_hook = None
+    rgb_features = None
+    rgb_hook = None
+    depth_features = None
+    depth_hook = None
+    
     p = 1.0
     beta = 1.0
 

@@ -1,0 +1,1297 @@
+nohup: ignoring input
+
+CondaError: Run 'conda init' before 'conda activate'
+
+scripts/collect.sh: line 4: cd: ./AirVLN: No such file or directory
+/mnt/data1/workspace/wmq/AirVLN_ws/AirVLN
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Not using distributed mode
+2025-09-14 19:46:39,973 - INFO - collect_data:477 - Namespace(project_prefix='/mnt/data1/workspace/wmq/AirVLN_ws', run_type='collect', policy_type='seq2seq', collect_type='TF', name='AirVLN-seq2seq', maxInput=300, maxAction=500, dagger_it=1, epochs=10, lr=0.00025, batchSize=16, trainer_gpu_device=0, Image_Height_RGB=224, Image_Width_RGB=224, Image_Height_DEPTH=256, Image_Width_DEPTH=256, inflection_weight_coef=1.9, nav_graph_path='/mnt/data1/workspace/wmq/AirVLN_ws/DATA/data/disceret/processed/nav_graph_10', token_dict_path='/mnt/data1/workspace/wmq/AirVLN_ws/DATA/data/disceret/processed/token_dict_10', vertices_path='/mnt/data1/workspace/wmq/AirVLN_ws/DATA/data/disceret/scene_meshes', dagger_mode_load_scene=[], dagger_update_size=8000, dagger_mode='end', dagger_p=1.0, TF_mode_load_scene=[], ablate_instruction=False, ablate_rgb=False, ablate_depth=False, SEQ2SEQ_use_prev_action=False, PROGRESS_MONITOR_use=False, PROGRESS_MONITOR_alpha=1.0, EVAL_CKPT_PATH_DIR=None, EVAL_DATASET='val_unseen', EVAL_NUM=-1, EVAL_GENERATE_VIDEO=False, rgb_encoder_use_place365=False, tokenizer_use_bert=False, simulator_tool_port=30000, DDP_MASTER_PORT=20000, continue_start_from_dagger_it=None, continue_start_from_checkpoint_path=None, vlnbert='prevalent', featdropout=0.4, action_feature=32, make_dir_time='20250914-194636-793742', logger_file_name='/mnt/data1/workspace/wmq/AirVLN_ws/DATA/output/AirVLN-seq2seq/collect/logs/AirVLN-seq2seq_20250914-194636-793742.log', machines_info=[{'MACHINE_IP': '127.0.0.1', 'SOCKET_PORT': 30000, 'MAX_SCENE_NUM': 16, 'open_scenes': []}], TRAIN_VOCAB=PosixPath('/mnt/data1/workspace/wmq/AirVLN_ws/DATA/data/aerialvln/train_vocab.txt'), TRAINVAL_VOCAB=PosixPath('/mnt/data1/workspace/wmq/AirVLN_ws/DATA/data/aerialvln/train_vocab.txt'), vocab_size=10038, DistributedDataParallel=False)
+2025-09-14 19:46:39,981 - INFO - __init__:171 - OLD_VOCAB_SIZE: 10038
+2025-09-14 19:46:39,982 - INFO - __init__:176 - VOACB: 10038
+2025-09-14 19:46:54,343 - INFO - __init__:74 - Loaded with 16386 instructions, using split: train
+  0%|          | 0/16386 [00:00<?, ?it/s]  2%|▏         | 320/16386 [00:00<00:05, 3199.10it/s]  4%|▍         | 640/16386 [00:00<00:04, 3186.16it/s]  6%|▌         | 959/16386 [00:00<00:04, 3140.69it/s]  8%|▊         | 1314/16386 [00:00<00:04, 3296.67it/s] 10%|█         | 1644/16386 [00:00<00:04, 3217.34it/s] 12%|█▏        | 1967/16386 [00:00<00:04, 3212.97it/s] 14%|█▍        | 2310/16386 [00:00<00:04, 3282.69it/s] 17%|█▋        | 2705/16386 [00:00<00:03, 3490.58it/s] 19%|█▉        | 3097/16386 [00:00<00:03, 3623.14it/s] 21%|██        | 3471/16386 [00:01<00:03, 3604.58it/s] 23%|██▎       | 3832/16386 [00:01<00:03, 3342.64it/s] 25%|██▌       | 4170/16386 [00:01<00:03, 3261.26it/s] 27%|██▋       | 4499/16386 [00:01<00:03, 3094.61it/s] 29%|██▉       | 4812/16386 [00:01<00:04, 2706.83it/s] 32%|███▏      | 5165/16386 [00:01<00:03, 2915.44it/s] 34%|███▎      | 5513/16386 [00:01<00:03, 3065.96it/s] 36%|███▌      | 5829/16386 [00:01<00:03, 3067.14it/s] 38%|███▊      | 6251/16386 [00:01<00:02, 3390.45it/s] 40%|████      | 6612/16386 [00:02<00:02, 3304.99it/s] 42%|████▏     | 6948/16386 [00:02<00:02, 3209.22it/s] 44%|████▍     | 7273/16386 [00:02<00:02, 3129.02it/s] 46%|████▋     | 7618/16386 [00:02<00:02, 3215.39it/s] 49%|████▉     | 7999/16386 [00:02<00:02, 3384.89it/s] 51%|█████     | 8348/16386 [00:02<00:02, 3414.70it/s] 53%|█████▎    | 8731/16386 [00:02<00:02, 3532.87it/s] 56%|█████▌    | 9115/16386 [00:02<00:02, 3621.55it/s] 58%|█████▊    | 9479/16386 [00:02<00:01, 3571.40it/s] 60%|██████    | 9858/16386 [00:02<00:01, 3635.02it/s] 62%|██████▏   | 10223/16386 [00:03<00:01, 3603.48it/s] 65%|██████▍   | 10584/16386 [00:03<00:01, 3591.39it/s] 67%|██████▋   | 10944/16386 [00:03<00:02, 2410.75it/s] 69%|██████▊   | 11237/16386 [00:03<00:02, 1846.15it/s] 70%|███████   | 11475/16386 [00:03<00:03, 1578.71it/s] 71%|███████   | 11674/16386 [00:04<00:02, 1580.98it/s] 72%|███████▏  | 11861/16386 [00:04<00:03, 1402.89it/s] 73%|███████▎  | 12022/16386 [00:04<00:03, 1361.50it/s] 74%|███████▍  | 12195/16386 [00:04<00:02, 1437.38it/s] 75%|███████▌  | 12352/16386 [00:04<00:02, 1450.95it/s] 77%|███████▋  | 12694/16386 [00:04<00:01, 1930.51it/s] 79%|███████▉  | 12905/16386 [00:04<00:01, 1777.30it/s] 80%|████████  | 13162/16386 [00:04<00:01, 1973.45it/s] 83%|████████▎ | 13533/16386 [00:05<00:01, 2428.19it/s] 85%|████████▍ | 13860/16386 [00:05<00:00, 2656.80it/s] 87%|████████▋ | 14276/16386 [00:05<00:00, 3077.37it/s] 90%|████████▉ | 14700/16386 [00:05<00:00, 3408.91it/s] 92%|█████████▏| 15119/16386 [00:05<00:00, 3633.83it/s] 95%|█████████▍| 15517/16386 [00:05<00:00, 3731.84it/s] 97%|█████████▋| 15944/16386 [00:05<00:00, 3889.08it/s]100%|█████████▉| 16338/16386 [00:05<00:00, 3880.69it/s]100%|██████████| 16386/16386 [00:05<00:00, 2854.49it/s]
+2025-09-14 19:47:00,177 - WARNING - __init__:136 - dataset grouped by scene
+2025-09-14 19:47:00,193 - INFO - __init__:178 - init lmdb of train, features, lmdb_start_id: 0
+0it [00:00, ?it/s]0it [00:00, ?it/s]
+2025-09-14 19:47:00,195 - INFO - __init__:192 - init lmdb of train, rgb, lmdb_start_id: 0
+2025-09-14 19:47:00,195 - INFO - __init__:198 - init lmdb of train, depth, lmdb_start_id: 0
+/mnt/data/anaconda3/envs/llamauav/lib/python3.10/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/mnt/data/anaconda3/envs/llamauav/lib/python3.10/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet50_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet50_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+2025-09-14 19:47:20,970 - INFO - __init__:113 - Agent parameters: 35587869. Trainable: 2961429
+2025-09-14 19:47:20,971 - INFO - __init__:114 - Finished setting up policy.
+2025-09-14 19:47:20,971 - INFO - initialize_trainer:472 - initialize_trainer over
+  0%|          | 0/16386 [00:00<?, ?it/s]2025-09-14 19:47:21,595 - WARNING - _changeEnv:386 - to change env: [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+2025-09-14 19:47:21,633 - INFO - _confirmSocketConnection:63 - Connected	127.0.0.1:30000
+2025-09-14 19:47:21,634 - INFO - _run_command:123 - Failed to open scenes, machine 0: 127.0.0.1:30000
+2025-09-14 19:48:17,807 - INFO - _run_command:145 - Failed to open scenes, machine 0: 127.0.0.1:30000
+2025-09-14 19:48:17,807 - INFO - run_call:168 - Start time: 56.173152446746826
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+2025-09-14 19:48:22,916 - INFO - collect_data:571 - 0 - 0 / 16386
+/mnt/data1/workspace/wmq/AirVLN_ws/AirVLN/Model/encoders/rnn_state_encoder.py:287: UserWarning: where received a uint8 condition tensor. This behavior is deprecated and will be removed in a future version of PyTorch. Use a boolean condition instead. (Triggered internally at ../aten/src/ATen/native/TensorCompare.cpp:493.)
+  hidden_states = torch.where(
+2025-09-14 19:48:28,506 - INFO - collect_data:725 - action: [4, 4, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2]
+2025-09-14 19:48:28,507 - INFO - collect_data:571 - 0 - 1 / 16386
+2025-09-14 19:48:31,127 - INFO - collect_data:725 - action: [4, 4, 2, 4, 4, 4, 4, 4, 2, 2, 4, 4, 2, 4, 4, 1]
+2025-09-14 19:48:31,132 - INFO - collect_data:571 - 0 - 2 / 16386
+2025-09-14 19:48:33,839 - INFO - collect_data:725 - action: [4, 4, 2, 4, 4, 4, 2, 4, 2, 2, 4, 4, 2, 4, 4, 2]
+2025-09-14 19:48:33,840 - INFO - collect_data:571 - 0 - 3 / 16386
+2025-09-14 19:48:37,172 - INFO - collect_data:725 - action: [4, 3, 2, 4, 4, 4, 2, 4, 2, 2, 4, 4, 1, 4, 4, 1]
+2025-09-14 19:48:37,174 - INFO - collect_data:571 - 0 - 4 / 16386
+2025-09-14 19:48:39,673 - INFO - collect_data:725 - action: [4, 3, 2, 4, 4, 4, 2, 4, 4, 1, 4, 4, 1, 4, 4, 1]
+2025-09-14 19:48:39,684 - INFO - collect_data:571 - 0 - 5 / 16386
+2025-09-14 19:48:42,780 - INFO - collect_data:725 - action: [4, 3, 4, 4, 4, 4, 2, 4, 1, 1, 4, 4, 1, 4, 4, 5]
+2025-09-14 19:48:42,781 - INFO - collect_data:571 - 0 - 6 / 16386
+2025-09-14 19:48:45,792 - INFO - collect_data:725 - action: [3, 3, 4, 4, 4, 4, 1, 4, 1, 1, 4, 4, 1, 4, 4, 5]
+2025-09-14 19:48:45,792 - INFO - collect_data:571 - 0 - 7 / 16386
+2025-09-14 19:48:48,434 - INFO - collect_data:725 - action: [3, 4, 1, 4, 3, 3, 4, 4, 4, 4, 4, 4, 4, 2, 4, 5]
+2025-09-14 19:48:48,435 - INFO - collect_data:571 - 0 - 8 / 16386
+2025-09-14 19:48:51,659 - INFO - collect_data:725 - action: [1, 4, 1, 4, 3, 3, 1, 1, 1, 3, 3, 2, 1, 2, 4, 1]
+2025-09-14 19:48:51,660 - INFO - collect_data:571 - 0 - 9 / 16386
+2025-09-14 19:48:54,746 - INFO - collect_data:725 - action: [1, 1, 1, 3, 3, 3, 1, 1, 2, 3, 3, 2, 1, 2, 4, 1]
+2025-09-14 19:48:54,753 - INFO - collect_data:571 - 0 - 10 / 16386
+2025-09-14 19:48:58,084 - INFO - collect_data:725 - action: [1, 1, 1, 3, 3, 3, 1, 1, 1, 3, 3, 2, 1, 2, 3, 2]
+2025-09-14 19:48:58,103 - INFO - collect_data:571 - 0 - 11 / 16386
+2025-09-14 19:49:01,882 - INFO - collect_data:725 - action: [1, 1, 1, 3, 3, 3, 1, 1, 1, 3, 3, 2, 6, 2, 3, 1]
+2025-09-14 19:49:01,886 - INFO - collect_data:571 - 0 - 12 / 16386
+2025-09-14 19:49:05,739 - INFO - collect_data:725 - action: [1, 1, 1, 3, 3, 3, 1, 1, 1, 3, 3, 2, 1, 2, 3, 3]
+2025-09-14 19:49:05,741 - INFO - collect_data:571 - 0 - 13 / 16386
+2025-09-14 19:49:09,342 - INFO - collect_data:725 - action: [7, 1, 1, 3, 3, 3, 1, 1, 1, 3, 3, 2, 1, 2, 3, 5]
+2025-09-14 19:49:09,343 - INFO - collect_data:571 - 0 - 14 / 16386
+2025-09-14 19:49:14,009 - INFO - collect_data:725 - action: [1, 7, 1, 3, 3, 3, 1, 1, 1, 3, 3, 2, 1, 2, 3, 5]
+2025-09-14 19:49:14,010 - INFO - collect_data:571 - 0 - 15 / 16386
+2025-09-14 19:49:18,309 - INFO - collect_data:725 - action: [1, 1, 2, 3, 3, 1, 1, 1, 4, 3, 3, 2, 5, 1, 1, 1]
+2025-09-14 19:49:18,309 - INFO - collect_data:571 - 0 - 16 / 16386
+2025-09-14 19:49:22,506 - INFO - collect_data:725 - action: [1, 1, 1, 3, 3, 1, 1, 1, 1, 3, 3, 2, 1, 1, 1, 6]
+2025-09-14 19:49:22,506 - INFO - collect_data:571 - 0 - 17 / 16386
+2025-09-14 19:49:27,586 - INFO - collect_data:725 - action: [1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 3, 1, 5, 1, 1, 1]
+2025-09-14 19:49:27,587 - INFO - collect_data:571 - 0 - 18 / 16386
+2025-09-14 19:49:31,674 - INFO - collect_data:725 - action: [1, 1, 1, 3, 1, 1, 1, 1, 1, 4, 3, 1, 1, 1, 1, 1]
+2025-09-14 19:49:31,675 - INFO - collect_data:571 - 0 - 19 / 16386
+2025-09-14 19:49:36,301 - INFO - collect_data:725 - action: [1, 1, 1, 4, 1, 1, 1, 1, 6, 4, 1, 1, 6, 1, 1, 1]
+2025-09-14 19:49:36,302 - INFO - collect_data:571 - 0 - 20 / 16386
+2025-09-14 19:49:41,010 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2]
+2025-09-14 19:49:41,010 - INFO - collect_data:571 - 0 - 21 / 16386
+2025-09-14 19:49:45,912 - INFO - collect_data:725 - action: [1, 7, 1, 1, 1, 1, 1, 1, 1, 4, 1, 6, 5, 6, 1, 1]
+2025-09-14 19:49:45,957 - INFO - collect_data:571 - 0 - 22 / 16386
+2025-09-14 19:49:50,904 - INFO - collect_data:725 - action: [1, 3, 1, 1, 7, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1]
+2025-09-14 19:49:50,905 - INFO - collect_data:571 - 0 - 23 / 16386
+2025-09-14 19:49:57,054 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7, 4, 5, 1, 1, 1]
+2025-09-14 19:49:57,055 - INFO - collect_data:571 - 0 - 24 / 16386
+2025-09-14 19:50:02,560 - INFO - collect_data:725 - action: [7, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1]
+2025-09-14 19:50:02,561 - INFO - collect_data:571 - 0 - 25 / 16386
+2025-09-14 19:50:07,997 - INFO - collect_data:725 - action: [1, 1, 3, 1, 1, 1, 3, 1, 4, 1, 1, 1, 1, 1, 1, 4]
+2025-09-14 19:50:07,998 - INFO - collect_data:571 - 0 - 26 / 16386
+2025-09-14 19:50:12,565 - INFO - collect_data:725 - action: [1, 1, 3, 7, 3, 7, 3, 6, 1, 4, 1, 1, 1, 1, 1, 4]
+2025-09-14 19:50:12,566 - INFO - collect_data:571 - 0 - 27 / 16386
+2025-09-14 19:50:18,193 - INFO - collect_data:725 - action: [1, 1, 3, 1, 1, 1, 1, 2, 1, 1, 1, 6, 1, 1, 1, 4]
+2025-09-14 19:50:18,194 - INFO - collect_data:571 - 0 - 28 / 16386
+2025-09-14 19:50:23,269 - INFO - collect_data:725 - action: [1, 1, 6, 1, 1, 1, 4, 1, 1, 2, 7, 1, 3, 1, 1, 3]
+2025-09-14 19:50:23,270 - INFO - collect_data:571 - 0 - 29 / 16386
+2025-09-14 19:50:28,777 - INFO - collect_data:725 - action: [4, 7, 3, 1, 1, 4, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1]
+2025-09-14 19:50:28,778 - INFO - collect_data:571 - 0 - 30 / 16386
+2025-09-14 19:50:34,509 - INFO - collect_data:725 - action: [1, 1, 3, 1, 7, 1, 1, 1, 1, 2, 1, 2, 2, 1, 6, 1]
+2025-09-14 19:50:34,510 - INFO - collect_data:571 - 0 - 31 / 16386
+2025-09-14 19:50:39,329 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 4, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1]
+2025-09-14 19:50:39,330 - INFO - collect_data:571 - 0 - 32 / 16386
+2025-09-14 19:50:44,253 - INFO - collect_data:725 - action: [1, 1, 1, 3, 1, 1, 5, 1, 1, 2, 1, 2, 2, 1, 2, 1]
+2025-09-14 19:50:44,255 - INFO - collect_data:571 - 0 - 33 / 16386
+2025-09-14 19:50:49,477 - INFO - collect_data:725 - action: [1, 4, 1, 1, 1, 1, 5, 1, 4, 2, 7, 1, 2, 1, 2, 1]
+2025-09-14 19:50:49,492 - INFO - collect_data:571 - 0 - 34 / 16386
+2025-09-14 19:50:54,450 - INFO - collect_data:725 - action: [6, 1, 1, 1, 1, 4, 4, 6, 1, 2, 1, 1, 2, 3, 2, 3]
+2025-09-14 19:50:54,450 - INFO - collect_data:571 - 0 - 35 / 16386
+2025-09-14 19:51:00,089 - INFO - collect_data:725 - action: [2, 7, 1, 1, 3, 1, 3, 1, 1, 2, 1, 1, 2, 3, 2, 1]
+2025-09-14 19:51:00,090 - INFO - collect_data:571 - 0 - 36 / 16386
+2025-09-14 19:51:06,258 - INFO - collect_data:725 - action: [1, 4, 1, 7, 1, 1, 3, 1, 1, 2, 1, 5, 2, 1, 2, 1]
+2025-09-14 19:51:06,258 - INFO - collect_data:571 - 0 - 37 / 16386
+2025-09-14 19:51:11,522 - INFO - collect_data:725 - action: [1, 1, 1, 3, 1, 1, 3, 3, 1, 1, 7, 5, 2, 3, 2, 1]
+2025-09-14 19:51:11,531 - INFO - collect_data:571 - 0 - 38 / 16386
+2025-09-14 19:51:16,957 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 4, 3, 3, 1, 1, 1, 5, 2, 5, 2, 1]
+2025-09-14 19:51:16,958 - INFO - collect_data:571 - 0 - 39 / 16386
+2025-09-14 19:51:22,610 - INFO - collect_data:725 - action: [2, 1, 1, 1, 1, 3, 3, 3, 1, 4, 1, 3, 2, 5, 2, 1]
+2025-09-14 19:51:22,611 - INFO - collect_data:571 - 0 - 40 / 16386
+2025-09-14 19:51:28,259 - INFO - collect_data:725 - action: [1, 7, 1, 1, 1, 1, 1, 3, 1, 1, 1, 3, 1, 1, 2, 1]
+2025-09-14 19:51:28,260 - INFO - collect_data:571 - 0 - 41 / 16386
+2025-09-14 19:51:33,641 - INFO - collect_data:725 - action: [1, 1, 7, 3, 1, 1, 1, 3, 1, 1, 1, 3, 4, 5, 2, 1]
+2025-09-14 19:51:33,642 - INFO - collect_data:571 - 0 - 42 / 16386
+2025-09-14 19:51:39,005 - INFO - collect_data:725 - action: [1, 1, 1, 7, 5, 1, 1, 3, 1, 4, 7, 3, 1, 5, 1, 1]
+2025-09-14 19:51:39,005 - INFO - collect_data:571 - 0 - 43 / 16386
+2025-09-14 19:51:43,545 - INFO - collect_data:725 - action: [1, 1, 1, 2, 1, 1, 4, 3, 7, 1, 1, 3, 4, 5, 1, 1]
+2025-09-14 19:51:43,546 - INFO - collect_data:571 - 0 - 44 / 16386
+2025-09-14 19:51:48,741 - INFO - collect_data:725 - action: [1, 1, 1, 4, 3, 4, 1, 1, 1, 4, 1, 3, 1, 5, 1, 1]
+2025-09-14 19:51:48,741 - INFO - collect_data:571 - 0 - 45 / 16386
+2025-09-14 19:51:53,904 - INFO - collect_data:725 - action: [5, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 3, 4, 5, 5, 1]
+2025-09-14 19:51:53,905 - INFO - collect_data:571 - 0 - 46 / 16386
+2025-09-14 19:51:59,216 - INFO - collect_data:725 - action: [5, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 3, 3, 5, 5, 7]
+2025-09-14 19:51:59,217 - INFO - collect_data:571 - 0 - 47 / 16386
+2025-09-14 19:52:05,297 - INFO - collect_data:725 - action: [5, 1, 1, 5, 1, 7, 1, 4, 1, 4, 7, 3, 3, 5, 5, 1]
+2025-09-14 19:52:05,298 - INFO - collect_data:571 - 0 - 48 / 16386
+2025-09-14 19:52:10,354 - INFO - collect_data:725 - action: [5, 1, 3, 1, 2, 1, 3, 1, 7, 1, 1, 3, 1, 5, 5, 1]
+2025-09-14 19:52:10,354 - INFO - collect_data:571 - 0 - 49 / 16386
+2025-09-14 19:52:15,646 - INFO - collect_data:725 - action: [5, 1, 5, 5, 5, 5, 1, 1, 5, 6, 3, 4, 4, 5, 5, 1]
+2025-09-14 19:52:15,646 - INFO - collect_data:571 - 0 - 50 / 16386
+2025-09-14 19:52:21,189 - INFO - collect_data:725 - action: [5, 1, 1, 3, 5, 5, 1, 1, 5, 1, 1, 4, 1, 5, 5, 1]
+2025-09-14 19:52:21,190 - INFO - collect_data:571 - 0 - 51 / 16386
+2025-09-14 19:52:26,525 - INFO - collect_data:725 - action: [1, 2, 1, 3, 5, 5, 4, 1, 5, 4, 1, 4, 4, 5, 2, 3]
+2025-09-14 19:52:26,526 - INFO - collect_data:571 - 0 - 52 / 16386
+2025-09-14 19:52:31,355 - INFO - collect_data:725 - action: [5, 1, 1, 3, 5, 5, 1, 7, 5, 1, 1, 7, 3, 5, 2, 1]
+2025-09-14 19:52:31,361 - INFO - collect_data:571 - 0 - 53 / 16386
+2025-09-14 19:52:36,567 - INFO - collect_data:725 - action: [3, 2, 1, 3, 5, 5, 1, 1, 2, 4, 7, 1, 1, 5, 2, 1]
+2025-09-14 19:52:36,568 - INFO - collect_data:571 - 0 - 54 / 16386
+2025-09-14 19:52:41,971 - INFO - collect_data:725 - action: [3, 2, 1, 1, 5, 5, 1, 1, 2, 1, 1, 4, 1, 5, 2, 3]
+2025-09-14 19:52:41,972 - INFO - collect_data:571 - 0 - 55 / 16386
+2025-09-14 19:52:46,992 - INFO - collect_data:725 - action: [3, 1, 1, 1, 5, 3, 1, 1, 2, 1, 1, 1, 4, 5, 2, 3]
+2025-09-14 19:52:46,993 - INFO - collect_data:571 - 0 - 56 / 16386
+2025-09-14 19:52:52,785 - INFO - collect_data:725 - action: [6, 1, 7, 1, 5, 3, 1, 1, 2, 1, 1, 1, 1, 5, 2, 1]
+2025-09-14 19:52:52,786 - INFO - collect_data:571 - 0 - 57 / 16386
+2025-09-14 19:52:58,113 - INFO - collect_data:725 - action: [3, 1, 3, 1, 5, 3, 7, 1, 2, 6, 1, 1, 1, 5, 2, 3]
+2025-09-14 19:52:58,114 - INFO - collect_data:571 - 0 - 58 / 16386
+2025-09-14 19:53:04,105 - INFO - collect_data:725 - action: [3, 1, 5, 1, 5, 3, 4, 7, 2, 1, 7, 2, 4, 5, 2, 1]
+2025-09-14 19:53:04,106 - INFO - collect_data:571 - 0 - 59 / 16386
+2025-09-14 19:53:09,266 - INFO - collect_data:725 - action: [3, 5, 4, 1, 5, 3, 1, 1, 2, 1, 1, 1, 1, 5, 2, 3]
+2025-09-14 19:53:09,267 - INFO - collect_data:571 - 0 - 60 / 16386
+2025-09-14 19:53:14,384 - INFO - collect_data:725 - action: [3, 1, 4, 1, 5, 3, 1, 5, 1, 5, 1, 1, 1, 5, 2, 3]
+2025-09-14 19:53:14,396 - INFO - collect_data:571 - 0 - 61 / 16386
+2025-09-14 19:53:19,485 - INFO - collect_data:725 - action: [1, 1, 1, 1, 5, 3, 1, 5, 1, 2, 1, 6, 2, 1, 1, 1]
+2025-09-14 19:53:19,486 - INFO - collect_data:571 - 0 - 62 / 16386
+2025-09-14 19:53:24,867 - INFO - collect_data:725 - action: [1, 5, 1, 1, 5, 3, 1, 1, 1, 1, 3, 1, 1, 5, 1, 1]
+2025-09-14 19:53:24,872 - INFO - collect_data:571 - 0 - 63 / 16386
+2025-09-14 19:53:29,110 - INFO - collect_data:725 - action: [3, 5, 1, 1, 5, 1, 1, 1, 1, 5, 3, 1, 4, 5, 1, 1]
+2025-09-14 19:53:29,111 - INFO - collect_data:571 - 0 - 64 / 16386
+2025-09-14 19:53:34,266 - INFO - collect_data:725 - action: [1, 4, 1, 1, 5, 1, 1, 1, 1, 2, 1, 1, 1, 5, 1, 1]
+2025-09-14 19:53:34,267 - INFO - collect_data:571 - 0 - 65 / 16386
+2025-09-14 19:53:39,766 - INFO - collect_data:725 - action: [4, 1, 1, 1, 5, 1, 1, 7, 1, 1, 1, 5, 1, 5, 7, 1]
+2025-09-14 19:53:39,767 - INFO - collect_data:571 - 0 - 66 / 16386
+2025-09-14 19:53:44,558 - INFO - collect_data:725 - action: [1, 1, 2, 4, 5, 1, 1, 1, 1, 5, 1, 1, 1, 5, 1, 1]
+2025-09-14 19:53:44,561 - INFO - collect_data:571 - 0 - 67 / 16386
+2025-09-14 19:53:49,641 - INFO - collect_data:725 - action: [1, 1, 2, 1, 5, 1, 7, 5, 1, 5, 1, 1, 1, 5, 1, 1]
+2025-09-14 19:53:49,642 - INFO - collect_data:571 - 0 - 68 / 16386
+2025-09-14 19:53:55,033 - INFO - collect_data:725 - action: [1, 1, 2, 1, 5, 1, 1, 1, 1, 1, 5, 1, 1, 5, 1, 1]
+2025-09-14 19:53:55,034 - INFO - collect_data:571 - 0 - 69 / 16386
+2025-09-14 19:54:01,008 - INFO - collect_data:725 - action: [1, 1, 2, 1, 5, 1, 1, 2, 1, 5, 5, 6, 1, 5, 1, 5]
+2025-09-14 19:54:01,013 - INFO - collect_data:571 - 0 - 70 / 16386
+2025-09-14 19:54:05,859 - INFO - collect_data:725 - action: [2, 1, 1, 4, 5, 2, 5, 1, 1, 1, 2, 1, 1, 5, 7, 1]
+2025-09-14 19:54:05,872 - INFO - collect_data:571 - 0 - 71 / 16386
+2025-09-14 19:54:11,288 - INFO - collect_data:725 - action: [1, 4, 2, 1, 5, 1, 1, 1, 1, 5, 2, 1, 6, 5, 1, 1]
+2025-09-14 19:54:11,288 - INFO - collect_data:571 - 0 - 72 / 16386
+2025-09-14 19:54:17,022 - INFO - collect_data:725 - action: [1, 1, 2, 1, 5, 1, 5, 1, 1, 5, 2, 1, 1, 5, 1, 1]
+2025-09-14 19:54:17,022 - INFO - collect_data:571 - 0 - 73 / 16386
+2025-09-14 19:54:22,598 - INFO - collect_data:725 - action: [1, 2, 1, 1, 5, 1, 1, 1, 1, 5, 2, 1, 5, 2, 1, 1]
+2025-09-14 19:54:22,599 - INFO - collect_data:571 - 0 - 74 / 16386
+2025-09-14 19:54:27,886 - INFO - collect_data:725 - action: [1, 6, 2, 1, 5, 2, 1, 1, 1, 3, 2, 6, 1, 2, 1, 1]
+2025-09-14 19:54:27,886 - INFO - collect_data:571 - 0 - 75 / 16386
+2025-09-14 19:54:33,310 - INFO - collect_data:725 - action: [1, 6, 2, 1, 5, 1, 1, 1, 1, 3, 2, 1, 2, 2, 1, 1]
+2025-09-14 19:54:33,332 - INFO - collect_data:571 - 0 - 76 / 16386
+2025-09-14 19:54:38,479 - INFO - collect_data:725 - action: [1, 4, 1, 1, 5, 1, 5, 1, 1, 6, 2, 1, 1, 2, 2, 1]
+2025-09-14 19:54:38,492 - INFO - collect_data:571 - 0 - 77 / 16386
+2025-09-14 19:54:42,483 - INFO - collect_data:725 - action: [1, 4, 1, 5, 5, 1, 1, 5, 1, 3, 1, 2, 5, 2, 2, 7]
+2025-09-14 19:54:42,484 - INFO - collect_data:571 - 0 - 78 / 16386
+2025-09-14 19:54:48,326 - INFO - collect_data:725 - action: [1, 4, 1, 7, 7, 1, 3, 2, 1, 3, 1, 2, 1, 2, 2, 1]
+2025-09-14 19:54:48,333 - INFO - collect_data:571 - 0 - 79 / 16386
+2025-09-14 19:54:53,262 - INFO - collect_data:725 - action: [5, 4, 1, 5, 5, 1, 3, 2, 1, 3, 1, 2, 5, 2, 2, 1]
+2025-09-14 19:54:53,263 - INFO - collect_data:571 - 0 - 80 / 16386
+2025-09-14 19:54:59,393 - INFO - collect_data:725 - action: [1, 4, 1, 2, 5, 1, 3, 2, 1, 3, 1, 2, 5, 2, 2, 1]
+2025-09-14 19:54:59,394 - INFO - collect_data:571 - 0 - 81 / 16386
+2025-09-14 19:55:04,116 - INFO - collect_data:725 - action: [1, 4, 1, 2, 5, 6, 3, 2, 1, 3, 4, 2, 1, 2, 2, 3]
+2025-09-14 19:55:04,116 - INFO - collect_data:571 - 0 - 82 / 16386
+2025-09-14 19:55:09,302 - INFO - collect_data:725 - action: [1, 4, 1, 2, 3, 1, 3, 2, 1, 1, 1, 1, 5, 2, 2, 1]
+2025-09-14 19:55:09,308 - INFO - collect_data:571 - 0 - 83 / 16386
+2025-09-14 19:55:14,221 - INFO - collect_data:725 - action: [1, 4, 1, 2, 3, 1, 3, 2, 1, 4, 1, 1, 1, 2, 2, 5]
+2025-09-14 19:55:14,222 - INFO - collect_data:571 - 0 - 84 / 16386
+2025-09-14 19:55:19,429 - INFO - collect_data:725 - action: [1, 4, 1, 2, 3, 1, 3, 2, 7, 1, 4, 1, 3, 2, 2, 1]
+2025-09-14 19:55:19,438 - INFO - collect_data:571 - 0 - 85 / 16386
+2025-09-14 19:55:24,074 - INFO - collect_data:725 - action: [1, 4, 2, 2, 3, 1, 3, 2, 1, 1, 1, 1, 3, 2, 4, 1]
+2025-09-14 19:55:24,075 - INFO - collect_data:571 - 0 - 86 / 16386
+2025-09-14 19:55:29,138 - INFO - collect_data:725 - action: [1, 4, 2, 2, 3, 1, 3, 4, 1, 4, 1, 2, 3, 1, 4, 1]
+2025-09-14 19:55:29,139 - INFO - collect_data:571 - 0 - 87 / 16386
+2025-09-14 19:55:34,873 - INFO - collect_data:725 - action: [1, 4, 2, 2, 3, 6, 3, 4, 1, 1, 1, 1, 3, 2, 4, 1]
+2025-09-14 19:55:34,874 - INFO - collect_data:571 - 0 - 88 / 16386
+2025-09-14 19:55:40,006 - INFO - collect_data:725 - action: [1, 4, 2, 4, 3, 1, 3, 4, 1, 1, 1, 1, 3, 2, 4, 1]
+2025-09-14 19:55:40,006 - INFO - collect_data:571 - 0 - 89 / 16386
+2025-09-14 19:55:45,859 - INFO - collect_data:725 - action: [1, 4, 2, 4, 3, 1, 3, 4, 1, 4, 4, 1, 3, 2, 1, 1]
+2025-09-14 19:55:45,860 - INFO - collect_data:571 - 0 - 90 / 16386
+2025-09-14 19:55:51,233 - INFO - collect_data:725 - action: [2, 4, 7, 2, 1, 2, 3, 5, 1, 1, 1, 4, 3, 5, 1, 1]
+2025-09-14 19:55:51,234 - INFO - collect_data:571 - 0 - 91 / 16386
+2025-09-14 19:55:56,774 - INFO - collect_data:725 - action: [1, 4, 2, 4, 5, 3, 4, 1, 3, 1, 1, 1, 3, 5, 1, 1]
+2025-09-14 19:55:56,783 - INFO - collect_data:571 - 0 - 92 / 16386
+2025-09-14 19:56:02,769 - INFO - collect_data:725 - action: [1, 4, 2, 1, 1, 2, 1, 1, 7, 1, 1, 1, 3, 3, 1, 1]
+2025-09-14 19:56:02,800 - INFO - collect_data:571 - 0 - 93 / 16386
+2025-09-14 19:56:07,490 - INFO - collect_data:725 - action: [1, 4, 2, 1, 1, 1, 1, 1, 3, 4, 1, 1, 3, 3, 1, 1]
+2025-09-14 19:56:07,491 - INFO - collect_data:571 - 0 - 94 / 16386
+2025-09-14 19:56:12,842 - INFO - collect_data:725 - action: [1, 4, 1, 1, 1, 2, 1, 1, 7, 1, 1, 1, 1, 3, 1, 1]
+2025-09-14 19:56:12,842 - INFO - collect_data:571 - 0 - 95 / 16386
+2025-09-14 19:56:18,305 - INFO - collect_data:725 - action: [1, 4, 5, 4, 1, 4, 1, 1, 3, 1, 6, 1, 1, 3, 1, 2]
+2025-09-14 19:56:18,320 - INFO - collect_data:571 - 0 - 96 / 16386
+2025-09-14 19:56:24,473 - INFO - collect_data:725 - action: [1, 4, 2, 1, 1, 1, 1, 2, 3, 6, 1, 1, 1, 3, 1, 1]
+2025-09-14 19:56:24,475 - INFO - collect_data:571 - 0 - 97 / 16386
+2025-09-14 19:56:29,581 - INFO - collect_data:725 - action: [2, 4, 2, 1, 1, 4, 7, 1, 7, 4, 1, 1, 1, 3, 1, 2]
+2025-09-14 19:56:29,582 - INFO - collect_data:571 - 0 - 98 / 16386
+2025-09-14 19:56:35,027 - INFO - collect_data:725 - action: [1, 4, 2, 1, 1, 1, 1, 5, 3, 1, 1, 1, 4, 1, 1, 4]
+2025-09-14 19:56:35,028 - INFO - collect_data:571 - 0 - 99 / 16386
+2025-09-14 19:56:40,820 - INFO - collect_data:725 - action: [3, 4, 2, 1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 4, 6, 4]
+2025-09-14 19:56:40,821 - INFO - collect_data:571 - 0 - 100 / 16386
+2025-09-14 19:56:46,158 - INFO - collect_data:725 - action: [3, 4, 2, 1, 1, 2, 3, 3, 3, 1, 2, 1, 7, 1, 1, 1]
+2025-09-14 19:56:46,159 - INFO - collect_data:571 - 0 - 101 / 16386
+2025-09-14 19:56:51,431 - INFO - collect_data:725 - action: [2, 4, 2, 1, 1, 3, 1, 1, 7, 1, 1, 1, 4, 1, 1, 2]
+2025-09-14 19:56:51,464 - INFO - collect_data:571 - 0 - 102 / 16386
+2025-09-14 19:56:56,150 - INFO - collect_data:725 - action: [7, 4, 1, 1, 1, 3, 1, 4, 3, 1, 1, 1, 1, 4, 1, 2]
+2025-09-14 19:56:56,171 - INFO - collect_data:571 - 0 - 103 / 16386
+2025-09-14 19:57:01,602 - INFO - collect_data:725 - action: [2, 4, 1, 1, 1, 1, 1, 1, 3, 1, 4, 5, 1, 1, 1, 1]
+2025-09-14 19:57:01,611 - INFO - collect_data:571 - 0 - 104 / 16386
+2025-09-14 19:57:06,798 - INFO - collect_data:725 - action: [2, 4, 5, 1, 1, 1, 1, 1, 7, 1, 1, 1, 4, 1, 6, 1]
+2025-09-14 19:57:06,799 - INFO - collect_data:571 - 0 - 105 / 16386
+2025-09-14 19:57:12,377 - INFO - collect_data:725 - action: [2, 4, 1, 1, 2, 2, 1, 1, 3, 5, 1, 1, 1, 1, 1, 1]
+2025-09-14 19:57:12,378 - INFO - collect_data:571 - 0 - 106 / 16386
+2025-09-14 19:57:17,123 - INFO - collect_data:725 - action: [2, 4, 1, 1, 2, 2, 1, 1, 3, 2, 5, 1, 4, 1, 6, 1]
+2025-09-14 19:57:17,123 - INFO - collect_data:571 - 0 - 107 / 16386
+2025-09-14 19:57:22,832 - INFO - collect_data:725 - action: [2, 4, 1, 1, 2, 2, 1, 1, 7, 1, 5, 3, 1, 4, 5, 4]
+2025-09-14 19:57:22,841 - INFO - collect_data:571 - 0 - 108 / 16386
+2025-09-14 19:57:28,415 - INFO - collect_data:725 - action: [2, 4, 1, 1, 2, 2, 1, 7, 3, 3, 1, 1, 3, 1, 5, 1]
+2025-09-14 19:57:28,421 - INFO - collect_data:571 - 0 - 109 / 16386
+2025-09-14 19:57:34,302 - INFO - collect_data:725 - action: [2, 1, 1, 1, 2, 2, 5, 1, 3, 1, 6, 3, 1, 1, 5, 2]
+2025-09-14 19:57:34,372 - INFO - collect_data:571 - 0 - 110 / 16386
+2025-09-14 19:57:39,805 - INFO - collect_data:725 - action: [2, 1, 4, 1, 2, 2, 5, 1, 1, 4, 2, 1, 1, 1, 4, 2]
+2025-09-14 19:57:39,817 - INFO - collect_data:571 - 0 - 111 / 16386
+2025-09-14 19:57:44,051 - INFO - collect_data:725 - action: [2, 1, 4, 2, 4, 2, 4, 1, 1, 4, 5, 1, 1, 1, 4, 1]
+2025-09-14 19:57:44,091 - INFO - collect_data:571 - 0 - 112 / 16386
+2025-09-14 19:57:49,786 - INFO - collect_data:725 - action: [4, 1, 1, 2, 4, 1, 6, 1, 7, 1, 3, 4, 3, 4, 4, 2]
+2025-09-14 19:57:49,786 - INFO - collect_data:571 - 0 - 113 / 16386
+2025-09-14 19:57:56,033 - INFO - collect_data:725 - action: [4, 1, 6, 1, 4, 1, 6, 3, 1, 4, 3, 1, 1, 1, 1, 1]
+2025-09-14 19:57:56,034 - INFO - collect_data:571 - 0 - 114 / 16386
+2025-09-14 19:58:01,366 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 6, 7, 7, 1, 4, 3, 7, 1, 1, 1, 2]
+2025-09-14 19:58:01,367 - INFO - collect_data:571 - 0 - 115 / 16386
+2025-09-14 19:58:06,562 - INFO - collect_data:725 - action: [1, 7, 4, 5, 1, 1, 3, 1, 5, 4, 3, 1, 1, 1, 4, 2]
+2025-09-14 19:58:06,562 - INFO - collect_data:571 - 0 - 116 / 16386
+2025-09-14 19:58:12,430 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 3, 7, 1, 1, 3, 4, 1, 1, 1, 1]
+2025-09-14 19:58:12,431 - INFO - collect_data:571 - 0 - 117 / 16386
+2025-09-14 19:58:17,354 - INFO - collect_data:725 - action: [1, 1, 1, 3, 1, 1, 3, 1, 1, 3, 3, 1, 7, 4, 1, 3]
+2025-09-14 19:58:17,355 - INFO - collect_data:571 - 0 - 118 / 16386
+2025-09-14 19:58:23,032 - INFO - collect_data:725 - action: [1, 1, 1, 5, 2, 1, 3, 1, 1, 4, 3, 7, 1, 1, 1, 1]
+2025-09-14 19:58:23,032 - INFO - collect_data:571 - 0 - 119 / 16386
+2025-09-14 19:58:39,140 - INFO - collect_data:725 - action: [1, 1, 1, 5, 1, 1, 3, 1, 1, 4, 3, 1, 5, 1, 1, 2]
+2025-09-14 19:58:39,141 - INFO - collect_data:571 - 0 - 120 / 16386
+2025-09-14 19:58:44,370 - INFO - collect_data:725 - action: [4, 5, 1, 3, 1, 1, 3, 7, 1, 1, 3, 5, 1, 1, 1, 1]
+2025-09-14 19:58:44,400 - INFO - collect_data:571 - 0 - 121 / 16386
+2025-09-14 19:58:50,433 - INFO - collect_data:725 - action: [1, 1, 6, 3, 1, 1, 3, 1, 1, 4, 3, 5, 5, 4, 1, 1]
+2025-09-14 19:58:50,434 - INFO - collect_data:571 - 0 - 122 / 16386
+2025-09-14 19:58:55,205 - INFO - collect_data:725 - action: [1, 1, 1, 3, 6, 1, 1, 5, 1, 4, 3, 0, 5, 1, 1, 1]
+2025-09-14 19:58:55,220 - INFO - collect_data:571 - 0 - 123 / 16386
+2025-09-14 19:59:27,260 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 1
+2025-09-14 19:59:59,593 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 2
+2025-09-14 20:00:07,414 - INFO - collect_data:725 - action: [1, 7, 1, 3, 1, 1, 1, 5, 1, 1, 1, 0, 1, 1, 3, 1]
+2025-09-14 20:00:07,416 - INFO - collect_data:571 - 0 - 124 / 16386
+2025-09-14 20:00:11,061 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 1, 5, 1, 4, 1, 0, 2, 3, 1, 1]
+2025-09-14 20:00:11,063 - INFO - collect_data:571 - 0 - 125 / 16386
+2025-09-14 20:00:15,622 - INFO - collect_data:725 - action: [1, 1, 1, 1, 2, 3, 1, 1, 7, 4, 1, 0, 2, 5, 1, 1]
+2025-09-14 20:00:15,624 - INFO - collect_data:571 - 0 - 126 / 16386
+2025-09-14 20:00:18,074 - INFO - collect_data:725 - action: [1, 1, 5, 1, 1, 1, 1, 5, 1, 1, 1, 0, 2, 5, 1, 1]
+2025-09-14 20:00:18,074 - INFO - collect_data:571 - 0 - 127 / 16386
+2025-09-14 20:00:22,926 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 1, 5, 1, 4, 1, 0, 2, 5, 1, 4]
+2025-09-14 20:00:22,927 - INFO - collect_data:571 - 0 - 128 / 16386
+2025-09-14 20:00:27,598 - INFO - collect_data:725 - action: [1, 1, 6, 1, 1, 3, 6, 0, 5, 4, 1, 0, 1, 5, 1, 6]
+2025-09-14 20:00:27,601 - INFO - collect_data:571 - 0 - 129 / 16386
+2025-09-14 20:00:57,288 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 3
+2025-09-14 20:01:31,004 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 4
+2025-09-14 20:01:36,850 - INFO - collect_data:725 - action: [4, 1, 1, 1, 2, 3, 1, 0, 1, 1, 7, 0, 4, 5, 1, 1]
+2025-09-14 20:01:36,868 - INFO - collect_data:571 - 0 - 130 / 16386
+2025-09-14 20:01:42,082 - INFO - collect_data:725 - action: [1, 7, 1, 5, 2, 1, 1, 0, 1, 4, 1, 0, 1, 5, 1, 1]
+2025-09-14 20:01:42,083 - INFO - collect_data:571 - 0 - 131 / 16386
+2025-09-14 20:01:46,631 - INFO - collect_data:725 - action: [1, 5, 1, 5, 2, 2, 1, 0, 1, 1, 1, 0, 1, 3, 1, 3]
+2025-09-14 20:01:46,639 - INFO - collect_data:571 - 0 - 132 / 16386
+2025-09-14 20:01:51,793 - INFO - collect_data:725 - action: [1, 1, 2, 5, 2, 5, 1, 0, 1, 4, 1, 0, 1, 3, 1, 3]
+2025-09-14 20:01:51,794 - INFO - collect_data:571 - 0 - 133 / 16386
+2025-09-14 20:01:57,771 - INFO - collect_data:725 - action: [1, 1, 1, 5, 2, 5, 1, 0, 1, 4, 1, 0, 4, 3, 1, 3]
+2025-09-14 20:01:57,788 - INFO - collect_data:571 - 0 - 134 / 16386
+2025-09-14 20:02:02,938 - INFO - collect_data:725 - action: [1, 1, 1, 5, 5, 1, 1, 0, 1, 1, 7, 0, 1, 3, 3, 3]
+2025-09-14 20:02:02,938 - INFO - collect_data:571 - 0 - 135 / 16386
+2025-09-14 20:02:08,721 - INFO - collect_data:725 - action: [1, 1, 1, 5, 5, 1, 1, 0, 2, 4, 1, 0, 1, 3, 3, 3]
+2025-09-14 20:02:08,722 - INFO - collect_data:571 - 0 - 136 / 16386
+2025-09-14 20:02:14,208 - INFO - collect_data:725 - action: [2, 1, 5, 5, 5, 5, 6, 0, 1, 4, 1, 0, 5, 3, 3, 4]
+2025-09-14 20:02:14,209 - INFO - collect_data:571 - 0 - 137 / 16386
+2025-09-14 20:02:19,487 - INFO - collect_data:725 - action: [1, 5, 1, 5, 5, 5, 1, 0, 1, 1, 4, 0, 1, 3, 3, 4]
+2025-09-14 20:02:19,528 - INFO - collect_data:571 - 0 - 138 / 16386
+2025-09-14 20:02:25,509 - INFO - collect_data:725 - action: [4, 5, 1, 0, 3, 5, 1, 0, 1, 4, 1, 0, 5, 1, 3, 4]
+2025-09-14 20:02:25,510 - INFO - collect_data:571 - 0 - 139 / 16386
+2025-09-14 20:03:01,064 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 5
+2025-09-14 20:03:33,580 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 6
+2025-09-14 20:04:10,592 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 7
+2025-09-14 20:04:16,508 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 1, 0, 1, 4, 1, 0, 2, 1, 3, 4]
+2025-09-14 20:04:16,518 - INFO - collect_data:571 - 0 - 140 / 16386
+2025-09-14 20:04:54,772 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 8
+2025-09-14 20:05:27,858 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 9
+2025-09-14 20:06:04,579 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 10
+2025-09-14 20:06:38,792 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 11
+2025-09-14 20:07:16,112 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 12
+2025-09-14 20:07:52,351 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 13
+2025-09-14 20:07:58,717 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 1, 0, 2, 1, 7, 0, 2, 1, 3, 4]
+2025-09-14 20:07:58,718 - INFO - collect_data:571 - 0 - 141 / 16386
+2025-09-14 20:08:04,802 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 1, 0, 2, 4, 1, 0, 2, 1, 3, 4]
+2025-09-14 20:08:04,802 - INFO - collect_data:571 - 0 - 142 / 16386
+2025-09-14 20:08:10,897 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 5, 0, 6, 1, 1, 0, 1, 1, 1, 4]
+2025-09-14 20:08:10,922 - INFO - collect_data:571 - 0 - 143 / 16386
+2025-09-14 20:08:15,635 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 1, 0, 2, 4, 1, 0, 4, 1, 1, 4]
+2025-09-14 20:08:15,635 - INFO - collect_data:571 - 0 - 144 / 16386
+2025-09-14 20:08:21,213 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 1, 0, 2, 4, 3, 0, 1, 1, 2, 4]
+2025-09-14 20:08:21,214 - INFO - collect_data:571 - 0 - 145 / 16386
+2025-09-14 20:08:28,081 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 6, 0, 6, 1, 1, 0, 2, 2, 2, 4]
+2025-09-14 20:08:28,082 - INFO - collect_data:571 - 0 - 146 / 16386
+2025-09-14 20:08:33,821 - INFO - collect_data:725 - action: [1, 0, 3, 0, 3, 0, 1, 0, 2, 4, 1, 0, 1, 1, 2, 4]
+2025-09-14 20:08:33,822 - INFO - collect_data:571 - 0 - 147 / 16386
+2025-09-14 20:08:39,640 - INFO - collect_data:725 - action: [4, 0, 1, 0, 3, 0, 1, 0, 6, 1, 1, 0, 1, 2, 2, 4]
+2025-09-14 20:08:39,640 - INFO - collect_data:571 - 0 - 148 / 16386
+2025-09-14 20:08:45,332 - INFO - collect_data:725 - action: [1, 0, 2, 0, 5, 0, 1, 0, 2, 4, 7, 0, 4, 1, 1, 4]
+2025-09-14 20:08:45,333 - INFO - collect_data:571 - 0 - 149 / 16386
+2025-09-14 20:08:50,585 - INFO - collect_data:725 - action: [1, 0, 2, 0, 1, 0, 5, 0, 2, 1, 1, 0, 1, 3, 1, 4]
+2025-09-14 20:08:50,586 - INFO - collect_data:571 - 0 - 150 / 16386
+2025-09-14 20:08:56,477 - INFO - collect_data:725 - action: [1, 0, 2, 0, 1, 0, 0, 0, 6, 4, 1, 0, 1, 3, 1, 4]
+2025-09-14 20:08:56,478 - INFO - collect_data:571 - 0 - 151 / 16386
+2025-09-14 20:09:38,627 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 14
+2025-09-14 20:10:17,629 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 15
+2025-09-14 20:10:56,337 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 16
+2025-09-14 20:11:01,713 - INFO - collect_data:725 - action: [1, 0, 7, 0, 1, 0, 0, 0, 2, 4, 1, 0, 1, 5, 1, 4]
+2025-09-14 20:11:01,714 - INFO - collect_data:571 - 0 - 152 / 16386
+2025-09-14 20:11:06,185 - INFO - collect_data:725 - action: [1, 0, 2, 0, 1, 0, 0, 0, 2, 1, 1, 0, 1, 5, 1, 4]
+2025-09-14 20:11:06,186 - INFO - collect_data:571 - 0 - 153 / 16386
+2025-09-14 20:11:11,692 - INFO - collect_data:725 - action: [1, 0, 2, 0, 1, 0, 0, 0, 6, 4, 4, 0, 1, 2, 1, 4]
+2025-09-14 20:11:11,707 - INFO - collect_data:571 - 0 - 154 / 16386
+2025-09-14 20:11:17,297 - INFO - collect_data:725 - action: [1, 0, 2, 0, 1, 0, 0, 0, 4, 1, 5, 0, 1, 2, 1, 4]
+2025-09-14 20:11:17,298 - INFO - collect_data:571 - 0 - 155 / 16386
+2025-09-14 20:11:23,537 - INFO - collect_data:725 - action: [4, 0, 2, 0, 1, 0, 0, 0, 1, 0, 2, 0, 4, 2, 1, 4]
+2025-09-14 20:11:23,538 - INFO - collect_data:571 - 0 - 156 / 16386
+2025-09-14 20:12:06,687 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 17
+2025-09-14 20:12:45,351 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 18
+2025-09-14 20:12:51,094 - INFO - collect_data:725 - action: [1, 0, 2, 0, 1, 0, 0, 0, 1, 0, 2, 0, 1, 2, 1, 4]
+2025-09-14 20:12:51,103 - INFO - collect_data:571 - 0 - 157 / 16386
+2025-09-14 20:12:56,973 - INFO - collect_data:725 - action: [3, 0, 2, 0, 4, 0, 0, 0, 1, 0, 2, 0, 5, 4, 1, 4]
+2025-09-14 20:12:57,004 - INFO - collect_data:571 - 0 - 158 / 16386
+2025-09-14 20:13:02,500 - INFO - collect_data:725 - action: [3, 0, 4, 0, 4, 0, 0, 0, 4, 0, 2, 0, 1, 4, 1, 4]
+2025-09-14 20:13:02,501 - INFO - collect_data:571 - 0 - 159 / 16386
+2025-09-14 20:13:07,909 - INFO - collect_data:725 - action: [1, 0, 1, 0, 1, 0, 0, 0, 4, 0, 2, 0, 5, 4, 1, 4]
+2025-09-14 20:13:07,944 - INFO - collect_data:571 - 0 - 160 / 16386
+2025-09-14 20:13:13,117 - INFO - collect_data:725 - action: [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 2, 0, 5, 4, 1, 4]
+2025-09-14 20:13:13,118 - INFO - collect_data:571 - 0 - 161 / 16386
+2025-09-14 20:13:18,877 - INFO - collect_data:725 - action: [1, 0, 1, 0, 1, 0, 0, 0, 6, 0, 2, 0, 0, 2, 1, 4]
+2025-09-14 20:13:18,877 - INFO - collect_data:571 - 0 - 162 / 16386
+2025-09-14 20:13:59,761 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 19
+2025-09-14 20:14:05,221 - INFO - collect_data:725 - action: [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 1, 7, 4]
+2025-09-14 20:14:05,222 - INFO - collect_data:571 - 0 - 163 / 16386
+2025-09-14 20:14:11,167 - INFO - collect_data:725 - action: [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 4]
+2025-09-14 20:14:11,168 - INFO - collect_data:571 - 0 - 164 / 16386
+2025-09-14 20:14:15,841 - INFO - collect_data:725 - action: [1, 0, 1, 0, 1, 0, 0, 0, 3, 0, 1, 0, 0, 1, 7, 4]
+2025-09-14 20:14:15,842 - INFO - collect_data:571 - 0 - 165 / 16386
+2025-09-14 20:14:21,242 - INFO - collect_data:725 - action: [1, 0, 1, 0, 7, 0, 0, 0, 3, 0, 1, 0, 0, 1, 1, 4]
+2025-09-14 20:14:21,252 - INFO - collect_data:571 - 0 - 166 / 16386
+2025-09-14 20:14:25,921 - INFO - collect_data:725 - action: [4, 0, 1, 0, 3, 0, 0, 0, 3, 0, 1, 0, 0, 1, 7, 4]
+2025-09-14 20:14:25,922 - INFO - collect_data:571 - 0 - 167 / 16386
+2025-09-14 20:14:31,137 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 0, 0, 3, 0, 1, 0, 0, 1, 1, 4]
+2025-09-14 20:14:31,137 - INFO - collect_data:571 - 0 - 168 / 16386
+2025-09-14 20:14:36,922 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 4]
+2025-09-14 20:14:36,923 - INFO - collect_data:571 - 0 - 169 / 16386
+2025-09-14 20:14:42,149 - INFO - collect_data:725 - action: [1, 0, 5, 0, 5, 0, 0, 0, 1, 0, 3, 0, 0, 1, 1, 4]
+2025-09-14 20:14:42,172 - INFO - collect_data:571 - 0 - 170 / 16386
+2025-09-14 20:14:47,792 - INFO - collect_data:725 - action: [3, 0, 1, 0, 5, 0, 0, 0, 1, 0, 1, 0, 0, 1, 4, 1]
+2025-09-14 20:14:47,801 - INFO - collect_data:571 - 0 - 171 / 16386
+2025-09-14 20:14:53,147 - INFO - collect_data:725 - action: [1, 0, 1, 0, 5, 0, 0, 0, 1, 0, 1, 0, 0, 1, 4, 4]
+2025-09-14 20:14:53,147 - INFO - collect_data:571 - 0 - 172 / 16386
+2025-09-14 20:14:58,820 - INFO - collect_data:725 - action: [2, 0, 1, 0, 5, 0, 0, 0, 1, 0, 5, 0, 0, 1, 5, 1]
+2025-09-14 20:14:58,854 - INFO - collect_data:571 - 0 - 173 / 16386
+2025-09-14 20:15:03,860 - INFO - collect_data:725 - action: [2, 0, 1, 0, 5, 0, 0, 0, 1, 0, 5, 0, 0, 2, 5, 1]
+2025-09-14 20:15:03,870 - INFO - collect_data:571 - 0 - 174 / 16386
+2025-09-14 20:15:08,989 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 0, 0, 1, 0, 3, 0, 0, 1, 5, 1]
+2025-09-14 20:15:09,000 - INFO - collect_data:571 - 0 - 175 / 16386
+2025-09-14 20:15:14,116 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 0, 0, 1, 0, 3, 0, 0, 2, 5, 1]
+2025-09-14 20:15:14,116 - INFO - collect_data:571 - 0 - 176 / 16386
+2025-09-14 20:15:19,518 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 0, 0, 1, 0, 3, 0, 0, 4, 5, 1]
+2025-09-14 20:15:19,519 - INFO - collect_data:571 - 0 - 177 / 16386
+2025-09-14 20:15:24,748 - INFO - collect_data:725 - action: [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 3, 0, 0, 1, 5, 7]
+2025-09-14 20:15:24,748 - INFO - collect_data:571 - 0 - 178 / 16386
+2025-09-14 20:16:10,810 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 20
+2025-09-14 20:16:56,362 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 21
+2025-09-14 20:17:41,569 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 22
+2025-09-14 20:17:46,561 - INFO - collect_data:725 - action: [4, 0, 1, 0, 0, 0, 0, 0, 5, 0, 1, 0, 0, 1, 5, 1]
+2025-09-14 20:17:46,567 - INFO - collect_data:571 - 0 - 179 / 16386
+2025-09-14 20:17:52,043 - INFO - collect_data:725 - action: [1, 0, 5, 0, 0, 0, 0, 0, 5, 0, 3, 0, 0, 2, 1, 1]
+2025-09-14 20:17:52,059 - INFO - collect_data:571 - 0 - 180 / 16386
+2025-09-14 20:17:57,470 - INFO - collect_data:725 - action: [1, 0, 1, 0, 0, 0, 0, 0, 5, 0, 1, 0, 0, 5, 5, 1]
+2025-09-14 20:17:57,515 - INFO - collect_data:571 - 0 - 181 / 16386
+2025-09-14 20:18:02,342 - INFO - collect_data:725 - action: [5, 0, 1, 0, 0, 0, 0, 0, 5, 0, 1, 0, 0, 5, 5, 1]
+2025-09-14 20:18:02,343 - INFO - collect_data:571 - 0 - 182 / 16386
+2025-09-14 20:18:06,998 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 5, 0, 5, 0, 0, 5, 0, 5]
+2025-09-14 20:18:06,998 - INFO - collect_data:571 - 0 - 183 / 16386
+2025-09-14 20:18:54,493 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 23
+2025-09-14 20:19:44,447 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 24
+2025-09-14 20:20:33,605 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 25
+2025-09-14 20:21:21,203 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 26
+2025-09-14 20:22:10,636 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 27
+2025-09-14 20:22:16,060 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 5, 0, 1, 0, 0, 5, 0, 1]
+2025-09-14 20:22:16,061 - INFO - collect_data:571 - 0 - 184 / 16386
+2025-09-14 20:22:21,354 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 5, 0, 1, 0, 0, 5, 0, 7]
+2025-09-14 20:22:21,373 - INFO - collect_data:571 - 0 - 185 / 16386
+2025-09-14 20:22:26,786 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 5, 0, 1, 0, 0, 5, 0, 1]
+2025-09-14 20:22:26,808 - INFO - collect_data:571 - 0 - 186 / 16386
+2025-09-14 20:22:32,163 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 5, 0, 1, 0, 0, 5, 0, 5]
+2025-09-14 20:22:32,172 - INFO - collect_data:571 - 0 - 187 / 16386
+2025-09-14 20:22:37,217 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 5, 0, 1]
+2025-09-14 20:22:37,255 - INFO - collect_data:571 - 0 - 188 / 16386
+2025-09-14 20:23:26,983 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 28
+2025-09-14 20:23:32,145 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 5]
+2025-09-14 20:23:32,151 - INFO - collect_data:571 - 0 - 189 / 16386
+2025-09-14 20:24:20,838 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 29
+2025-09-14 20:25:11,330 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 30
+2025-09-14 20:25:16,746 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 1]
+2025-09-14 20:25:16,774 - INFO - collect_data:571 - 0 - 190 / 16386
+2025-09-14 20:25:22,698 - INFO - collect_data:725 - action: [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 1]
+2025-09-14 20:25:22,699 - INFO - collect_data:571 - 0 - 191 / 16386
+2025-09-14 20:25:28,187 - INFO - collect_data:725 - action: [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 5]
+2025-09-14 20:25:28,188 - INFO - collect_data:571 - 0 - 192 / 16386
+2025-09-14 20:25:33,454 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:25:33,454 - INFO - collect_data:571 - 0 - 193 / 16386
+2025-09-14 20:26:23,866 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 31
+2025-09-14 20:27:14,949 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 32
+2025-09-14 20:28:04,522 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 33
+2025-09-14 20:28:54,317 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 34
+2025-09-14 20:29:43,544 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 35
+2025-09-14 20:29:49,103 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:29:49,107 - INFO - collect_data:571 - 0 - 194 / 16386
+2025-09-14 20:29:53,813 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:29:53,814 - INFO - collect_data:571 - 0 - 195 / 16386
+2025-09-14 20:29:59,209 - INFO - collect_data:725 - action: [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:29:59,236 - INFO - collect_data:571 - 0 - 196 / 16386
+2025-09-14 20:30:04,446 - INFO - collect_data:725 - action: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:30:04,549 - INFO - collect_data:571 - 0 - 197 / 16386
+2025-09-14 20:30:10,426 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:30:10,427 - INFO - collect_data:571 - 0 - 198 / 16386
+2025-09-14 20:30:15,650 - INFO - collect_data:725 - action: [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:30:15,656 - INFO - collect_data:571 - 0 - 199 / 16386
+2025-09-14 20:30:21,618 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:30:21,619 - INFO - collect_data:571 - 0 - 200 / 16386
+2025-09-14 20:30:26,557 - INFO - collect_data:725 - action: [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:30:26,558 - INFO - collect_data:571 - 0 - 201 / 16386
+2025-09-14 20:30:32,168 - INFO - collect_data:725 - action: [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:30:32,171 - INFO - collect_data:571 - 0 - 202 / 16386
+2025-09-14 20:30:37,713 - INFO - collect_data:725 - action: [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:30:37,715 - INFO - collect_data:571 - 0 - 203 / 16386
+2025-09-14 20:30:44,056 - INFO - collect_data:725 - action: [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:30:44,057 - INFO - collect_data:571 - 0 - 204 / 16386
+2025-09-14 20:30:49,050 - INFO - collect_data:725 - action: [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:30:49,050 - INFO - collect_data:571 - 0 - 205 / 16386
+2025-09-14 20:30:54,266 - INFO - collect_data:725 - action: [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:30:54,269 - INFO - collect_data:571 - 0 - 206 / 16386
+2025-09-14 20:31:00,596 - INFO - collect_data:725 - action: [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:31:00,596 - INFO - collect_data:571 - 0 - 207 / 16386
+2025-09-14 20:31:06,565 - INFO - collect_data:725 - action: [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:31:06,566 - INFO - collect_data:571 - 0 - 208 / 16386
+2025-09-14 20:31:13,185 - INFO - collect_data:725 - action: [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:31:13,186 - INFO - collect_data:571 - 0 - 209 / 16386
+2025-09-14 20:31:19,169 - INFO - collect_data:725 - action: [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:31:19,170 - INFO - collect_data:571 - 0 - 210 / 16386
+2025-09-14 20:31:24,754 - INFO - collect_data:725 - action: [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:31:24,755 - INFO - collect_data:571 - 0 - 211 / 16386
+2025-09-14 20:31:30,637 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:31:30,638 - INFO - collect_data:571 - 0 - 212 / 16386
+2025-09-14 20:31:36,417 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:31:36,418 - INFO - collect_data:571 - 0 - 213 / 16386
+2025-09-14 20:31:42,358 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:31:42,359 - INFO - collect_data:571 - 0 - 214 / 16386
+2025-09-14 20:31:47,929 - INFO - collect_data:725 - action: [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:31:47,930 - INFO - collect_data:571 - 0 - 215 / 16386
+2025-09-14 20:31:53,468 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:31:53,469 - INFO - collect_data:571 - 0 - 216 / 16386
+2025-09-14 20:31:59,763 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:31:59,764 - INFO - collect_data:571 - 0 - 217 / 16386
+2025-09-14 20:32:05,940 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:32:05,940 - INFO - collect_data:571 - 0 - 218 / 16386
+2025-09-14 20:32:11,535 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:32:11,536 - INFO - collect_data:571 - 0 - 219 / 16386
+2025-09-14 20:32:17,857 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:32:17,858 - INFO - collect_data:571 - 0 - 220 / 16386
+2025-09-14 20:32:23,421 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:32:23,422 - INFO - collect_data:571 - 0 - 221 / 16386
+2025-09-14 20:32:29,182 - INFO - collect_data:725 - action: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:32:29,187 - INFO - collect_data:571 - 0 - 222 / 16386
+2025-09-14 20:32:34,077 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:32:34,078 - INFO - collect_data:571 - 0 - 223 / 16386
+2025-09-14 20:32:39,361 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:32:39,361 - INFO - collect_data:571 - 0 - 224 / 16386
+2025-09-14 20:32:44,583 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:32:44,614 - INFO - collect_data:571 - 0 - 225 / 16386
+2025-09-14 20:32:50,240 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:32:50,241 - INFO - collect_data:571 - 0 - 226 / 16386
+2025-09-14 20:32:55,720 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:32:55,723 - INFO - collect_data:571 - 0 - 227 / 16386
+2025-09-14 20:33:09,558 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:33:09,558 - INFO - collect_data:571 - 0 - 228 / 16386
+2025-09-14 20:33:15,714 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:33:15,715 - INFO - collect_data:571 - 0 - 229 / 16386
+2025-09-14 20:33:22,046 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:33:22,047 - INFO - collect_data:571 - 0 - 230 / 16386
+2025-09-14 20:33:26,700 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:33:26,701 - INFO - collect_data:571 - 0 - 231 / 16386
+2025-09-14 20:33:32,838 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:33:32,839 - INFO - collect_data:571 - 0 - 232 / 16386
+2025-09-14 20:33:38,721 - INFO - collect_data:725 - action: [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:33:38,722 - INFO - collect_data:571 - 0 - 233 / 16386
+2025-09-14 20:33:44,300 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:33:44,305 - INFO - collect_data:571 - 0 - 234 / 16386
+2025-09-14 20:33:49,219 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:33:49,220 - INFO - collect_data:571 - 0 - 235 / 16386
+2025-09-14 20:33:54,926 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:33:54,927 - INFO - collect_data:571 - 0 - 236 / 16386
+2025-09-14 20:34:00,706 - INFO - collect_data:725 - action: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:34:00,707 - INFO - collect_data:571 - 0 - 237 / 16386
+2025-09-14 20:34:06,113 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:34:06,114 - INFO - collect_data:571 - 0 - 238 / 16386
+2025-09-14 20:34:11,566 - INFO - collect_data:725 - action: [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:34:11,603 - INFO - collect_data:571 - 0 - 239 / 16386
+2025-09-14 20:34:17,717 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:34:17,718 - INFO - collect_data:571 - 0 - 240 / 16386
+2025-09-14 20:34:22,976 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:34:22,977 - INFO - collect_data:571 - 0 - 241 / 16386
+2025-09-14 20:34:27,309 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:34:27,327 - INFO - collect_data:571 - 0 - 242 / 16386
+2025-09-14 20:34:32,057 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:34:32,058 - INFO - collect_data:571 - 0 - 243 / 16386
+2025-09-14 20:34:37,189 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:34:37,190 - INFO - collect_data:571 - 0 - 244 / 16386
+2025-09-14 20:34:43,741 - INFO - collect_data:725 - action: [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:34:43,742 - INFO - collect_data:571 - 0 - 245 / 16386
+2025-09-14 20:34:49,803 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:34:49,804 - INFO - collect_data:571 - 0 - 246 / 16386
+2025-09-14 20:34:55,153 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:34:55,154 - INFO - collect_data:571 - 0 - 247 / 16386
+2025-09-14 20:34:59,970 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:34:59,971 - INFO - collect_data:571 - 0 - 248 / 16386
+2025-09-14 20:35:05,638 - INFO - collect_data:725 - action: [6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:35:05,656 - INFO - collect_data:571 - 0 - 249 / 16386
+2025-09-14 20:35:10,674 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:35:10,681 - INFO - collect_data:571 - 0 - 250 / 16386
+2025-09-14 20:35:15,398 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:35:15,399 - INFO - collect_data:571 - 0 - 251 / 16386
+2025-09-14 20:35:20,957 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:35:20,958 - INFO - collect_data:571 - 0 - 252 / 16386
+2025-09-14 20:35:26,169 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:35:26,170 - INFO - collect_data:571 - 0 - 253 / 16386
+2025-09-14 20:35:32,126 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:35:32,134 - INFO - collect_data:571 - 0 - 254 / 16386
+2025-09-14 20:35:37,515 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:35:37,598 - INFO - collect_data:571 - 0 - 255 / 16386
+2025-09-14 20:35:42,550 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:35:42,551 - INFO - collect_data:571 - 0 - 256 / 16386
+2025-09-14 20:35:48,533 - INFO - collect_data:725 - action: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:35:48,534 - INFO - collect_data:571 - 0 - 257 / 16386
+2025-09-14 20:35:53,814 - INFO - collect_data:725 - action: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:35:53,814 - INFO - collect_data:571 - 0 - 258 / 16386
+2025-09-14 20:35:59,083 - INFO - collect_data:725 - action: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:35:59,084 - INFO - collect_data:571 - 0 - 259 / 16386
+2025-09-14 20:36:05,119 - INFO - collect_data:725 - action: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:36:05,119 - INFO - collect_data:571 - 0 - 260 / 16386
+2025-09-14 20:36:11,216 - INFO - collect_data:725 - action: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:36:11,217 - INFO - collect_data:571 - 0 - 261 / 16386
+2025-09-14 20:36:16,169 - INFO - collect_data:725 - action: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:36:16,170 - INFO - collect_data:571 - 0 - 262 / 16386
+2025-09-14 20:36:21,450 - INFO - collect_data:725 - action: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:36:21,450 - INFO - collect_data:571 - 0 - 263 / 16386
+2025-09-14 20:36:27,269 - INFO - collect_data:725 - action: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:36:27,269 - INFO - collect_data:571 - 0 - 264 / 16386
+2025-09-14 20:36:32,549 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:36:32,555 - INFO - collect_data:571 - 0 - 265 / 16386
+2025-09-14 20:36:37,733 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:36:37,740 - INFO - collect_data:571 - 0 - 266 / 16386
+2025-09-14 20:36:43,410 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:36:43,410 - INFO - collect_data:571 - 0 - 267 / 16386
+2025-09-14 20:36:48,892 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:36:48,893 - INFO - collect_data:571 - 0 - 268 / 16386
+2025-09-14 20:36:54,101 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:36:54,102 - INFO - collect_data:571 - 0 - 269 / 16386
+2025-09-14 20:36:59,454 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:36:59,460 - INFO - collect_data:571 - 0 - 270 / 16386
+2025-09-14 20:37:04,685 - INFO - collect_data:725 - action: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:37:04,700 - INFO - collect_data:571 - 0 - 271 / 16386
+2025-09-14 20:37:10,345 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:37:10,346 - INFO - collect_data:571 - 0 - 272 / 16386
+2025-09-14 20:37:15,917 - INFO - collect_data:725 - action: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:37:15,918 - INFO - collect_data:571 - 0 - 273 / 16386
+2025-09-14 20:37:21,386 - INFO - collect_data:725 - action: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2025-09-14 20:37:21,386 - INFO - collect_data:571 - 0 - 274 / 16386
+2025-09-14 20:38:36,157 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 36
+2025-09-14 20:39:48,348 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 37
+  0%|          | 32/16386 [52:29<447:07:58, 98.43s/it]2025-09-14 20:39:51,271 - WARNING - _changeEnv:383 - no need to change env: [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+2025-09-14 20:39:56,991 - INFO - collect_data:571 - 16 - 0 / 16386
+2025-09-14 20:40:01,841 - INFO - collect_data:725 - action: [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+2025-09-14 20:40:01,842 - INFO - collect_data:571 - 16 - 1 / 16386
+2025-09-14 20:40:07,018 - INFO - collect_data:725 - action: [4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+2025-09-14 20:40:07,031 - INFO - collect_data:571 - 16 - 2 / 16386
+2025-09-14 20:40:12,322 - INFO - collect_data:725 - action: [4, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4]
+2025-09-14 20:40:12,323 - INFO - collect_data:571 - 16 - 3 / 16386
+2025-09-14 20:40:17,502 - INFO - collect_data:725 - action: [4, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4]
+2025-09-14 20:40:17,520 - INFO - collect_data:571 - 16 - 4 / 16386
+2025-09-14 20:40:22,470 - INFO - collect_data:725 - action: [4, 4, 1, 4, 4, 3, 3, 4, 3, 4, 4, 4, 4, 4, 3, 4]
+2025-09-14 20:40:22,471 - INFO - collect_data:571 - 16 - 5 / 16386
+2025-09-14 20:40:27,423 - INFO - collect_data:725 - action: [4, 4, 1, 4, 4, 3, 3, 4, 3, 4, 4, 4, 4, 4, 3, 4]
+2025-09-14 20:40:27,424 - INFO - collect_data:571 - 16 - 6 / 16386
+2025-09-14 20:40:32,522 - INFO - collect_data:725 - action: [4, 4, 1, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 4, 3, 4]
+2025-09-14 20:40:32,528 - INFO - collect_data:571 - 16 - 7 / 16386
+2025-09-14 20:40:37,298 - INFO - collect_data:725 - action: [4, 4, 1, 4, 4, 3, 3, 3, 3, 2, 4, 4, 4, 4, 3, 4]
+2025-09-14 20:40:37,298 - INFO - collect_data:571 - 16 - 8 / 16386
+2025-09-14 20:40:42,401 - INFO - collect_data:725 - action: [5, 4, 1, 4, 3, 3, 3, 3, 3, 2, 3, 4, 4, 3, 3, 4]
+2025-09-14 20:40:42,402 - INFO - collect_data:571 - 16 - 9 / 16386
+2025-09-14 20:40:47,651 - INFO - collect_data:725 - action: [5, 2, 1, 3, 3, 3, 3, 3, 1, 2, 3, 4, 2, 3, 3, 4]
+2025-09-14 20:40:47,652 - INFO - collect_data:571 - 16 - 10 / 16386
+2025-09-14 20:40:53,649 - INFO - collect_data:725 - action: [3, 2, 1, 3, 3, 3, 3, 3, 1, 2, 3, 1, 2, 3, 3, 4]
+2025-09-14 20:40:53,650 - INFO - collect_data:571 - 16 - 11 / 16386
+2025-09-14 20:40:58,797 - INFO - collect_data:725 - action: [3, 2, 1, 3, 3, 3, 3, 3, 1, 2, 3, 1, 2, 3, 3, 4]
+2025-09-14 20:40:58,798 - INFO - collect_data:571 - 16 - 12 / 16386
+2025-09-14 20:41:03,385 - INFO - collect_data:725 - action: [3, 2, 1, 3, 3, 3, 1, 1, 1, 2, 3, 1, 1, 3, 3, 4]
+2025-09-14 20:41:03,386 - INFO - collect_data:571 - 16 - 13 / 16386
+2025-09-14 20:41:08,436 - INFO - collect_data:725 - action: [3, 2, 1, 3, 3, 3, 1, 1, 1, 2, 3, 1, 1, 3, 3, 4]
+2025-09-14 20:41:08,437 - INFO - collect_data:571 - 16 - 14 / 16386
+2025-09-14 20:41:13,601 - INFO - collect_data:725 - action: [1, 2, 1, 3, 3, 3, 1, 1, 7, 2, 3, 1, 1, 3, 3, 4]
+2025-09-14 20:41:13,619 - INFO - collect_data:571 - 16 - 15 / 16386
+2025-09-14 20:41:19,285 - INFO - collect_data:725 - action: [1, 2, 1, 3, 3, 3, 1, 1, 1, 2, 3, 1, 1, 3, 3, 4]
+2025-09-14 20:41:19,290 - INFO - collect_data:571 - 16 - 16 / 16386
+2025-09-14 20:41:23,869 - INFO - collect_data:725 - action: [1, 2, 1, 3, 3, 1, 1, 7, 1, 1, 1, 2, 1, 1, 1, 4]
+2025-09-14 20:41:23,870 - INFO - collect_data:571 - 16 - 17 / 16386
+2025-09-14 20:41:29,377 - INFO - collect_data:725 - action: [1, 2, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4]
+2025-09-14 20:41:29,387 - INFO - collect_data:571 - 16 - 18 / 16386
+2025-09-14 20:41:33,983 - INFO - collect_data:725 - action: [1, 2, 1, 3, 3, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 4]
+2025-09-14 20:41:33,983 - INFO - collect_data:571 - 16 - 19 / 16386
+2025-09-14 20:41:39,276 - INFO - collect_data:725 - action: [7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 4]
+2025-09-14 20:41:39,283 - INFO - collect_data:571 - 16 - 20 / 16386
+2025-09-14 20:41:44,834 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 7, 1, 1, 7, 1, 4]
+2025-09-14 20:41:44,851 - INFO - collect_data:571 - 16 - 21 / 16386
+2025-09-14 20:41:50,565 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 1, 7, 7, 1, 1, 1, 1, 1, 1, 4]
+2025-09-14 20:41:50,566 - INFO - collect_data:571 - 16 - 22 / 16386
+2025-09-14 20:41:55,826 - INFO - collect_data:725 - action: [1, 1, 1, 7, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 4]
+2025-09-14 20:41:55,827 - INFO - collect_data:571 - 16 - 23 / 16386
+2025-09-14 20:42:01,293 - INFO - collect_data:725 - action: [1, 1, 1, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4]
+2025-09-14 20:42:01,294 - INFO - collect_data:571 - 16 - 24 / 16386
+2025-09-14 20:42:06,022 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 6, 1, 7, 1, 4]
+2025-09-14 20:42:06,022 - INFO - collect_data:571 - 16 - 25 / 16386
+2025-09-14 20:42:10,994 - INFO - collect_data:725 - action: [7, 1, 1, 1, 1, 5, 1, 1, 1, 6, 1, 1, 7, 1, 1, 4]
+2025-09-14 20:42:10,994 - INFO - collect_data:571 - 16 - 26 / 16386
+2025-09-14 20:42:16,939 - INFO - collect_data:725 - action: [1, 6, 1, 1, 1, 2, 1, 1, 3, 4, 7, 1, 1, 7, 2, 4]
+2025-09-14 20:42:16,939 - INFO - collect_data:571 - 16 - 27 / 16386
+2025-09-14 20:42:22,145 - INFO - collect_data:725 - action: [5, 1, 1, 7, 1, 2, 1, 7, 3, 1, 1, 1, 1, 1, 1, 4]
+2025-09-14 20:42:22,152 - INFO - collect_data:571 - 16 - 28 / 16386
+2025-09-14 20:42:27,394 - INFO - collect_data:725 - action: [1, 1, 1, 1, 7, 2, 3, 1, 1, 1, 1, 1, 3, 1, 1, 4]
+2025-09-14 20:42:27,415 - INFO - collect_data:571 - 16 - 29 / 16386
+2025-09-14 20:42:33,622 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 3, 5, 3, 1, 1, 5, 1, 1, 1, 4]
+2025-09-14 20:42:33,623 - INFO - collect_data:571 - 16 - 30 / 16386
+2025-09-14 20:42:39,344 - INFO - collect_data:725 - action: [1, 3, 1, 1, 1, 1, 3, 1, 3, 1, 1, 5, 1, 7, 1, 4]
+2025-09-14 20:42:39,345 - INFO - collect_data:571 - 16 - 31 / 16386
+2025-09-14 20:42:43,434 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 3, 1, 6, 6, 1, 5, 7, 1, 3, 4]
+2025-09-14 20:42:43,434 - INFO - collect_data:571 - 16 - 32 / 16386
+2025-09-14 20:42:48,175 - INFO - collect_data:725 - action: [7, 1, 1, 7, 1, 4, 3, 6, 7, 1, 7, 2, 1, 1, 3, 4]
+2025-09-14 20:42:48,175 - INFO - collect_data:571 - 16 - 33 / 16386
+2025-09-14 20:42:53,226 - INFO - collect_data:725 - action: [1, 1, 1, 2, 7, 1, 3, 1, 7, 1, 1, 2, 5, 1, 3, 4]
+2025-09-14 20:42:53,227 - INFO - collect_data:571 - 16 - 34 / 16386
+2025-09-14 20:42:59,093 - INFO - collect_data:725 - action: [5, 3, 1, 1, 1, 1, 3, 1, 2, 4, 1, 2, 5, 1, 3, 4]
+2025-09-14 20:42:59,094 - INFO - collect_data:571 - 16 - 35 / 16386
+2025-09-14 20:43:05,240 - INFO - collect_data:725 - action: [5, 1, 1, 1, 1, 3, 1, 1, 2, 1, 1, 2, 2, 1, 3, 4]
+2025-09-14 20:43:05,241 - INFO - collect_data:571 - 16 - 36 / 16386
+2025-09-14 20:43:11,554 - INFO - collect_data:725 - action: [5, 1, 1, 5, 1, 3, 1, 5, 2, 1, 1, 1, 2, 7, 3, 4]
+2025-09-14 20:43:11,555 - INFO - collect_data:571 - 16 - 37 / 16386
+2025-09-14 20:43:15,690 - INFO - collect_data:725 - action: [5, 1, 1, 3, 7, 3, 1, 1, 2, 1, 7, 1, 2, 1, 3, 2]
+2025-09-14 20:43:15,691 - INFO - collect_data:571 - 16 - 38 / 16386
+2025-09-14 20:43:20,761 - INFO - collect_data:725 - action: [5, 7, 1, 3, 1, 3, 1, 1, 5, 1, 1, 1, 2, 1, 3, 2]
+2025-09-14 20:43:20,762 - INFO - collect_data:571 - 16 - 39 / 16386
+2025-09-14 20:43:25,784 - INFO - collect_data:725 - action: [4, 1, 6, 1, 1, 3, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2]
+2025-09-14 20:43:25,795 - INFO - collect_data:571 - 16 - 40 / 16386
+2025-09-14 20:43:31,109 - INFO - collect_data:725 - action: [2, 1, 6, 1, 1, 3, 1, 5, 2, 1, 3, 1, 2, 1, 4, 2]
+2025-09-14 20:43:31,109 - INFO - collect_data:571 - 16 - 41 / 16386
+2025-09-14 20:43:35,970 - INFO - collect_data:725 - action: [2, 3, 6, 5, 1, 1, 7, 5, 2, 3, 3, 1, 2, 3, 1, 2]
+2025-09-14 20:43:35,971 - INFO - collect_data:571 - 16 - 42 / 16386
+2025-09-14 20:43:40,825 - INFO - collect_data:725 - action: [2, 1, 6, 3, 7, 1, 1, 5, 2, 1, 3, 6, 1, 1, 1, 2]
+2025-09-14 20:43:40,826 - INFO - collect_data:571 - 16 - 43 / 16386
+2025-09-14 20:43:45,900 - INFO - collect_data:725 - action: [2, 1, 6, 1, 1, 1, 1, 5, 2, 1, 3, 1, 1, 3, 1, 2]
+2025-09-14 20:43:45,906 - INFO - collect_data:571 - 16 - 44 / 16386
+2025-09-14 20:43:51,675 - INFO - collect_data:725 - action: [2, 1, 4, 4, 1, 1, 1, 5, 2, 1, 3, 1, 1, 1, 1, 2]
+2025-09-14 20:43:51,680 - INFO - collect_data:571 - 16 - 45 / 16386
+2025-09-14 20:43:57,501 - INFO - collect_data:725 - action: [2, 1, 3, 4, 1, 1, 1, 5, 2, 1, 3, 6, 1, 3, 1, 2]
+2025-09-14 20:43:57,507 - INFO - collect_data:571 - 16 - 46 / 16386
+2025-09-14 20:44:02,443 - INFO - collect_data:725 - action: [1, 1, 3, 1, 1, 1, 1, 5, 1, 3, 3, 1, 1, 3, 1, 1]
+2025-09-14 20:44:02,443 - INFO - collect_data:571 - 16 - 47 / 16386
+2025-09-14 20:44:08,042 - INFO - collect_data:725 - action: [1, 3, 3, 1, 7, 7, 1, 5, 1, 5, 3, 1, 1, 3, 1, 1]
+2025-09-14 20:44:08,043 - INFO - collect_data:571 - 16 - 48 / 16386
+2025-09-14 20:44:12,998 - INFO - collect_data:725 - action: [1, 1, 3, 1, 1, 1, 1, 5, 1, 5, 1, 1, 1, 3, 1, 1]
+2025-09-14 20:44:12,999 - INFO - collect_data:571 - 16 - 49 / 16386
+2025-09-14 20:44:18,242 - INFO - collect_data:725 - action: [4, 1, 3, 1, 3, 1, 1, 5, 1, 5, 1, 1, 1, 3, 1, 1]
+2025-09-14 20:44:18,243 - INFO - collect_data:571 - 16 - 50 / 16386
+2025-09-14 20:44:23,981 - INFO - collect_data:725 - action: [1, 1, 4, 1, 1, 1, 1, 5, 1, 5, 1, 6, 1, 3, 6, 6]
+2025-09-14 20:44:23,986 - INFO - collect_data:571 - 16 - 51 / 16386
+2025-09-14 20:44:28,877 - INFO - collect_data:725 - action: [1, 1, 4, 1, 1, 1, 1, 5, 1, 3, 1, 1, 6, 3, 1, 1]
+2025-09-14 20:44:28,878 - INFO - collect_data:571 - 16 - 52 / 16386
+2025-09-14 20:44:34,220 - INFO - collect_data:725 - action: [1, 1, 4, 1, 1, 7, 7, 5, 1, 3, 1, 1, 1, 3, 1, 1]
+2025-09-14 20:44:34,229 - INFO - collect_data:571 - 16 - 53 / 16386
+2025-09-14 20:44:39,867 - INFO - collect_data:725 - action: [1, 7, 4, 1, 7, 1, 1, 5, 1, 3, 1, 1, 6, 3, 1, 1]
+2025-09-14 20:44:39,869 - INFO - collect_data:571 - 16 - 54 / 16386
+2025-09-14 20:44:44,907 - INFO - collect_data:725 - action: [1, 3, 4, 1, 1, 1, 1, 5, 1, 3, 1, 1, 1, 3, 1, 1]
+2025-09-14 20:44:44,907 - INFO - collect_data:571 - 16 - 55 / 16386
+2025-09-14 20:44:49,849 - INFO - collect_data:725 - action: [1, 1, 1, 2, 1, 1, 1, 5, 1, 3, 1, 1, 6, 1, 5, 6]
+2025-09-14 20:44:49,850 - INFO - collect_data:571 - 16 - 56 / 16386
+2025-09-14 20:44:56,194 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 2, 5, 1, 1, 1, 3, 1, 1, 5, 1]
+2025-09-14 20:44:56,195 - INFO - collect_data:571 - 16 - 57 / 16386
+2025-09-14 20:45:02,056 - INFO - collect_data:725 - action: [1, 1, 1, 5, 1, 1, 1, 5, 1, 1, 1, 1, 6, 1, 2, 1]
+2025-09-14 20:45:02,064 - INFO - collect_data:571 - 16 - 58 / 16386
+2025-09-14 20:45:07,310 - INFO - collect_data:725 - action: [1, 1, 1, 3, 7, 7, 1, 5, 1, 3, 1, 3, 1, 1, 2, 1]
+2025-09-14 20:45:07,312 - INFO - collect_data:571 - 16 - 59 / 16386
+2025-09-14 20:45:12,378 - INFO - collect_data:725 - action: [1, 1, 1, 3, 1, 1, 1, 5, 1, 1, 1, 1, 1, 5, 1, 1]
+2025-09-14 20:45:12,379 - INFO - collect_data:571 - 16 - 60 / 16386
+2025-09-14 20:45:17,831 - INFO - collect_data:725 - action: [6, 1, 1, 3, 1, 1, 1, 5, 1, 1, 1, 1, 1, 5, 2, 6]
+2025-09-14 20:45:17,835 - INFO - collect_data:571 - 16 - 61 / 16386
+2025-09-14 20:45:23,022 - INFO - collect_data:725 - action: [1, 7, 1, 3, 1, 1, 1, 5, 1, 1, 1, 1, 1, 5, 2, 1]
+2025-09-14 20:45:23,023 - INFO - collect_data:571 - 16 - 62 / 16386
+2025-09-14 20:45:28,059 - INFO - collect_data:725 - action: [1, 1, 1, 3, 3, 1, 1, 5, 1, 1, 3, 3, 1, 5, 2, 1]
+2025-09-14 20:45:28,060 - INFO - collect_data:571 - 16 - 63 / 16386
+2025-09-14 20:45:33,158 - INFO - collect_data:725 - action: [1, 1, 7, 1, 3, 1, 1, 5, 2, 1, 2, 3, 1, 2, 2, 1]
+2025-09-14 20:45:33,170 - INFO - collect_data:571 - 16 - 64 / 16386
+2025-09-14 20:45:38,958 - INFO - collect_data:725 - action: [4, 3, 1, 1, 1, 7, 1, 5, 2, 1, 1, 3, 6, 2, 1, 2]
+2025-09-14 20:45:38,959 - INFO - collect_data:571 - 16 - 65 / 16386
+2025-09-14 20:45:43,761 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 4, 1, 2, 1, 1]
+2025-09-14 20:45:43,762 - INFO - collect_data:571 - 16 - 66 / 16386
+2025-09-14 20:45:49,115 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 2, 2, 1, 1]
+2025-09-14 20:45:49,115 - INFO - collect_data:571 - 16 - 67 / 16386
+2025-09-14 20:45:54,454 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 5, 2, 5, 1, 1, 1, 1, 1, 2, 1, 1]
+2025-09-14 20:45:54,454 - INFO - collect_data:571 - 16 - 68 / 16386
+2025-09-14 20:45:59,865 - INFO - collect_data:725 - action: [6, 7, 3, 1, 5, 2, 1, 5, 1, 4, 1, 1, 1, 4, 6, 6]
+2025-09-14 20:45:59,866 - INFO - collect_data:571 - 16 - 69 / 16386
+2025-09-14 20:46:04,594 - INFO - collect_data:725 - action: [1, 1, 1, 1, 5, 1, 1, 4, 1, 1, 2, 1, 1, 4, 1, 1]
+2025-09-14 20:46:04,622 - INFO - collect_data:571 - 16 - 70 / 16386
+2025-09-14 20:46:10,362 - INFO - collect_data:725 - action: [4, 1, 1, 1, 2, 1, 1, 3, 5, 1, 2, 1, 1, 4, 1, 1]
+2025-09-14 20:46:10,363 - INFO - collect_data:571 - 16 - 71 / 16386
+2025-09-14 20:46:14,661 - INFO - collect_data:725 - action: [1, 1, 1, 1, 2, 1, 1, 3, 1, 1, 1, 1, 6, 4, 1, 2]
+2025-09-14 20:46:14,661 - INFO - collect_data:571 - 16 - 72 / 16386
+2025-09-14 20:46:20,070 - INFO - collect_data:725 - action: [1, 1, 1, 1, 2, 1, 1, 3, 3, 1, 5, 1, 1, 4, 1, 2]
+2025-09-14 20:46:20,071 - INFO - collect_data:571 - 16 - 73 / 16386
+2025-09-14 20:46:25,457 - INFO - collect_data:725 - action: [1, 7, 1, 1, 2, 1, 2, 3, 1, 2, 1, 1, 1, 4, 6, 1]
+2025-09-14 20:46:25,458 - INFO - collect_data:571 - 16 - 74 / 16386
+2025-09-14 20:46:30,001 - INFO - collect_data:725 - action: [1, 3, 1, 4, 2, 5, 2, 4, 1, 1, 1, 1, 1, 4, 1, 1]
+2025-09-14 20:46:30,002 - INFO - collect_data:571 - 16 - 75 / 16386
+2025-09-14 20:46:44,490 - INFO - collect_data:725 - action: [1, 3, 1, 1, 2, 1, 2, 4, 1, 1, 1, 1, 1, 1, 1, 1]
+2025-09-14 20:46:44,490 - INFO - collect_data:571 - 16 - 76 / 16386
+2025-09-14 20:46:49,962 - INFO - collect_data:725 - action: [6, 3, 1, 1, 2, 1, 2, 4, 1, 1, 1, 1, 1, 1, 1, 5]
+2025-09-14 20:46:49,963 - INFO - collect_data:571 - 16 - 77 / 16386
+2025-09-14 20:46:54,790 - INFO - collect_data:725 - action: [1, 3, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 6, 1, 4, 5]
+2025-09-14 20:46:54,791 - INFO - collect_data:571 - 16 - 78 / 16386
+2025-09-14 20:47:00,145 - INFO - collect_data:725 - action: [1, 3, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1]
+2025-09-14 20:47:00,217 - INFO - collect_data:571 - 16 - 79 / 16386
+2025-09-14 20:47:05,359 - INFO - collect_data:725 - action: [4, 1, 1, 2, 1, 2, 1, 1, 3, 2, 6, 1, 1, 1, 6, 5]
+2025-09-14 20:47:05,360 - INFO - collect_data:571 - 16 - 80 / 16386
+2025-09-14 20:47:10,226 - INFO - collect_data:725 - action: [1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 1, 1, 1, 1, 1, 5]
+2025-09-14 20:47:10,226 - INFO - collect_data:571 - 16 - 81 / 16386
+2025-09-14 20:47:15,736 - INFO - collect_data:725 - action: [1, 1, 1, 1, 4, 1, 1, 1, 3, 2, 1, 1, 1, 6, 2, 5]
+2025-09-14 20:47:15,737 - INFO - collect_data:571 - 16 - 82 / 16386
+2025-09-14 20:47:21,066 - INFO - collect_data:725 - action: [1, 1, 1, 6, 1, 1, 1, 1, 3, 2, 1, 1, 3, 1, 1, 5]
+2025-09-14 20:47:21,072 - INFO - collect_data:571 - 16 - 83 / 16386
+2025-09-14 20:47:26,362 - INFO - collect_data:725 - action: [1, 1, 7, 1, 1, 5, 1, 1, 3, 2, 1, 1, 3, 1, 1, 5]
+2025-09-14 20:47:26,365 - INFO - collect_data:571 - 16 - 84 / 16386
+2025-09-14 20:47:32,267 - INFO - collect_data:725 - action: [7, 1, 1, 1, 4, 0, 1, 1, 3, 2, 1, 1, 3, 1, 1, 5]
+2025-09-14 20:47:32,280 - INFO - collect_data:571 - 16 - 85 / 16386
+2025-09-14 20:47:55,417 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 38
+2025-09-14 20:48:17,864 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 39
+2025-09-14 20:48:39,645 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 40
+2025-09-14 20:48:47,835 - INFO - collect_data:725 - action: [1, 1, 3, 1, 1, 0, 1, 1, 3, 2, 2, 3, 6, 1, 2, 5]
+2025-09-14 20:48:47,836 - INFO - collect_data:571 - 16 - 86 / 16386
+2025-09-14 20:48:51,573 - INFO - collect_data:725 - action: [5, 1, 1, 1, 1, 0, 1, 7, 3, 2, 1, 1, 3, 6, 1, 5]
+2025-09-14 20:48:51,574 - INFO - collect_data:571 - 16 - 87 / 16386
+2025-09-14 20:48:56,163 - INFO - collect_data:725 - action: [5, 1, 1, 1, 1, 0, 1, 1, 3, 1, 1, 1, 6, 1, 1, 5]
+2025-09-14 20:48:56,194 - INFO - collect_data:571 - 16 - 88 / 16386
+2025-09-14 20:49:00,567 - INFO - collect_data:725 - action: [5, 6, 1, 4, 1, 0, 1, 1, 3, 1, 6, 7, 6, 1, 1, 5]
+2025-09-14 20:49:00,579 - INFO - collect_data:571 - 16 - 89 / 16386
+2025-09-14 20:49:05,588 - INFO - collect_data:725 - action: [5, 1, 1, 1, 4, 0, 1, 1, 1, 1, 2, 4, 3, 1, 1, 5]
+2025-09-14 20:49:05,598 - INFO - collect_data:571 - 16 - 90 / 16386
+2025-09-14 20:49:09,066 - INFO - collect_data:725 - action: [3, 5, 1, 1, 1, 0, 1, 1, 1, 1, 2, 4, 3, 1, 1, 5]
+2025-09-14 20:49:09,076 - INFO - collect_data:571 - 16 - 91 / 16386
+2025-09-14 20:49:12,496 - INFO - collect_data:725 - action: [3, 5, 3, 1, 1, 0, 1, 1, 1, 1, 2, 1, 3, 1, 1, 5]
+2025-09-14 20:49:12,497 - INFO - collect_data:571 - 16 - 92 / 16386
+2025-09-14 20:49:15,389 - INFO - collect_data:725 - action: [3, 5, 1, 6, 1, 0, 2, 1, 1, 4, 2, 1, 3, 6, 1, 5]
+2025-09-14 20:49:15,392 - INFO - collect_data:571 - 16 - 93 / 16386
+2025-09-14 20:49:17,834 - INFO - collect_data:725 - action: [3, 1, 1, 1, 1, 0, 2, 1, 1, 1, 2, 1, 1, 1, 3, 5]
+2025-09-14 20:49:17,836 - INFO - collect_data:571 - 16 - 94 / 16386
+2025-09-14 20:49:21,246 - INFO - collect_data:725 - action: [3, 3, 3, 1, 1, 0, 1, 2, 1, 1, 1, 2, 1, 1, 3, 5]
+2025-09-14 20:49:21,247 - INFO - collect_data:571 - 16 - 95 / 16386
+2025-09-14 20:49:23,952 - INFO - collect_data:725 - action: [3, 3, 1, 1, 6, 0, 1, 1, 1, 1, 1, 2, 1, 6, 3, 5]
+2025-09-14 20:49:23,957 - INFO - collect_data:571 - 16 - 96 / 16386
+2025-09-14 20:49:26,152 - INFO - collect_data:725 - action: [3, 3, 3, 2, 1, 0, 1, 6, 1, 1, 1, 2, 1, 1, 3, 5]
+2025-09-14 20:49:26,152 - INFO - collect_data:571 - 16 - 97 / 16386
+2025-09-14 20:49:29,005 - INFO - collect_data:725 - action: [1, 3, 5, 2, 1, 0, 5, 1, 1, 1, 1, 2, 1, 6, 3, 5]
+2025-09-14 20:49:29,005 - INFO - collect_data:571 - 16 - 98 / 16386
+2025-09-14 20:49:32,974 - INFO - collect_data:725 - action: [1, 3, 2, 1, 1, 0, 5, 6, 7, 1, 2, 2, 1, 1, 3, 5]
+2025-09-14 20:49:32,975 - INFO - collect_data:571 - 16 - 99 / 16386
+2025-09-14 20:49:37,301 - INFO - collect_data:725 - action: [4, 3, 3, 5, 1, 0, 5, 5, 1, 1, 1, 2, 7, 1, 1, 5]
+2025-09-14 20:49:37,302 - INFO - collect_data:571 - 16 - 100 / 16386
+2025-09-14 20:49:39,594 - INFO - collect_data:725 - action: [1, 3, 3, 5, 2, 0, 5, 5, 1, 1, 1, 2, 1, 5, 1, 5]
+2025-09-14 20:49:39,599 - INFO - collect_data:571 - 16 - 101 / 16386
+2025-09-14 20:49:43,592 - INFO - collect_data:725 - action: [1, 3, 3, 5, 1, 0, 5, 5, 1, 1, 1, 2, 1, 5, 3, 5]
+2025-09-14 20:49:43,593 - INFO - collect_data:571 - 16 - 102 / 16386
+2025-09-14 20:49:47,593 - INFO - collect_data:725 - action: [1, 3, 3, 2, 1, 0, 5, 4, 1, 1, 1, 2, 1, 5, 1, 5]
+2025-09-14 20:49:47,601 - INFO - collect_data:571 - 16 - 103 / 16386
+2025-09-14 20:49:51,952 - INFO - collect_data:725 - action: [4, 4, 3, 2, 4, 0, 5, 3, 1, 1, 1, 1, 1, 5, 1, 2]
+2025-09-14 20:49:51,954 - INFO - collect_data:571 - 16 - 104 / 16386
+2025-09-14 20:49:57,007 - INFO - collect_data:725 - action: [1, 1, 3, 2, 1, 0, 0, 3, 1, 3, 1, 1, 1, 5, 1, 2]
+2025-09-14 20:49:57,009 - INFO - collect_data:571 - 16 - 105 / 16386
+2025-09-14 20:50:21,956 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 41
+2025-09-14 20:50:48,331 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 42
+2025-09-14 20:51:14,522 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 43
+2025-09-14 20:51:20,188 - INFO - collect_data:725 - action: [1, 1, 3, 2, 1, 0, 0, 3, 1, 3, 1, 1, 1, 5, 1, 2]
+2025-09-14 20:51:20,191 - INFO - collect_data:571 - 16 - 106 / 16386
+2025-09-14 20:51:25,082 - INFO - collect_data:725 - action: [1, 1, 3, 4, 5, 0, 0, 3, 7, 3, 1, 1, 7, 5, 1, 5]
+2025-09-14 20:51:25,083 - INFO - collect_data:571 - 16 - 107 / 16386
+2025-09-14 20:51:29,393 - INFO - collect_data:725 - action: [4, 7, 3, 4, 5, 0, 0, 3, 1, 3, 4, 1, 1, 5, 1, 3]
+2025-09-14 20:51:29,394 - INFO - collect_data:571 - 16 - 108 / 16386
+2025-09-14 20:51:33,892 - INFO - collect_data:725 - action: [1, 1, 3, 1, 1, 0, 0, 3, 4, 3, 1, 1, 1, 5, 1, 3]
+2025-09-14 20:51:33,899 - INFO - collect_data:571 - 16 - 109 / 16386
+2025-09-14 20:51:38,450 - INFO - collect_data:725 - action: [1, 1, 4, 1, 6, 0, 0, 1, 1, 2, 1, 1, 1, 3, 4, 3]
+2025-09-14 20:51:38,451 - INFO - collect_data:571 - 16 - 110 / 16386
+2025-09-14 20:51:42,458 - INFO - collect_data:725 - action: [1, 1, 4, 1, 2, 0, 0, 1, 1, 2, 1, 1, 3, 3, 1, 3]
+2025-09-14 20:51:42,459 - INFO - collect_data:571 - 16 - 111 / 16386
+2025-09-14 20:51:47,634 - INFO - collect_data:725 - action: [6, 1, 1, 1, 5, 0, 0, 1, 3, 4, 1, 1, 4, 3, 1, 3]
+2025-09-14 20:51:47,639 - INFO - collect_data:571 - 16 - 112 / 16386
+2025-09-14 20:51:52,406 - INFO - collect_data:725 - action: [1, 7, 1, 1, 3, 0, 0, 1, 1, 5, 1, 1, 1, 6, 1, 3]
+2025-09-14 20:51:52,411 - INFO - collect_data:571 - 16 - 113 / 16386
+2025-09-14 20:51:57,046 - INFO - collect_data:725 - action: [1, 1, 1, 1, 3, 0, 0, 1, 1, 3, 1, 1, 1, 3, 1, 3]
+2025-09-14 20:51:57,047 - INFO - collect_data:571 - 16 - 114 / 16386
+2025-09-14 20:51:59,317 - INFO - collect_data:725 - action: [1, 1, 1, 5, 3, 0, 0, 1, 1, 3, 1, 6, 1, 3, 1, 3]
+2025-09-14 20:51:59,323 - INFO - collect_data:571 - 16 - 115 / 16386
+2025-09-14 20:52:03,159 - INFO - collect_data:725 - action: [2, 1, 1, 0, 3, 0, 0, 4, 1, 3, 1, 6, 3, 3, 1, 1]
+2025-09-14 20:52:03,160 - INFO - collect_data:571 - 16 - 116 / 16386
+2025-09-14 20:52:30,099 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 44
+2025-09-14 20:52:59,915 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 45
+2025-09-14 20:53:29,381 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 46
+2025-09-14 20:53:34,154 - INFO - collect_data:725 - action: [1, 1, 1, 0, 3, 0, 0, 1, 1, 3, 1, 1, 1, 3, 1, 1]
+2025-09-14 20:53:34,155 - INFO - collect_data:571 - 16 - 117 / 16386
+2025-09-14 20:53:39,616 - INFO - collect_data:725 - action: [1, 7, 1, 0, 3, 0, 0, 1, 1, 1, 1, 1, 1, 3, 1, 1]
+2025-09-14 20:53:39,630 - INFO - collect_data:571 - 16 - 118 / 16386
+2025-09-14 20:53:44,635 - INFO - collect_data:725 - action: [4, 1, 1, 0, 3, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+2025-09-14 20:53:44,637 - INFO - collect_data:571 - 16 - 119 / 16386
+2025-09-14 20:53:49,182 - INFO - collect_data:725 - action: [2, 1, 1, 0, 3, 0, 0, 7, 7, 1, 1, 1, 1, 1, 1, 1]
+2025-09-14 20:53:49,183 - INFO - collect_data:571 - 16 - 120 / 16386
+2025-09-14 20:53:54,114 - INFO - collect_data:725 - action: [1, 1, 1, 0, 3, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+2025-09-14 20:53:54,115 - INFO - collect_data:571 - 16 - 121 / 16386
+2025-09-14 20:54:00,070 - INFO - collect_data:725 - action: [6, 1, 5, 0, 3, 0, 0, 1, 3, 1, 1, 6, 1, 1, 2, 1]
+2025-09-14 20:54:00,071 - INFO - collect_data:571 - 16 - 122 / 16386
+2025-09-14 20:54:05,264 - INFO - collect_data:725 - action: [1, 7, 1, 0, 3, 0, 0, 1, 1, 1, 3, 1, 1, 1, 2, 1]
+2025-09-14 20:54:05,265 - INFO - collect_data:571 - 16 - 123 / 16386
+2025-09-14 20:54:10,252 - INFO - collect_data:725 - action: [5, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 6, 1, 2]
+2025-09-14 20:54:10,253 - INFO - collect_data:571 - 16 - 124 / 16386
+2025-09-14 20:54:15,676 - INFO - collect_data:725 - action: [5, 1, 1, 0, 1, 0, 0, 1, 4, 1, 1, 1, 2, 1, 1, 2]
+2025-09-14 20:54:15,677 - INFO - collect_data:571 - 16 - 125 / 16386
+2025-09-14 20:54:20,927 - INFO - collect_data:725 - action: [5, 1, 1, 0, 1, 0, 0, 3, 1, 1, 1, 4, 2, 1, 1, 2]
+2025-09-14 20:54:20,933 - INFO - collect_data:571 - 16 - 126 / 16386
+2025-09-14 20:54:25,931 - INFO - collect_data:725 - action: [5, 1, 1, 0, 1, 0, 0, 3, 6, 1, 1, 1, 2, 1, 1, 2]
+2025-09-14 20:54:25,949 - INFO - collect_data:571 - 16 - 127 / 16386
+2025-09-14 20:54:31,466 - INFO - collect_data:725 - action: [2, 7, 1, 0, 1, 0, 0, 1, 2, 1, 1, 3, 7, 1, 1, 2]
+2025-09-14 20:54:31,466 - INFO - collect_data:571 - 16 - 128 / 16386
+2025-09-14 20:54:36,686 - INFO - collect_data:725 - action: [2, 1, 1, 0, 1, 0, 0, 1, 2, 1, 1, 3, 2, 1, 5, 2]
+2025-09-14 20:54:36,687 - INFO - collect_data:571 - 16 - 129 / 16386
+2025-09-14 20:54:42,326 - INFO - collect_data:725 - action: [4, 1, 1, 0, 7, 0, 0, 7, 2, 7, 1, 3, 2, 1, 5, 2]
+2025-09-14 20:54:42,327 - INFO - collect_data:571 - 16 - 130 / 16386
+2025-09-14 20:54:47,803 - INFO - collect_data:725 - action: [1, 1, 7, 0, 1, 0, 0, 1, 2, 1, 3, 3, 2, 3, 5, 2]
+2025-09-14 20:54:47,815 - INFO - collect_data:571 - 16 - 131 / 16386
+2025-09-14 20:54:53,252 - INFO - collect_data:725 - action: [1, 1, 1, 0, 1, 0, 0, 2, 2, 1, 3, 3, 1, 3, 5, 5]
+2025-09-14 20:54:53,253 - INFO - collect_data:571 - 16 - 132 / 16386
+2025-09-14 20:54:58,978 - INFO - collect_data:725 - action: [1, 7, 1, 0, 1, 0, 0, 2, 2, 1, 5, 3, 1, 3, 2, 5]
+2025-09-14 20:54:58,978 - INFO - collect_data:571 - 16 - 133 / 16386
+2025-09-14 20:55:04,491 - INFO - collect_data:725 - action: [1, 1, 1, 0, 1, 0, 0, 1, 2, 1, 5, 3, 1, 3, 2, 3]
+2025-09-14 20:55:04,491 - INFO - collect_data:571 - 16 - 134 / 16386
+2025-09-14 20:55:09,722 - INFO - collect_data:725 - action: [1, 1, 1, 0, 7, 0, 0, 1, 2, 4, 5, 3, 1, 3, 2, 3]
+2025-09-14 20:55:09,723 - INFO - collect_data:571 - 16 - 135 / 16386
+2025-09-14 20:55:15,049 - INFO - collect_data:725 - action: [4, 4, 3, 0, 1, 0, 0, 1, 2, 1, 1, 3, 4, 3, 2, 3]
+2025-09-14 20:55:15,050 - INFO - collect_data:571 - 16 - 136 / 16386
+2025-09-14 20:55:20,471 - INFO - collect_data:725 - action: [1, 4, 1, 0, 1, 0, 0, 1, 2, 1, 5, 1, 1, 3, 2, 3]
+2025-09-14 20:55:20,472 - INFO - collect_data:571 - 16 - 137 / 16386
+2025-09-14 20:55:24,874 - INFO - collect_data:725 - action: [6, 1, 1, 0, 4, 0, 0, 1, 2, 1, 0, 1, 1, 3, 2, 1]
+2025-09-14 20:55:24,875 - INFO - collect_data:571 - 16 - 138 / 16386
+2025-09-14 20:56:00,204 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 47
+2025-09-14 20:56:06,550 - INFO - collect_data:725 - action: [1, 1, 1, 0, 1, 0, 0, 4, 1, 3, 0, 1, 1, 3, 2, 5]
+2025-09-14 20:56:06,551 - INFO - collect_data:571 - 16 - 139 / 16386
+2025-09-14 20:56:12,830 - INFO - collect_data:725 - action: [2, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 4, 1, 1]
+2025-09-14 20:56:12,831 - INFO - collect_data:571 - 16 - 140 / 16386
+2025-09-14 20:56:17,788 - INFO - collect_data:725 - action: [1, 1, 1, 0, 7, 0, 0, 6, 1, 1, 0, 1, 7, 4, 1, 1]
+2025-09-14 20:56:17,788 - INFO - collect_data:571 - 16 - 141 / 16386
+2025-09-14 20:56:22,958 - INFO - collect_data:725 - action: [1, 1, 1, 0, 1, 0, 0, 6, 1, 7, 0, 4, 1, 4, 1, 4]
+2025-09-14 20:56:22,959 - INFO - collect_data:571 - 16 - 142 / 16386
+2025-09-14 20:56:28,519 - INFO - collect_data:725 - action: [1, 1, 3, 0, 1, 0, 0, 1, 1, 1, 0, 1, 7, 4, 1, 4]
+2025-09-14 20:56:28,519 - INFO - collect_data:571 - 16 - 143 / 16386
+2025-09-14 20:56:33,834 - INFO - collect_data:725 - action: [1, 3, 1, 0, 1, 0, 0, 5, 1, 1, 0, 1, 4, 4, 1, 1]
+2025-09-14 20:56:33,884 - INFO - collect_data:571 - 16 - 144 / 16386
+2025-09-14 20:56:39,894 - INFO - collect_data:725 - action: [4, 3, 1, 0, 3, 0, 0, 5, 1, 1, 0, 1, 1, 4, 1, 1]
+2025-09-14 20:56:39,895 - INFO - collect_data:571 - 16 - 145 / 16386
+2025-09-14 20:56:45,083 - INFO - collect_data:725 - action: [3, 3, 3, 0, 1, 0, 0, 4, 1, 1, 0, 1, 5, 4, 6, 1]
+2025-09-14 20:56:45,084 - INFO - collect_data:571 - 16 - 146 / 16386
+2025-09-14 20:56:50,038 - INFO - collect_data:725 - action: [1, 3, 3, 0, 1, 0, 0, 4, 1, 1, 0, 1, 0, 4, 1, 1]
+2025-09-14 20:56:50,039 - INFO - collect_data:571 - 16 - 147 / 16386
+2025-09-14 20:57:26,887 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 48
+2025-09-14 20:58:04,429 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 49
+2025-09-14 20:58:42,933 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 50
+2025-09-14 20:58:48,964 - INFO - collect_data:725 - action: [1, 3, 3, 0, 1, 0, 0, 2, 1, 1, 0, 5, 0, 1, 4, 3]
+2025-09-14 20:58:48,965 - INFO - collect_data:571 - 16 - 148 / 16386
+2025-09-14 20:58:53,702 - INFO - collect_data:725 - action: [3, 3, 3, 0, 7, 0, 0, 2, 6, 4, 0, 1, 0, 1, 1, 3]
+2025-09-14 20:58:53,703 - INFO - collect_data:571 - 16 - 149 / 16386
+2025-09-14 20:58:59,891 - INFO - collect_data:725 - action: [1, 3, 3, 0, 1, 0, 0, 2, 1, 1, 0, 5, 0, 1, 1, 3]
+2025-09-14 20:58:59,892 - INFO - collect_data:571 - 16 - 150 / 16386
+2025-09-14 20:59:05,644 - INFO - collect_data:725 - action: [5, 3, 3, 0, 1, 0, 0, 2, 4, 1, 0, 0, 0, 1, 1, 3]
+2025-09-14 20:59:05,645 - INFO - collect_data:571 - 16 - 151 / 16386
+2025-09-14 20:59:43,388 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 51
+2025-09-14 21:00:21,374 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 52
+2025-09-14 21:00:59,458 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 53
+2025-09-14 21:01:05,003 - INFO - collect_data:725 - action: [5, 3, 3, 0, 1, 0, 0, 2, 1, 1, 0, 0, 0, 1, 6, 3]
+2025-09-14 21:01:05,003 - INFO - collect_data:571 - 16 - 152 / 16386
+2025-09-14 21:01:09,792 - INFO - collect_data:725 - action: [5, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 3]
+2025-09-14 21:01:09,793 - INFO - collect_data:571 - 16 - 153 / 16386
+2025-09-14 21:01:14,918 - INFO - collect_data:725 - action: [3, 1, 5, 0, 4, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 3]
+2025-09-14 21:01:14,928 - INFO - collect_data:571 - 16 - 154 / 16386
+2025-09-14 21:01:20,424 - INFO - collect_data:725 - action: [3, 1, 3, 0, 5, 0, 0, 4, 2, 1, 0, 0, 0, 1, 1, 3]
+2025-09-14 21:01:20,425 - INFO - collect_data:571 - 16 - 155 / 16386
+2025-09-14 21:01:26,026 - INFO - collect_data:725 - action: [3, 6, 1, 0, 2, 0, 0, 1, 1, 5, 0, 0, 0, 1, 1, 1]
+2025-09-14 21:01:26,027 - INFO - collect_data:571 - 16 - 156 / 16386
+2025-09-14 21:01:31,629 - INFO - collect_data:725 - action: [3, 1, 1, 0, 2, 0, 0, 1, 1, 0, 0, 0, 0, 1, 6, 1]
+2025-09-14 21:01:31,630 - INFO - collect_data:571 - 16 - 157 / 16386
+2025-09-14 21:02:11,019 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 54
+2025-09-14 21:02:16,018 - INFO - collect_data:725 - action: [1, 1, 2, 0, 2, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1]
+2025-09-14 21:02:16,018 - INFO - collect_data:571 - 16 - 158 / 16386
+2025-09-14 21:02:21,571 - INFO - collect_data:725 - action: [1, 1, 1, 0, 2, 0, 0, 1, 1, 0, 0, 0, 0, 6, 1, 1]
+2025-09-14 21:02:21,572 - INFO - collect_data:571 - 16 - 159 / 16386
+2025-09-14 21:02:26,190 - INFO - collect_data:725 - action: [1, 6, 1, 0, 2, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1]
+2025-09-14 21:02:26,205 - INFO - collect_data:571 - 16 - 160 / 16386
+2025-09-14 21:02:32,171 - INFO - collect_data:725 - action: [1, 1, 1, 0, 2, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1]
+2025-09-14 21:02:32,185 - INFO - collect_data:571 - 16 - 161 / 16386
+2025-09-14 21:02:38,377 - INFO - collect_data:725 - action: [1, 1, 1, 0, 2, 0, 0, 4, 1, 0, 0, 0, 0, 1, 3, 1]
+2025-09-14 21:02:38,378 - INFO - collect_data:571 - 16 - 162 / 16386
+2025-09-14 21:02:43,709 - INFO - collect_data:725 - action: [1, 2, 1, 0, 2, 0, 0, 2, 2, 0, 0, 0, 0, 1, 1, 1]
+2025-09-14 21:02:43,711 - INFO - collect_data:571 - 16 - 163 / 16386
+2025-09-14 21:02:48,809 - INFO - collect_data:725 - action: [7, 1, 1, 0, 1, 0, 0, 3, 1, 0, 0, 0, 0, 2, 1, 1]
+2025-09-14 21:02:48,809 - INFO - collect_data:571 - 16 - 164 / 16386
+2025-09-14 21:02:54,370 - INFO - collect_data:725 - action: [3, 1, 3, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 7]
+2025-09-14 21:02:54,371 - INFO - collect_data:571 - 16 - 165 / 16386
+2025-09-14 21:02:59,353 - INFO - collect_data:725 - action: [1, 1, 1, 0, 1, 0, 0, 1, 2, 0, 0, 0, 0, 1, 1, 1]
+2025-09-14 21:02:59,354 - INFO - collect_data:571 - 16 - 166 / 16386
+2025-09-14 21:03:04,336 - INFO - collect_data:725 - action: [1, 1, 3, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1]
+2025-09-14 21:03:04,345 - INFO - collect_data:571 - 16 - 167 / 16386
+2025-09-14 21:03:09,193 - INFO - collect_data:725 - action: [1, 1, 1, 0, 1, 0, 0, 1, 5, 0, 0, 0, 0, 1, 3, 2]
+2025-09-14 21:03:09,194 - INFO - collect_data:571 - 16 - 168 / 16386
+2025-09-14 21:03:15,253 - INFO - collect_data:725 - action: [4, 1, 1, 0, 1, 0, 0, 1, 5, 0, 0, 0, 0, 2, 1, 2]
+2025-09-14 21:03:15,254 - INFO - collect_data:571 - 16 - 169 / 16386
+2025-09-14 21:03:20,139 - INFO - collect_data:725 - action: [1, 1, 1, 0, 3, 0, 0, 1, 5, 0, 0, 0, 0, 1, 1, 2]
+2025-09-14 21:03:20,169 - INFO - collect_data:571 - 16 - 170 / 16386
+2025-09-14 21:03:24,929 - INFO - collect_data:725 - action: [1, 6, 1, 0, 1, 0, 0, 5, 3, 0, 0, 0, 0, 1, 1, 2]
+2025-09-14 21:03:24,930 - INFO - collect_data:571 - 16 - 171 / 16386
+2025-09-14 21:03:29,651 - INFO - collect_data:725 - action: [1, 1, 1, 0, 1, 0, 0, 5, 6, 0, 0, 0, 0, 1, 1, 2]
+2025-09-14 21:03:29,652 - INFO - collect_data:571 - 16 - 172 / 16386
+2025-09-14 21:03:35,046 - INFO - collect_data:725 - action: [1, 1, 1, 0, 5, 0, 0, 5, 3, 0, 0, 0, 0, 1, 1, 2]
+2025-09-14 21:03:35,079 - INFO - collect_data:571 - 16 - 173 / 16386
+2025-09-14 21:03:40,339 - INFO - collect_data:725 - action: [6, 0, 3, 0, 5, 0, 0, 5, 3, 0, 0, 0, 0, 1, 1, 2]
+2025-09-14 21:03:40,353 - INFO - collect_data:571 - 16 - 174 / 16386
+2025-09-14 21:04:24,648 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 55
+2025-09-14 21:05:08,402 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 56
+2025-09-14 21:05:51,155 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 57
+2025-09-14 21:05:57,753 - INFO - collect_data:725 - action: [1, 0, 1, 0, 3, 0, 0, 0, 3, 0, 0, 0, 0, 1, 1, 2]
+2025-09-14 21:05:57,754 - INFO - collect_data:571 - 16 - 175 / 16386
+2025-09-14 21:06:42,820 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 58
+2025-09-14 21:07:21,722 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 59
+2025-09-14 21:08:07,472 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 60
+2025-09-14 21:08:13,082 - INFO - collect_data:725 - action: [2, 0, 3, 0, 3, 0, 0, 0, 3, 0, 0, 0, 0, 2, 2, 1]
+2025-09-14 21:08:13,082 - INFO - collect_data:571 - 16 - 176 / 16386
+2025-09-14 21:08:19,000 - INFO - collect_data:725 - action: [2, 0, 2, 0, 3, 0, 0, 0, 3, 0, 0, 0, 0, 1, 1, 1]
+2025-09-14 21:08:19,000 - INFO - collect_data:571 - 16 - 177 / 16386
+2025-09-14 21:08:24,178 - INFO - collect_data:725 - action: [1, 0, 2, 0, 3, 0, 0, 0, 3, 0, 0, 0, 0, 1, 1, 1]
+2025-09-14 21:08:24,179 - INFO - collect_data:571 - 16 - 178 / 16386
+2025-09-14 21:08:29,049 - INFO - collect_data:725 - action: [4, 0, 2, 0, 1, 0, 0, 0, 3, 0, 0, 0, 0, 5, 1, 1]
+2025-09-14 21:08:29,050 - INFO - collect_data:571 - 16 - 179 / 16386
+2025-09-14 21:08:33,838 - INFO - collect_data:725 - action: [1, 0, 2, 0, 3, 0, 0, 0, 3, 0, 0, 0, 0, 5, 4, 1]
+2025-09-14 21:08:33,839 - INFO - collect_data:571 - 16 - 180 / 16386
+2025-09-14 21:08:39,430 - INFO - collect_data:725 - action: [1, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0, 0, 0, 5, 1, 1]
+2025-09-14 21:08:39,449 - INFO - collect_data:571 - 16 - 181 / 16386
+2025-09-14 21:08:44,674 - INFO - collect_data:725 - action: [1, 0, 3, 0, 1, 0, 0, 0, 3, 0, 0, 0, 0, 3, 1, 5]
+2025-09-14 21:08:44,675 - INFO - collect_data:571 - 16 - 182 / 16386
+2025-09-14 21:08:50,418 - INFO - collect_data:725 - action: [1, 0, 1, 0, 5, 0, 0, 0, 1, 0, 0, 0, 0, 6, 0, 3]
+2025-09-14 21:08:50,419 - INFO - collect_data:571 - 16 - 183 / 16386
+2025-09-14 21:09:37,920 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 61
+2025-09-14 21:10:23,822 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 62
+2025-09-14 21:11:10,281 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 63
+2025-09-14 21:11:15,333 - INFO - collect_data:725 - action: [1, 0, 3, 0, 1, 0, 0, 0, 4, 0, 0, 0, 0, 5, 0, 3]
+2025-09-14 21:11:15,333 - INFO - collect_data:571 - 16 - 184 / 16386
+2025-09-14 21:11:20,995 - INFO - collect_data:725 - action: [4, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 5, 0, 3]
+2025-09-14 21:11:21,052 - INFO - collect_data:571 - 16 - 185 / 16386
+2025-09-14 21:11:26,274 - INFO - collect_data:725 - action: [1, 0, 3, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 3, 0, 3]
+2025-09-14 21:11:26,274 - INFO - collect_data:571 - 16 - 186 / 16386
+2025-09-14 21:11:31,497 - INFO - collect_data:725 - action: [1, 0, 3, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 3, 0, 3]
+2025-09-14 21:11:31,498 - INFO - collect_data:571 - 16 - 187 / 16386
+2025-09-14 21:11:37,187 - INFO - collect_data:725 - action: [1, 0, 3, 0, 1, 0, 0, 0, 4, 0, 0, 0, 0, 3, 0, 3]
+2025-09-14 21:11:37,188 - INFO - collect_data:571 - 16 - 188 / 16386
+2025-09-14 21:11:42,219 - INFO - collect_data:725 - action: [1, 0, 5, 0, 5, 0, 0, 0, 1, 0, 0, 0, 0, 3, 0, 1]
+2025-09-14 21:11:42,228 - INFO - collect_data:571 - 16 - 189 / 16386
+2025-09-14 21:11:47,456 - INFO - collect_data:725 - action: [1, 0, 4, 0, 5, 0, 0, 0, 1, 0, 0, 0, 0, 3, 0, 1]
+2025-09-14 21:11:47,456 - INFO - collect_data:571 - 16 - 190 / 16386
+2025-09-14 21:12:00,651 - INFO - collect_data:725 - action: [5, 0, 4, 0, 5, 0, 0, 0, 1, 0, 0, 0, 0, 3, 0, 1]
+2025-09-14 21:12:00,688 - INFO - collect_data:571 - 16 - 191 / 16386
+2025-09-14 21:12:06,234 - INFO - collect_data:725 - action: [5, 0, 4, 0, 5, 0, 0, 0, 1, 0, 0, 0, 0, 4, 0, 1]
+2025-09-14 21:12:06,235 - INFO - collect_data:571 - 16 - 192 / 16386
+2025-09-14 21:12:12,074 - INFO - collect_data:725 - action: [1, 0, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 4, 0, 1]
+2025-09-14 21:12:12,075 - INFO - collect_data:571 - 16 - 193 / 16386
+2025-09-14 21:12:59,633 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 63
+2025-09-14 21:13:47,287 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 63
+2025-09-14 21:13:53,266 - INFO - collect_data:725 - action: [5, 0, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 4, 0, 1]
+2025-09-14 21:13:53,266 - INFO - collect_data:571 - 16 - 194 / 16386
+2025-09-14 21:13:58,837 - INFO - collect_data:725 - action: [5, 0, 4, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 4, 0, 1]
+2025-09-14 21:13:58,838 - INFO - collect_data:571 - 16 - 195 / 16386
+2025-09-14 21:14:04,710 - INFO - collect_data:725 - action: [0, 0, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 4, 0, 1]
+2025-09-14 21:14:04,711 - INFO - collect_data:571 - 16 - 196 / 16386
+2025-09-14 21:14:52,989 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 64
+2025-09-14 21:15:41,839 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 65
+2025-09-14 21:16:32,857 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 66
+2025-09-14 21:16:37,953 - INFO - collect_data:725 - action: [0, 0, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1]
+2025-09-14 21:16:37,954 - INFO - collect_data:571 - 16 - 197 / 16386
+2025-09-14 21:16:42,863 - INFO - collect_data:725 - action: [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1]
+2025-09-14 21:16:42,863 - INFO - collect_data:571 - 16 - 198 / 16386
+2025-09-14 21:16:48,492 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1]
+2025-09-14 21:16:48,493 - INFO - collect_data:571 - 16 - 199 / 16386
+2025-09-14 21:16:53,059 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 3]
+2025-09-14 21:16:53,059 - INFO - collect_data:571 - 16 - 200 / 16386
+2025-09-14 21:16:57,690 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 3]
+2025-09-14 21:16:57,691 - INFO - collect_data:571 - 16 - 201 / 16386
+2025-09-14 21:17:03,281 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 5]
+2025-09-14 21:17:03,288 - INFO - collect_data:571 - 16 - 202 / 16386
+2025-09-14 21:17:08,713 - INFO - collect_data:725 - action: [0, 0, 1, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 1, 0, 5]
+2025-09-14 21:17:08,714 - INFO - collect_data:571 - 16 - 203 / 16386
+2025-09-14 21:17:13,982 - INFO - collect_data:725 - action: [0, 0, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 1, 0, 5]
+2025-09-14 21:17:13,983 - INFO - collect_data:571 - 16 - 204 / 16386
+2025-09-14 21:17:19,389 - INFO - collect_data:725 - action: [0, 0, 5, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 5]
+2025-09-14 21:17:19,390 - INFO - collect_data:571 - 16 - 205 / 16386
+2025-09-14 21:17:24,639 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 5]
+2025-09-14 21:17:24,646 - INFO - collect_data:571 - 16 - 206 / 16386
+2025-09-14 21:17:29,834 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 5]
+2025-09-14 21:17:29,840 - INFO - collect_data:571 - 16 - 207 / 16386
+2025-09-14 21:17:34,837 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 5]
+2025-09-14 21:17:34,849 - INFO - collect_data:571 - 16 - 208 / 16386
+2025-09-14 21:17:39,972 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0]
+2025-09-14 21:17:39,972 - INFO - collect_data:571 - 16 - 209 / 16386
+2025-09-14 21:18:33,221 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 67
+2025-09-14 21:19:25,114 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 68
+2025-09-14 21:20:18,599 - INFO - collect_data:608 - lmdb of train, lmdb_start_id: 69
+2025-09-14 21:20:24,408 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0]
+2025-09-14 21:20:24,409 - INFO - collect_data:571 - 16 - 210 / 16386
+2025-09-14 21:20:29,625 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0]
+2025-09-14 21:20:29,626 - INFO - collect_data:571 - 16 - 211 / 16386
+2025-09-14 21:20:34,035 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 1, 0, 0]
+2025-09-14 21:20:34,047 - INFO - collect_data:571 - 16 - 212 / 16386
+2025-09-14 21:20:38,082 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 7, 0, 0]
+2025-09-14 21:20:38,083 - INFO - collect_data:571 - 16 - 213 / 16386
+2025-09-14 21:20:42,958 - INFO - collect_data:725 - action: [0, 0, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 1, 0, 0]
+2025-09-14 21:20:42,959 - INFO - collect_data:571 - 16 - 214 / 16386
+2025-09-14 21:20:48,246 - INFO - collect_data:725 - action: [0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 0]
+2025-09-14 21:20:48,246 - INFO - collect_data:571 - 16 - 215 / 16386
+2025-09-14 21:20:53,162 - INFO - collect_data:725 - action: [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0]
+2025-09-14 21:20:53,162 - INFO - collect_data:571 - 16 - 216 / 16386
+2025-09-14 21:20:57,913 - INFO - collect_data:725 - action: [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0]
+2025-09-14 21:20:57,916 - INFO - collect_data:571 - 16 - 217 / 16386
+2025-09-14 21:21:03,009 - INFO - collect_data:725 - action: [0, 0, 5, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 0]
+2025-09-14 21:21:03,010 - INFO - collect_data:571 - 16 - 218 / 16386
+2025-09-14 21:21:07,517 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 5, 0, 0]
+2025-09-14 21:21:07,518 - INFO - collect_data:571 - 16 - 219 / 16386
+2025-09-14 21:21:11,959 - INFO - collect_data:725 - action: [0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 5, 0, 0]
+2025-09-14 21:21:11,972 - INFO - collect_data:571 - 16 - 220 / 16386
+2025-09-14 21:22:11,808 - ERROR - run:35 - Request timed out
+2025-09-14 21:22:11,809 - ERROR - setPoses:387 - setPoses failed
+2025-09-14 21:22:11,809 - ERROR - makeActions:622 - Failed to set poses
+2025-09-14 21:22:11,809 - WARNING - _changeEnv:386 - to change env: [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+2025-09-14 21:22:11,812 - INFO - _confirmSocketConnection:63 - Connected	127.0.0.1:30000
+2025-09-14 21:22:11,814 - INFO - _run_command:123 - Failed to open scenes, machine 0: 127.0.0.1:30000
+2025-09-14 21:23:18,957 - INFO - _run_command:145 - Failed to open scenes, machine 0: 127.0.0.1:30000
+2025-09-14 21:23:18,958 - INFO - run_call:168 - Start time: 67.1450400352478
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+Connected!
+Client Ver:1 (Min Req: 1), Server Ver:1 (Min Req: 1)
+
+2025-09-14 21:24:19,958 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:24:19,958 - ERROR - _getImages:301 - time_sleep_cnt: 1
+2025-09-14 21:25:20,964 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:25:20,964 - ERROR - _getImages:301 - time_sleep_cnt: 2
+2025-09-14 21:26:21,958 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:26:21,959 - ERROR - _getImages:301 - time_sleep_cnt: 3
+2025-09-14 21:27:22,963 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:27:22,964 - ERROR - _getImages:301 - time_sleep_cnt: 4
+2025-09-14 21:28:23,958 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:28:23,959 - ERROR - _getImages:301 - time_sleep_cnt: 5
+2025-09-14 21:29:24,958 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:29:24,958 - ERROR - _getImages:301 - time_sleep_cnt: 6
+2025-09-14 21:30:25,964 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:30:25,964 - ERROR - _getImages:301 - time_sleep_cnt: 7
+2025-09-14 21:31:26,958 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:31:26,958 - ERROR - _getImages:301 - time_sleep_cnt: 8
+2025-09-14 21:32:27,958 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:32:27,958 - ERROR - _getImages:301 - time_sleep_cnt: 9
+2025-09-14 21:33:28,963 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:33:28,963 - ERROR - _getImages:301 - time_sleep_cnt: 10
+2025-09-14 21:34:29,958 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:34:29,958 - ERROR - _getImages:301 - time_sleep_cnt: 11
+2025-09-14 21:35:30,958 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:35:30,959 - ERROR - _getImages:301 - time_sleep_cnt: 12
+2025-09-14 21:36:31,958 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:36:31,958 - ERROR - _getImages:301 - time_sleep_cnt: 13
+2025-09-14 21:37:32,957 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:37:32,958 - ERROR - _getImages:301 - time_sleep_cnt: 14
+2025-09-14 21:38:33,958 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:38:33,958 - ERROR - _getImages:301 - time_sleep_cnt: 15
+2025-09-14 21:39:34,958 - ERROR - _getImages:300 - Failed to retrieve image
+2025-09-14 21:39:34,958 - ERROR - _getImages:301 - time_sleep_cnt: 16

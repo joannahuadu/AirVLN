@@ -141,7 +141,7 @@ class AirVLNENV:
         self.observation_space = spaces.Dict({
             "rgb": spaces.Box(low=0, high=255, shape=(args.Image_Height_RGB, args.Image_Width_RGB, 3), dtype=np.uint8),
             "depth": spaces.Box(low=0, high=1, shape=(args.Image_Height_DEPTH, args.Image_Width_DEPTH, 1), dtype=np.float32),
-            "instruction": spaces.Discrete(0),
+            "instruction": spaces.Discrete(1),
             "progress": spaces.Box(low=0, high=1, shape=(1,), dtype=np.float32),
             "teacher_action": spaces.Box(low=0, high=100, shape=(1,)),
         })
@@ -166,7 +166,7 @@ class AirVLNENV:
                 if not os.path.exists(str(self.lmdb_depth_dir)):
                     os.makedirs(str(self.lmdb_depth_dir), exist_ok=True)
 
-                lmdb_features_map_size = 5.0e12  # 1.0e11  100GB
+                lmdb_features_map_size = 5.0e12  # 5TB 1.0e11  100GB
                 lmdb_rgb_map_size = 5.0e12  # 1.0e11  100GB
                 lmdb_depth_map_size = 5.0e12  # 1.0e11  100GB
 
