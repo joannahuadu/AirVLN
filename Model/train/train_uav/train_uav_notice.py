@@ -1034,14 +1034,18 @@ class DataCollatorForSupervisedDataset(object):
             
         return batch
 
-
+# TODO: wmq. modify airvln.
 def make_supervised_data_module(tokenizer: transformers.PreTrainedTokenizer,
                                 data_args) -> Dict:
     """Make dataset and collator for supervised fine-tuning."""
-    train_dataset = LazySupervisedDataset(tokenizer=tokenizer,
-                                data_path=data_args.data_path,
-                                data_args=data_args)
-    data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
+    train_dataset = IWTrajectoryDataset(
+                data_args.data_path,
+                use_iw=True,
+                inflection_weight_coef=float(args.inflection_weight_coef),
+                lmdb_map_size=5.0e12,
+                batch_size=data_args.batchSize,
+            )
+    # data_collator = collate_fn, tokenizer, chat_template, preprocess_multimodal, preprocess
     return dict(train_dataset=train_dataset,
                 eval_dataset=None,
                 data_collator=data_collator)
