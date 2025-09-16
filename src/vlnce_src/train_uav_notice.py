@@ -1,5 +1,3 @@
-from llamavid.train.llama_flash_attn_monkey_patch import replace_llama_attn_with_flash_attn
-replace_llama_attn_with_flash_attn()
 # Adopted from https://github.com/lm-sys/FastChat. Below is the original copyright:
 # Adopted from tatsu-lab@stanford_alpaca. Below is the original copyright:
 #    Copyright 2023 Rohan Taori, Ishaan Gulrajani, Tianyi Zhang, Yann Dubois, Xuechen Li
@@ -47,6 +45,144 @@ from PIL import Image
 import numpy as np
 from decord import VideoReader, cpu
 
+
+import lmdb
+
+class IWTrajectoryDataset(torch.utils.data.IterableDataset):
+    def __init__(
+        self,
+        data_path,
+        dataset_path,
+        use_iw=True,
+        inflection_weight_coef=1.0,
+        lmdb_map_size=5.0e12,
+        batch_size=1,
+    ):
+        super().__init__()
+        list_data_dict = json.load(open(data_path, "r"))
+        self.list_data_dict = list_data_dict
+        self.lmdb_features_dir = dataset_path
+        self.lmdb_map_size = lmdb_map_size
+        self.preload_size = batch_size * 100
+        self._preload = []
+        self.batch_size = batch_size
+
+        self.keys = []
+        self.seed = 1
+
+        if use_iw:
+            self.inflec_weights = torch.tensor([1.0, inflection_weight_coef])
+        else:
+            self.inflec_weights = torch.tensor([1.0, 1.0])
+
+        with lmdb.open(
+            self.lmdb_features_dir,
+            map_size=int(self.lmdb_map_size),
+            readonly=True,
+            lock=False,
+            readahead=False,
+        ) as lmdb_env, tqdm.tqdm(
+            total=int(lmdb_env.stat()["entries"]), dynamic_ncols=True
+        ) as pbar, lmdb_env.begin() as txn:
+            for key in txn.cursor().iternext(keys=True, values=False):
+                pbar.update()
+                self.keys.append(key.decode())
+
+        self.length = len(self.keys)
+
+        self.iter_start = 0
+        self.iter_end = self.length
+        logger.warning("END init Dataset \t start({}) - end({})".format(self.iter_start, self.iter_end))
+
+    def _load_next(self):
+        if len(self._preload) == 0:
+            if len(self.load_ordering) == 0:
+                raise StopIteration
+
+            new_preload = []
+            lengths = []
+            with lmdb.open(
+                self.lmdb_features_dir,
+                map_size=int(self.lmdb_map_size),
+                readonly=True,
+                # lock=False,
+                lock=True, readahead=False
+            ) as lmdb_env, lmdb_env.begin(buffers=True) as txn:
+                for i in range(self.preload_size):
+                    if len(self.load_ordering) == 0:
+                        break
+
+                    if (i+1) % 10 == 0:
+                        if self.worker_info is not None:
+                            logger.info("{} lmdb load: {} / {}".format(self.worker_info.id, i+1, self.preload_size))
+                        else:
+                            logger.info("{} lmdb load: {} / {}".format(0, i+1, self.preload_size))
+
+                    new_preload.append(
+                        msgpack_numpy.unpackb(
+                            txn.get(str(self.keys[self.load_ordering.pop()]).encode()),
+                            raw=False,
+                        )
+                    )
+
+                    lengths.append(len(new_preload[-1][0]))
+
+            sort_priority = list(range(len(lengths)))
+            random.shuffle(sort_priority)
+
+            sorted_ordering = list(range(len(lengths)))
+            sorted_ordering.sort(key=lambda k: (lengths[k], sort_priority[k]))
+
+            for idx in _block_shuffle(sorted_ordering, self.batch_size):
+                self._preload.append(new_preload[idx])
+
+            del new_preload, lengths
+
+        return self._preload.pop()
+
+    def __next__(self):
+        obs, prev_actions, oracle_actions = self._load_next()
+
+        for k, v in obs.items():
+            obs[k] = torch.from_numpy(np.copy(v))
+
+        prev_actions = torch.from_numpy(np.copy(prev_actions))
+        oracle_actions = torch.from_numpy(np.copy(oracle_actions))
+
+        inflections = torch.cat(
+            [
+                torch.tensor([1], dtype=torch.long),
+                (oracle_actions[1:] != oracle_actions[:-1]).long(),
+            ]
+        )
+
+        return (
+            obs,
+            prev_actions,
+            oracle_actions,
+            self.inflec_weights[inflections],
+        )
+
+    def __iter__(self):
+        worker_info = torch.utils.data.get_worker_info()
+        self.worker_info = worker_info
+        if worker_info is None:
+            start = 0
+            end = self.length
+        else:
+            per_worker = int(np.ceil(self.length / worker_info.num_workers))
+
+            start = per_worker * worker_info.id
+            end = min(start + per_worker, self.length)
+
+        # Reverse so we can use .pop()
+        self.load_ordering = list(
+            reversed(
+                _block_shuffle(list(range(start, end)), self.preload_size)
+            )
+        )
+
+        return self
 
 local_rank = None
 
@@ -113,6 +249,8 @@ class DataArguments:
     image_grid_pinpoints: Optional[str] = field(default=None)
     input_prompt: Optional[str] = field(default=None)
     refine_prompt: Optional[bool] = field(default=True)
+    inflection_weight_coef: float = field(default=1.9)
+    
 
 @dataclass
 class TrainingArguments(transformers.TrainingArguments):
@@ -1036,14 +1174,15 @@ class DataCollatorForSupervisedDataset(object):
 
 # TODO: wmq. modify airvln.
 def make_supervised_data_module(tokenizer: transformers.PreTrainedTokenizer,
-                                data_args) -> Dict:
+                                data_args, training_args) -> Dict:
     """Make dataset and collator for supervised fine-tuning."""
     train_dataset = IWTrajectoryDataset(
-                data_args.data_path,
+                data_path = data_args.data_path,
+                dataset_path = data_args.dataset_path,
                 use_iw=True,
-                inflection_weight_coef=float(args.inflection_weight_coef),
+                inflection_weight_coef=float(data_args.inflection_weight_coef),
                 lmdb_map_size=5.0e12,
-                batch_size=data_args.batchSize,
+                batch_size=training_args.per_device_train_batch_size,
             )
     # data_collator = collate_fn, tokenizer, chat_template, preprocess_multimodal, preprocess
     return dict(train_dataset=train_dataset,
@@ -1097,6 +1236,10 @@ def train():
     elif "Qwen" in model_args.model_name_or_path:
         ModelClass = LlavaQwenAttForCausalLM
         config._attn_implementation = 'eager'
+    elif "llava" in model_args.model_name_or_path:
+        ModelClass = LlavaUAVForCausalLM
+    elif "Qwen2.5-VL" in model_args.model_name_or_path:
+        ModelClass = QwenVLUAVForCausalLM
     else:
         raise ValueError(f"Unknown model type: {model_args.model_name_or_path}")
 
@@ -1239,7 +1382,7 @@ def train():
                         module = module.to(torch.bfloat16)
 
     data_module = make_supervised_data_module(tokenizer=tokenizer,
-                                              data_args=data_args)
+                                              data_args=data_args, training_args=training_args)
     
     if model_args.tune_waypoint_predictor:
         for p in model.waypoint_emb.parameters():

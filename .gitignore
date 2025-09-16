@@ -32,3 +32,4 @@ temp/*
 *.log
 
 tmp/
+*/model_zoo
