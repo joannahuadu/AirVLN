@@ -133,7 +133,7 @@ class LlavaUAVForCausalLM(LlamaForCausalLM, LlavaMetaForCausalLM):
             info = history.view(-1, 3)
             history_embed = self.history_preprocessor(info)
             history_embeds.append(history_embed)
-
+        
         input_ids, position_ids, attention_mask, past_key_values, inputs_embeds, labels = self.prepare_inputs_labels_for_multimodal(input_ids, position_ids, attention_mask, past_key_values, labels, images, image_sizes)
         inputs_embeds = inputs_embeds.to(dtype=self.action_emb.weight.dtype)
         inputs_embeds[labels == WAYPOINT_LABEL_TOKEN] = self.action_emb.weight

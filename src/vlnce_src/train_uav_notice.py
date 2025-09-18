@@ -99,6 +99,7 @@ class ModelArguments:
     mm_projector_type: Optional[str] = field(default='linear')
     mm_use_im_start_end: bool = field(default=False)
     mm_use_im_patch_token: bool = field(default=True)
+    mm_patch_merge_type: Optional[str] = field(default='flat')
     mm_vision_select_feature: Optional[str] = field(default="patch")
     bert_type: Optional[str] = field(default="qformer_pretrain")
     num_query: Optional[int] = field(default=32)
@@ -1125,15 +1126,15 @@ def train():
             scaling_factor = float(math.ceil(training_args.model_max_length / orig_ctx_len))
             config.rope_scaling = {"type": "linear", "factor": scaling_factor}
 
-    if "llama" in model_args.model_name_or_path or 'vicuna' in model_args.model_name_or_path:
+    if "llava" in model_args.model_name_or_path:
+        ModelClass = LlavaUAVForCausalLM
+    elif "Qwen2.5-VL" in model_args.model_name_or_path:
+        ModelClass = QwenVLUAVForCausalLM
+    elif "llama" in model_args.model_name_or_path or 'vicuna' in model_args.model_name_or_path:
         ModelClass = LlavaLlamaAttForCausalLM
     elif "Qwen" in model_args.model_name_or_path:
         ModelClass = LlavaQwenAttForCausalLM
         # config._attn_implementation = 'eager'
-    elif "llava" in model_args.model_name_or_path:
-        ModelClass = LlavaUAVForCausalLM
-    elif "Qwen2.5-VL" in model_args.model_name_or_path:
-        ModelClass = QwenVLUAVForCausalLM
     else:
         raise ValueError(f"Unknown model type: {model_args.model_name_or_path}")
 
@@ -1220,11 +1221,18 @@ def train():
             conversation_lib.default_conversation = conversation_lib.conv_templates["vicuna_v1"]
 
     if model_args.vision_tower is not None:
-        model.get_model().initialize_vision_modules(
-            model_args=model_args,
-            fsdp=training_args.fsdp,
-            max_token=training_args.model_max_length
-        )
+        if not ("llava" in model_args.model_name_or_path or "Qwen2.5-VL" in model_args.model_name_or_path):
+            model.get_model().initialize_vision_modules(
+                model_args=model_args,
+                fsdp=training_args.fsdp,
+                max_token=training_args.model_max_length
+            )
+        else:
+            model.get_model().initialize_vision_modules(
+                model_args=model_args,
+                fsdp=training_args.fsdp
+            )
+            
         
         vision_tower = model.get_vision_tower()
         vision_tower.to(dtype=torch.bfloat16 if training_args.bf16 else torch.float16, device=training_args.device)
