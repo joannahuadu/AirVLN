@@ -38,7 +38,10 @@ from torch.utils.data import Dataset
 from llamavid.train.llava_trainer import LLaVATrainer
 
 from llamavid import conversation as conversation_lib
-from llamavid.model import *
+# from llamavid.model import *
+import sys
+sys.path.append(os.getcwd())
+from Model import *
 from llava.mm_utils import tokenizer_image_token
 
 from PIL import Image
@@ -47,142 +50,13 @@ from decord import VideoReader, cpu
 
 
 import lmdb
-
-class IWTrajectoryDataset(torch.utils.data.IterableDataset):
-    def __init__(
-        self,
-        data_path,
-        dataset_path,
-        use_iw=True,
-        inflection_weight_coef=1.0,
-        lmdb_map_size=5.0e12,
-        batch_size=1,
-    ):
-        super().__init__()
-        list_data_dict = json.load(open(data_path, "r"))
-        self.list_data_dict = list_data_dict
-        self.lmdb_features_dir = dataset_path
-        self.lmdb_map_size = lmdb_map_size
-        self.preload_size = batch_size * 100
-        self._preload = []
-        self.batch_size = batch_size
-
-        self.keys = []
-        self.seed = 1
-
-        if use_iw:
-            self.inflec_weights = torch.tensor([1.0, inflection_weight_coef])
-        else:
-            self.inflec_weights = torch.tensor([1.0, 1.0])
-
-        with lmdb.open(
-            self.lmdb_features_dir,
-            map_size=int(self.lmdb_map_size),
-            readonly=True,
-            lock=False,
-            readahead=False,
-        ) as lmdb_env, tqdm.tqdm(
-            total=int(lmdb_env.stat()["entries"]), dynamic_ncols=True
-        ) as pbar, lmdb_env.begin() as txn:
-            for key in txn.cursor().iternext(keys=True, values=False):
-                pbar.update()
-                self.keys.append(key.decode())
-
-        self.length = len(self.keys)
-
-        self.iter_start = 0
-        self.iter_end = self.length
-        logger.warning("END init Dataset \t start({}) - end({})".format(self.iter_start, self.iter_end))
-
-    def _load_next(self):
-        if len(self._preload) == 0:
-            if len(self.load_ordering) == 0:
-                raise StopIteration
-
-            new_preload = []
-            lengths = []
-            with lmdb.open(
-                self.lmdb_features_dir,
-                map_size=int(self.lmdb_map_size),
-                readonly=True,
-                # lock=False,
-                lock=True, readahead=False
-            ) as lmdb_env, lmdb_env.begin(buffers=True) as txn:
-                for i in range(self.preload_size):
-                    if len(self.load_ordering) == 0:
-                        break
-
-                    if (i+1) % 10 == 0:
-                        if self.worker_info is not None:
-                            logger.info("{} lmdb load: {} / {}".format(self.worker_info.id, i+1, self.preload_size))
-                        else:
-                            logger.info("{} lmdb load: {} / {}".format(0, i+1, self.preload_size))
-
-                    new_preload.append(
-                        msgpack_numpy.unpackb(
-                            txn.get(str(self.keys[self.load_ordering.pop()]).encode()),
-                            raw=False,
-                        )
-                    )
-
-                    lengths.append(len(new_preload[-1][0]))
-
-            sort_priority = list(range(len(lengths)))
-            random.shuffle(sort_priority)
-
-            sorted_ordering = list(range(len(lengths)))
-            sorted_ordering.sort(key=lambda k: (lengths[k], sort_priority[k]))
-
-            for idx in _block_shuffle(sorted_ordering, self.batch_size):
-                self._preload.append(new_preload[idx])
-
-            del new_preload, lengths
-
-        return self._preload.pop()
-
-    def __next__(self):
-        obs, prev_actions, oracle_actions = self._load_next()
-
-        for k, v in obs.items():
-            obs[k] = torch.from_numpy(np.copy(v))
-
-        prev_actions = torch.from_numpy(np.copy(prev_actions))
-        oracle_actions = torch.from_numpy(np.copy(oracle_actions))
-
-        inflections = torch.cat(
-            [
-                torch.tensor([1], dtype=torch.long),
-                (oracle_actions[1:] != oracle_actions[:-1]).long(),
-            ]
-        )
-
-        return (
-            obs,
-            prev_actions,
-            oracle_actions,
-            self.inflec_weights[inflections],
-        )
-
-    def __iter__(self):
-        worker_info = torch.utils.data.get_worker_info()
-        self.worker_info = worker_info
-        if worker_info is None:
-            start = 0
-            end = self.length
-        else:
-            per_worker = int(np.ceil(self.length / worker_info.num_workers))
-
-            start = per_worker * worker_info.id
-            end = min(start + per_worker, self.length)
-
-        # Reverse so we can use .pop()
-        self.load_ordering = list(
-            reversed(
-                _block_shuffle(list(range(start, end)), self.preload_size)
-            )
-        )
-
-        return self
+import tqdm
+import msgpack_numpy
+from transformers.utils import logging
+from transformers import AutoProcessor
+import torch.nn.functional as F
+logging.set_verbosity_info()
+logger = logging.get_logger(__name__)
 
 local_rank = None
 
@@ -287,7 +161,254 @@ class TrainingArguments(transformers.TrainingArguments):
     group_by_modality_length: bool = field(default=False)
     lr_multi: Optional[str] = field(default=None)
 
+def _block_shuffle(lst, block_size):
+    blocks = [lst[i : i + block_size] for i in range(0, len(lst), block_size)]
+    random.shuffle(blocks)
 
+    return [ele for block in blocks for ele in block]
+
+class IWTrajectoryDataset(torch.utils.data.IterableDataset):
+    def __init__(
+        self,
+        data_args: DataArguments,
+        tokenizer: transformers.PreTrainedTokenizer,
+        use_iw=True,
+        inflection_weight_coef=1.0,
+        lmdb_map_size=5.0e12,
+        batch_size=1,
+    ):
+        super().__init__()
+        list_data_dict = json.load(open(data_args.data_path, "r"))
+
+        self.list_data_dict = list_data_dict
+        self.tokenizer = tokenizer
+        self.lmdb_features_dir = data_args.dataset_path
+        self.lmdb_map_size = lmdb_map_size
+        self.preload_size = batch_size * 100
+        self._preload = []
+        self.batch_size = batch_size
+
+        self.keys = []
+        self.seed = 1
+
+        if use_iw:
+            self.inflec_weights = torch.tensor([1.0, inflection_weight_coef])
+        else:
+            self.inflec_weights = torch.tensor([1.0, 1.0])
+
+        with lmdb.open(
+            self.lmdb_features_dir,
+            map_size=int(self.lmdb_map_size),
+            readonly=True,
+            lock=False,
+            readahead=False,
+        ) as lmdb_env, tqdm.tqdm(
+            total=int(lmdb_env.stat()["entries"]), dynamic_ncols=True
+        ) as pbar, lmdb_env.begin() as txn:
+            for key in txn.cursor().iternext(keys=True, values=False):
+                pbar.update()
+                self.keys.append(key.decode())
+
+        self.length = len(self.keys)
+
+        self.iter_start = 0
+        self.iter_end = self.length
+        self.processor = data_args.image_processor
+        self.data_args = data_args
+        logger.warning("END init Dataset \t start({}) - end({})".format(self.iter_start, self.iter_end))
+    
+    def __len__(self):
+        return sum(len(item['reference_path']) for item in self.list_data_dict['episodes'])
+    
+    def _load_next(self):
+        if len(self._preload) == 0:
+            if len(self.load_ordering) == 0:
+                raise StopIteration
+
+            new_preload = []
+            sources = []
+            source_preload = [] 
+            lengths = 0
+            with lmdb.open(
+                self.lmdb_features_dir,
+                map_size=int(self.lmdb_map_size),
+                readonly=True,
+                lock=True, 
+                readahead=False
+            ) as lmdb_env, lmdb_env.begin(buffers=True) as txn:
+                for i in range(self.preload_size):
+                    if len(self.load_ordering) == 0:
+                        break
+
+                    if (i+1) % 10 == 0:
+                        if self.worker_info is not None:
+                            logger.info("{} lmdb load: {} / {}".format(self.worker_info.id, i+1, self.preload_size))
+                        else:
+                            logger.info("{} lmdb load: {} / {}".format(0, i+1, self.preload_size))
+                    episode_id = self.keys[self.load_ordering[-1]]
+                    new_preload.append(
+                        msgpack_numpy.unpackb(
+                            txn.get(str(self.keys[self.load_ordering.pop()]).encode()),
+                            raw=False,
+                        )
+                    )
+                    sources.append(next(item for item in self.list_data_dict['episodes'] if item['episode_id'] == episode_id))
+                
+            for source, new in zip(sources, new_preload):
+                for frame in range(len(source['reference_path'])):
+                    src = {}
+                    src['episode_id'] = source['episode_id']
+                    src['rgb'] = new[0]['rgb'][frame]
+                    src['depth'] = new[0]['depth'][frame]
+                    src['conversations'] = source['instruction']['instruction_text']
+                    assert len(source['actions']) == len(source['reference_path'])
+                    assert np.all(source['actions'] == new[2])
+                    src['length'] = len(source['reference_path'])
+                    src['actions'] = source['actions']
+                    src['reference_path'] = source['reference_path']
+                    src['frame'] = frame
+                    
+                    source_preload.append(src)
+                
+                    lengths+=1
+
+            for idx in _block_shuffle(list(range(0, lengths)), self.batch_size):
+                self._preload.append(source_preload[idx])
+
+            del sources, new_preload, source_preload
+
+        return self._preload.pop()
+
+    def get_stage(self, trajectory, frame_num):
+        def turning_stage(p0,p1,p2):
+            prev_vec = p1 - p0
+            now_vec = p2 - p1
+            delta_angle = np.arccos(np.dot(prev_vec, now_vec) / (np.linalg.norm(prev_vec)+ 1e-6) / (np.linalg.norm(now_vec)+ 1e-6)) * 180 / np.pi
+            if delta_angle > 25 and delta_angle < 120:
+                if int(np.cross(prev_vec, now_vec)) > 0:
+                    return 'right'
+                else:
+                    return 'left'
+            return 'cruise'
+        assist = 0
+        trajectory = np.asarray(trajectory)
+        z_values = trajectory[:, 2]
+        now_z = z_values[frame_num - 1]
+        future_z = z_values[min(frame_num+2, len(z_values)-1)]
+        stage = 'cruise'
+        if now_z - future_z > 5:
+            stage = 'take off'
+        elif now_z - future_z < -5:
+            stage = 'landing'
+        prev_vec = np.array([0,0,0])
+        if frame_num >= 2 and frame_num < len(trajectory):
+            prev_vec =  np.array(trajectory[frame_num - 1, :3] - trajectory[frame_num - 2, :3])
+            if stage == 'cruise':
+                stage = turning_stage(trajectory[frame_num - 2 ,:2], trajectory[frame_num - 1, :2], trajectory[frame_num, :2])
+        if frame_num >= 1 and frame_num < len(trajectory) - 1:
+            future_p = trajectory[frame_num + 1, :2]
+            next_p = trajectory[frame_num, :2]
+            next_stage = turning_stage(trajectory[frame_num-1, :2], next_p, future_p)
+            future_z = z_values[min(frame_num+3, len(z_values)-1)]
+            if trajectory[frame_num, 2] - future_z < -5:
+                next_stage = 'landing'
+            if next_stage == 'left' or next_stage == 'right' or next_stage == 'landing':
+                assist = 1
+        return stage, prev_vec, assist
+
+    def __next__(self):
+        sources = self._load_next()
+        ori_sources = copy.deepcopy(sources)
+        frame_num = sources['frame']
+        image = sources['rgb']
+        ori_image = Image.fromarray(image)
+        image = self.processor.preprocess(image, return_tensors='pt')['pixel_values'][0]
+        stage, future_delta, assist = self.get_stage(sources['reference_path'], frame_num)
+        cur_pos = sources['reference_path'][frame_num - 1][:3]
+        x, y = ori_sources['reference_path'][-1][0], ori_sources['reference_path'][-1][1]
+        rotation_matrix = rotation_matrix_from_vector(x, y)
+        future_delta =  transform_point(future_delta, rotation_matrix)
+        future_delta = future_delta / (np.linalg.norm(future_delta) + 1e-8)
+        future_delta_str = ','.join([str(round(x, 1)) for x in future_delta])
+        
+        cur_pos = transform_point(cur_pos, rotation_matrix)
+        cur_pos_str = ','.join([str(round(x, 1)) for x in cur_pos])
+
+        
+        sources = preprocess_multimodal(copy.deepcopy([e["conversations"] for e in [sources]]),
+            self.data_args, stage=stage, delta = future_delta_str, cur = cur_pos_str)
+        
+        has_image = (image is not None)
+        data_dict = preprocess(
+            sources,
+            ori_image,
+            self.tokenizer,
+            has_image=has_image,
+            prompt=self.data_args.input_prompt,
+            refine_prompt=self.data_args.refine_prompt)
+        
+        if 'prompt' in data_dict:
+            prompt = data_dict['prompt']
+        else:
+            prompt = None
+
+        data_dict = dict(input_ids=data_dict["input_ids"][0],
+                            labels=data_dict["labels"][0])
+            
+        data_dict['image'] = image
+        trajectory_data = np.array(ori_sources['reference_path'])
+        history_waypoint = trajectory_data[0:frame_num, 0:3]
+        waypoint = trajectory_data[frame_num:min(ori_sources['length'], frame_num + 7), 0:3]
+        if len(waypoint) == 0:
+            waypoint = np.array([history_waypoint[-1] for i in range(7)])
+        elif len(waypoint) < 7:
+            waypoint = np.array([waypoint[i] if i < len(waypoint) else waypoint[-1] for i in range(7)])
+
+        waypoint = waypoint - history_waypoint[-1]
+        x, y = ori_sources['reference_path'][-1][0], ori_sources['reference_path'][-1][1]
+        rotation_matrix = rotation_matrix_from_vector(x, y)
+        history_waypoint = transform_point(history_waypoint, rotation_matrix)
+        waypoint = transform_point(waypoint, rotation_matrix)
+        
+        use_angle = True
+        if use_angle:
+            waypoint = waypoint2angle(waypoint)
+        
+        data_dict['history_waypoint'] = torch.tensor(history_waypoint).view(-1)
+        data_dict['waypoint'] = torch.tensor(waypoint[0]).view(-1)
+        orientation = trajectory_data[frame_num-1, 3:6]
+        data_dict['orientation'] = torch.tensor(orientation).view(-1)
+        data_dict['is_help'] = torch.tensor(assist).view(-1)
+        data_dict['action'] = torch.tensor(ori_sources['actions'][frame_num]).view(-1)
+        ## TODO: wmq. depth?
+        
+        # prompt exist in the data
+        if prompt is not None:
+            data_dict['prompt'] = prompt
+        
+        return data_dict
+
+    def __iter__(self):
+        worker_info = torch.utils.data.get_worker_info()
+        self.worker_info = worker_info
+        if worker_info is None:
+            start = 0
+            end = self.length
+        else:
+            per_worker = int(np.ceil(self.length / worker_info.num_workers))
+
+            start = per_worker * worker_info.id
+            end = min(start + per_worker, self.length)
+
+        # Reverse so we can use .pop()
+        self.load_ordering = list(
+            reversed(
+                _block_shuffle(list(range(start, end)), self.preload_size)
+            )
+        )
+
+        return self
+    
 def maybe_zero_3(param, ignore_status=False, name=None):
     from deepspeed import zero
     from deepspeed.runtime.zero.partition_parameters import ZeroParamStatus
@@ -345,8 +466,8 @@ def find_all_linear_names(model):
     cls = torch.nn.Linear
     lora_module_names = set()
     # multimodal_keywords = ['mm_projector', 'vision_tower', 'vision_resampler', 'vlm_att']
-    multimodal_keywords = ['mm_projector', 'vision_tower', 'vision_resampler', 'vlm_att', 'waypoint_emb', 'waypoints_fc', 'waypoints_predictor',
-                         'waypoints_output', 'history_predictor', 'history_preprocessor', 'is_help_predictor'] # end_predictor
+    multimodal_keywords = ['mm_projector', 'vision_tower', 'vision_resampler', 'vlm_att', 'action_emb', 'actions_fc', 'actions_predictor',
+                         'actions_output', 'history_predictor', 'history_preprocessor', 'is_help_predictor'] # end_predictor
     
     for name, module in model.named_modules():
         if any(mm_keyword in name for mm_keyword in multimodal_keywords):
@@ -367,8 +488,8 @@ def safe_save_model_for_hf_trainer(trainer: transformers.Trainer,
     if getattr(trainer.args, "tune_mm_mlp_adapter", False):
         # Only save Adapter
         # keys_to_match = ['mm_projector']
-        keys_to_match = ['mm_projector', 'vision_resampler', 'vlm_att', 'waypoint_emb', 'waypoints_fc', 'waypoints_predictor',
-                         'waypoints_output', 'history_predictor', 'history_preprocessor', 'is_help_predictor', 'embed_tokens'] # 'end_predictor',
+        keys_to_match = ['mm_projector', 'vision_resampler', 'vlm_att', 'action_emb', 'actions_fc', 'actions_predictor',
+                         'actions_output', 'history_predictor', 'history_preprocessor', 'is_help_predictor', 'embed_tokens'] # 'end_predictor',
         if getattr(trainer.args, "use_im_start_end", False):
             keys_to_match.extend(['embed_tokens', 'embed_in'])
 
@@ -523,20 +644,25 @@ def preprocess_multimodal(
     if not is_multimodal:
         return sources
 
-    for source in sources:
-        for sentence in source:
-            if DEFAULT_IMAGE_TOKEN in sentence['value']:
-                sentence['value'] = sentence['value'].replace(DEFAULT_IMAGE_TOKEN, '').strip()
-                sentence['prompt'] = copy.deepcopy(sentence['value'])
-                sentence['value'] = '\n\nStage:' + stage + '\n\nPrevious displacement:' + delta  + '\n\nCurrent position:' + cur + '\n\nCurrent image:' + DEFAULT_IMAGE_TOKEN + '\n\nInstruction:' + sentence['value']
-                sentence['value'] = sentence['value'].strip()
-                if "mmtag" in conversation_lib.default_conversation.version:
-                    sentence['value'] = sentence['value'].replace(DEFAULT_IMAGE_TOKEN, '<Image>' + DEFAULT_IMAGE_TOKEN + '</Image>')
-            replace_token = DEFAULT_IMAGE_TOKEN
-            if data_args.mm_use_im_start_end:
-                replace_token = DEFAULT_IM_START_TOKEN + replace_token + DEFAULT_IM_END_TOKEN
-            sentence["value"] = sentence["value"].replace(DEFAULT_IMAGE_TOKEN, replace_token)
-
+    if conversation_lib.default_conversation.version.startswith("imgsp_uav"):
+        for i, source in enumerate(sources):
+            sources[i] = [{'from': 'human', 'value': '<image>\n'+ source}, {'from': 'gpt', 'value': ''}]
+            for sentence in sources[i]:
+                if DEFAULT_IMAGE_TOKEN in sentence['value']:
+                    sentence['value'] = sentence['value'].replace(DEFAULT_IMAGE_TOKEN, '').strip()
+                    sentence['prompt'] = copy.deepcopy(sentence['value'])
+                    sentence['value'] = '\n\nStage:' + stage + '\n\nPrevious displacement:' + delta  + '\n\nCurrent position:' + cur + '\n\nCurrent image:' + DEFAULT_IMAGE_TOKEN + '\n\nInstruction:' + sentence['value']
+                    sentence['value'] = sentence['value'].strip()
+                    if "mmtag" in conversation_lib.default_conversation.version:
+                        sentence['value'] = sentence['value'].replace(DEFAULT_IMAGE_TOKEN, '<Image>' + DEFAULT_IMAGE_TOKEN + '</Image>')
+                replace_token = DEFAULT_IMAGE_TOKEN
+                if data_args.mm_use_im_start_end:
+                    replace_token = DEFAULT_IM_START_TOKEN + replace_token + DEFAULT_IM_END_TOKEN
+                sentence["value"] = sentence["value"].replace(DEFAULT_IMAGE_TOKEN, replace_token)
+    elif conversation_lib.default_conversation.version.startswith("imgsp_qwen"):
+        for i, sentence in enumerate(sources):
+            sources[i] = '\n\nStage:' + stage + '\n\nPrevious displacement:' + delta  + '\n\nCurrent position:' + cur + '\n\nInstruction:' + sentence
+    
     return sources
 
 
@@ -660,7 +786,7 @@ def preprocess_imgsp_v1(
         if cur_len < tokenizer.model_max_length:
             if cur_len != total_len:
                 target[:] = IGNORE_INDEX
-                print(
+                logger.warning(
                     f"WARNING: tokenization mismatch: {cur_len} vs. {total_len}."
                     f" (ignored)"
                 )
@@ -671,6 +797,56 @@ def preprocess_imgsp_v1(
         prompt=guided_prompt,
     )
 
+
+def preprocess_imgsp_qwen(
+    sources,
+    tokenizer: transformers.PreTrainedTokenizer,
+    has_image: Image.Image,
+    img_token: str = '<image>',
+    refine_prompt: bool = False,
+) -> Dict:
+    processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-7B-Instruct")
+    system_message = {
+        "role": "system",
+        "content": [
+            {"type": "text", "text": "The assistant is a navigation model that output the uav waypoints according to the user's instructions."}
+        ]
+    }
+    text = []
+    for i, sentence in enumerate(sources):
+        messages = [
+            system_message, 
+            {
+                "role": "user",
+                "content": [
+                    {"type": "image"},
+                    {"type": "text", "text": sentence},
+                ],
+            },
+        ]
+        text.append(processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True))
+    
+    input = processor(text=text, images=has_image)
+    input_ids = input.input_ids
+    input_ids_pad_wp = torch.zeros(input_ids.shape[0], input_ids.shape[1] + 1, dtype=torch.long)
+    input_ids_pad_wp[:, :-2] = input_ids[:, :-1]
+    input_ids_pad_wp[:, -2] = WAYPOINT_INPUT_TOKEN
+    input_ids_pad_wp[:, -1] = input_ids[:, -1]
+    input.input_ids = input_ids_pad_wp
+    
+    targets = input_ids.clone()
+    targets[:, :] = IGNORE_INDEX
+
+    targets_pad_wp = torch.zeros(targets.shape[0], targets.shape[1] + 1, dtype=torch.long)
+    targets_pad_wp[:, :-2] = targets[:, :-1]
+    targets_pad_wp[:, -2] = WAYPOINT_LABEL_TOKEN
+    targets_pad_wp[:, -1] = targets[:, -1]
+
+    return dict(
+        **input,
+        labels=targets_pad_wp,
+        prompt=sources, #list len=1
+    )
 
 def preprocess_imgsp_uav(
     sources,
@@ -789,6 +965,7 @@ def preprocess_imgsp_uav(
 
 def preprocess(
     sources: Sequence[str],
+    images: Image.Image,
     tokenizer: transformers.PreTrainedTokenizer,
     has_image: bool = False,
     prompt: str = None,
@@ -803,6 +980,8 @@ def preprocess(
     """
     if conversation_lib.default_conversation.version.startswith("imgsp_uav"):
         return preprocess_imgsp_uav(sources, tokenizer, has_image=has_image, refine_prompt=refine_prompt)
+    elif conversation_lib.default_conversation.version.startswith("imgsp_qwen"):
+        return preprocess_imgsp_qwen(sources, tokenizer, has_image=images, refine_prompt=refine_prompt)
     elif conversation_lib.default_conversation.version.startswith("imgsp"):
         return preprocess_imgsp_v1(sources, tokenizer, has_image=has_image, refine_prompt=refine_prompt)
     # add end signal and concatenate together
@@ -832,298 +1011,6 @@ def preprocess(
 
     return dict(input_ids=input_ids, labels=targets)
 
-
-class LazySupervisedDataset(Dataset):
-    """Dataset for supervised fine-tuning."""
-    RGB_FOLDER = ['frontcamera', 'leftcamera', 'rightcamera', 'rearcamera', 'downcamera']
-    
-    def __init__(self, data_path: str,
-                 tokenizer: transformers.PreTrainedTokenizer,
-                 data_args: DataArguments):
-        super(LazySupervisedDataset, self).__init__()
-        list_data_dict = json.load(open(data_path, "r"))
-
-        self.dataset_path = data_args.dataset_path
-        rank0_print("Formatting inputs...Skip in lazy mode")
-        self.tokenizer = tokenizer
-        self.list_data_dict = list_data_dict
-        random.shuffle(self.list_data_dict)
-        self.data_args = data_args
-
-    def __len__(self):
-        return len(self.list_data_dict)
-
-    @property
-    def lengths(self):
-        length_list = []
-        for sample in self.list_data_dict:
-            img_tokens = 128 if 'image' in sample else 0
-            length_list.append(sum(len(conv['value'].split()) for conv in sample['conversations']) + img_tokens)
-        return length_list
-
-    @property
-    def modality_lengths(self):
-        length_list = []
-        for sample in self.list_data_dict:
-            cur_len = sum(len(conv['value'].split()) for conv in sample['conversations'])
-            cur_len = cur_len if ('image' in sample) or ('video' in sample) else -cur_len
-            length_list.append(cur_len)
-        return length_list
-    
-    def find_cruise_height_idx(self, trajectory):
-        z_values = np.asarray(trajectory)[:, 2]
-        z_diffs = np.diff(z_values)
-        threshold = 0.1
-        small_diff_indices = np.where(np.abs(z_diffs) < threshold)[0]
-        if len(small_diff_indices) == 0:
-            
-            cruise_height_idx = 0
-            land_idx = len(z_diffs)
-        else:
-            cruise_height_idx = small_diff_indices[0]
-            land_idx = small_diff_indices[-1] + 1
-            if land_idx == len(z_diffs):
-                land_idx = small_diff_indices[-2] + 1
-        return cruise_height_idx, land_idx
-    
-    def get_stage(self, trajectory, frame_num):
-        def turning_stage(p0,p1,p2):
-            prev_vec = p1 - p0
-            now_vec = p2 - p1
-            delta_angle = np.arccos(np.dot(prev_vec, now_vec) / (np.linalg.norm(prev_vec)+ 1e-6) / (np.linalg.norm(now_vec)+ 1e-6)) * 180 / np.pi
-            if delta_angle > 25 and delta_angle < 120:
-                if int(np.cross(prev_vec, now_vec)) > 0:
-                    return 'right'
-                else:
-                    return 'left'
-            return 'cruise'
-        assist = 0
-        trajectory = np.asarray(trajectory)
-        z_values = trajectory[:, 2]
-        now_z = z_values[frame_num - 1]
-        future_z = z_values[min(frame_num+2, len(z_values)-1)]
-        stage = 'cruise'
-        if now_z - future_z > 5:
-            stage = 'take off'
-        elif now_z - future_z < -5:
-            stage = 'landing'
-        prev_vec = np.array([0,0,0])
-        if frame_num >= 2 and frame_num < len(trajectory):
-            prev_vec =  np.array(trajectory[frame_num - 1, :3] - trajectory[frame_num - 2, :3])
-            if stage == 'cruise':
-                stage = turning_stage(trajectory[frame_num - 2 ,:2], trajectory[frame_num - 1, :2], trajectory[frame_num, :2])
-        if frame_num >= 1 and frame_num < len(trajectory) - 1:
-            future_p = trajectory[frame_num + 1, :2]
-            next_p = trajectory[frame_num, :2]
-            next_stage = turning_stage(trajectory[frame_num-1, :2], next_p, future_p)
-            future_z = z_values[min(frame_num+3, len(z_values)-1)]
-            if trajectory[frame_num, 2] - future_z < -5:
-                next_stage = 'landing'
-            if next_stage == 'left' or next_stage == 'right' or next_stage == 'landing':
-                assist = 1
-        return stage, prev_vec, assist
-        
-    def __getitem__(self, i) -> Dict[str, torch.Tensor]:
-        attempt, max_attempt = 0, 15
-        ori_sources = None
-        suffix = None
-        while attempt < max_attempt:
-            infos = self.list_data_dict[i]
-            traj_dir = os.path.join(self.dataset_path, *infos['json'].split('/')[:-1])
-            json_path = os.path.join(self.dataset_path, infos['json'])
-            frame_num = infos['frame']
-            break
-            
-        with open(json_path, 'r') as f:
-            sources = json.load(f)
-
-        if isinstance(i, int):
-            sources = [sources]
-        ori_sources = copy.deepcopy(sources)
-            
-        assert len(sources) == 1, "Don't know why it is wrapped to a list"  # FIXME
-        
-        stage = ''
-        
-        if 'image_feature_path' in sources[0]:
-            """
-            ### direct feature load
-            # image_feature_path = sources[0]['image_feature_path']
-            # t1 = time.time()
-            # image_feature = np.load(image_feature_path)[:frame_num]
-            # t2 = time.time()       
-            # print(f"Load image feature time: {t2-t1}")
-            # fr, ca, tok, dim = image_feature.shape
-            # image = torch.from_numpy(image_feature).view(fr * ca, tok, dim)
-            # rgb image load      
-            """
-            images_npy_path = os.path.join(traj_dir, 'rgb_imgs.tensor')
-            image = torch.load(images_npy_path)[(frame_num-1)*5:frame_num*5]
-            stage, future_delta, assist = self.get_stage(sources[0]['trajectory'], frame_num)
-
-            cur_pos = sources[0]['trajectory'][frame_num - 1][:3]
-            x, y = ori_sources[0]['trajectory'][-1][0], ori_sources[0]['trajectory'][-1][1]
-            rotation_matrix = rotation_matrix_from_vector(x, y)
-            future_delta =  transform_point(future_delta, rotation_matrix)
-            future_delta = future_delta / (np.linalg.norm(future_delta) + 1e-8)
-            future_delta_str = ','.join([str(round(x, 1)) for x in future_delta])
-            
-            cur_pos = transform_point(cur_pos, rotation_matrix)
-            cur_pos_str = ','.join([str(round(x, 1)) for x in cur_pos])
-            
-            """
-            ### direct img load
-            # processor = self.data_args.image_processor
-            # index_list = sources[0]['index']
-            # history_images = [] # his_fr * camera
-            # for this_frame_idx in range(frame_num):
-            #     real_index = index_list[this_frame_idx]
-            #     rgb_paths = [os.path.join(traj_dir, name, str(real_index).zfill(6) + '.png') for name in self.__class__.RGB_FOLDER]
-            #     this_images = [np.asarray(Image.open(img_file).convert('RGB')) for img_file in rgb_paths]
-            #     history_images.extend(this_images)
-            # history_images = np.asarray(history_images)
-            # t3 = time.time()
-            # image = processor.preprocess(history_images, return_tensors='pt')['pixel_values']
-            # print(f"Load image time/frames: {t2-t1} / {frame_num}")
-            """
-            sources = preprocess_multimodal(copy.deepcopy([e["conversations"] for e in sources]),
-                    self.data_args, stage=stage, delta = future_delta_str, cur = cur_pos_str)
-
-        elif 'image' in sources[0]:
-            image_file = self.list_data_dict[i]['image']
-            image_folder = self.data_args.image_folder
-            processor = self.data_args.image_processor
-            
-            # convert image type for OCR VQA dataset
-            if image_file is not None:
-                if 'ocr' in image_file:
-                    if not os.path.exists(os.path.join(image_folder, image_file)):
-                        image_file = image_file.replace(".jpg", ".png")
-                # convert image for VG dataset
-                elif 'VG_100K' in image_file:
-                    image_file = image_file.replace('VG_100K_2', 'images')
-                    image_file = image_file.replace('VG_100K', 'images')
-            
-            image = Image.open(os.path.join(image_folder, image_file)).convert('RGB')
-            if self.data_args.image_aspect_ratio == 'pad':
-                def expand2square(pil_img, background_color):
-                    width, height = pil_img.size
-                    if width == height:
-                        return pil_img
-                    elif width > height:
-                        result = Image.new(pil_img.mode, (width, width), background_color)
-                        result.paste(pil_img, (0, (width - height) // 2))
-                        return result
-                    else:
-                        result = Image.new(pil_img.mode, (height, height), background_color)
-                        result.paste(pil_img, ((height - width) // 2, 0))
-                        return result
-                image = expand2square(image, tuple(int(x*255) for x in processor.image_mean))
-                image = processor.preprocess(image, return_tensors='pt')['pixel_values'][0]
-            else:
-                image = processor.preprocess(image, return_tensors='pt')['pixel_values'][0]
-            sources = preprocess_multimodal(
-                copy.deepcopy([e["conversations"] for e in sources]),
-                self.data_args)
-        elif 'video' in sources[0]:
-            video_file = self.list_data_dict[i]['video']
-            
-            video_start_idx = self.list_data_dict[i].get('start_idx', 0)
-            video_end_idx = self.list_data_dict[i].get('end_idx', -1)
-            
-            video_folder = self.data_args.video_folder
-            video_file = os.path.join(video_folder, video_file)
-            suffix = video_file.split('.')[-1]
-            if not os.path.exists(video_file):
-                print('File {} not exist!'.format(video_file))
-            
-            if suffix == 'pkl':
-                video_info = pickle.load(open(video_file, 'rb'))
-                image = torch.from_numpy(video_info['feats'][:, 1:])
-                input_prompt = video_info['inputs'].replace('...', '')
-                # replace the default image token with multiple tokens
-                input_prompt = input_prompt.replace(DEFAULT_IMAGE_TOKEN, 
-                                                    DEFAULT_IMAGE_TOKEN * self.data_args.video_token)
-                sources, query_prompt = preprocess_multimodal_movie(
-                    copy.deepcopy([e["conversations"] for e in sources]),
-                    self.data_args, input_prompt)
-            else:
-                vr = VideoReader(video_file, ctx=cpu(0))
-                sample_fps = round(vr.get_avg_fps()/self.data_args.video_fps)
-                video_end_idx = len(vr) if video_end_idx == -1 else video_end_idx
-                frame_idx = [i for i in range(video_start_idx, video_end_idx, sample_fps)]
-                video = vr.get_batch(frame_idx).asnumpy()
-                processor = self.data_args.image_processor
-                image = processor.preprocess(video, return_tensors='pt')['pixel_values']
-                sources = preprocess_multimodal(
-                    copy.deepcopy([e["conversations"] for e in sources]),
-                    self.data_args)
-        else:
-            sources = copy.deepcopy([e["conversations"] for e in sources])
-                
-        has_image = (image is not None)
-        data_dict = preprocess(
-            sources,
-            self.tokenizer,
-            has_image=has_image,
-            prompt=self.data_args.input_prompt,
-            refine_prompt=self.data_args.refine_prompt)
-        
-        if 'prompt' in data_dict:
-            prompt = data_dict['prompt']
-        else:
-            prompt = None
-        
-        if suffix == 'pkl':
-            prompt = [query_prompt]
-
-        if isinstance(i, int):
-            data_dict = dict(input_ids=data_dict["input_ids"][0],
-                             labels=data_dict["labels"][0])
-
-        if 'image_feature_path' in ori_sources[0]:
-            data_dict['image'] = image
-            trajectory_data = np.array(ori_sources[0]['trajectory'])
-            history_waypoint = trajectory_data[0:frame_num, 0:3]
-            waypoint = trajectory_data[frame_num:min(ori_sources[0]['length'], frame_num + 7), 0:3]
-            if len(waypoint) == 0:
-                waypoint = np.array([history_waypoint[-1] for i in range(7)])
-            elif len(waypoint) < 7:
-                waypoint = np.array([waypoint[i] if i < len(waypoint) else waypoint[-1] for i in range(7)])
-
-            waypoint = waypoint - history_waypoint[-1]
-            x, y = ori_sources[0]['trajectory'][-1][0], ori_sources[0]['trajectory'][-1][1]
-            rotation_matrix = rotation_matrix_from_vector(x, y)
-            history_waypoint = transform_point(history_waypoint, rotation_matrix)
-            waypoint = transform_point(waypoint, rotation_matrix)
-            
-            use_angle = True
-            if use_angle:
-                waypoint = waypoint2angle(waypoint)
-            
-            data_dict['history_waypoint'] = torch.tensor(history_waypoint).view(-1)
-            data_dict['waypoint'] = torch.tensor(waypoint[0]).view(-1)
-            orientation = trajectory_data[frame_num-1, 3:6]
-            data_dict['orientation'] = torch.tensor(orientation).view(-1)
-            data_dict['is_help'] = torch.tensor(assist).view(-1)
-            
-        elif 'start_frame' in ori_sources[0]:
-            data_dict['image'] = image
-            data_dict['history_waypoint'] = torch.tensor(ori_sources[0]['history_waypoints']).view(-1)
-            data_dict['waypoint'] = torch.tensor(ori_sources[0]['future_waypoints']).view(-1)
-            data_dict['end'] = torch.tensor(int(ori_sources[0]['is_end'])).view(-1)
-        elif self.data_args.is_multimodal:
-            # image does not exist in the data, but the model is multimodal
-            crop_size = self.data_args.image_processor.crop_size
-            data_dict['image'] = torch.zeros(3, crop_size['height'], crop_size['width'])
-        
-        # prompt exist in the data
-        if prompt is not None:
-            data_dict['prompt'] = prompt
-        
-        return data_dict
-
-
 @dataclass
 class DataCollatorForSupervisedDataset(object):
     """Collate examples for supervised fine-tuning."""
@@ -1132,6 +1019,7 @@ class DataCollatorForSupervisedDataset(object):
     
 
     def __call__(self, instances: Sequence[Dict]) -> Dict[str, torch.Tensor]:
+        ## TODO: wmq. Qwen?
         input_ids, labels = tuple([instance[key] for instance in instances]
                                   for key in ("input_ids", "labels"))
         input_ids = torch.nn.utils.rnn.pad_sequence(
@@ -1151,40 +1039,46 @@ class DataCollatorForSupervisedDataset(object):
 
         if 'image' in instances[0]:
             images = [instance['image'] for instance in instances]
-            # TODO: maybe all list is a good thing
-            if all(x is not None and x.shape == images[0].shape for x in images) and len(images) > 1 and images[0].shape[-1] < 100:
+            # TODO: maybe all list is a good thing. wmq: No! all list is not a good thing for arivln iterable dataset
+            if all(x is not None and x.shape == images[0].shape for x in images) and len(images) > 1:
                 batch['images'] = torch.stack(images)
             else:
                 batch['images'] = images
 
-        if 'prompt' in instances[0]:
-            batch['prompts'] = [instance['prompt'] for instance in instances]
+        # if 'prompt' in instances[0]:
+            # batch['prompts'] = [instance['prompt'] for instance in instances]
         
         if 'waypoint' in instances[0]:
             batch['waypoints'] = torch.stack([instance['waypoint'] for instance in instances])
             batch['historys'] = [instance['history_waypoint'] for instance in instances]
+            batch['history_lengths'] = torch.tensor([len(his) for his in batch['historys']])
+            max_length = batch['history_lengths'].max()
+            batch['historys'] = torch.stack([
+                F.pad(his, (0, max_length - len(his)), value=0) for his in batch['historys']
+            ])
         
         if 'orientation' in instances[0]:
             batch['orientations'] = torch.stack([instance['orientation'] for instance in instances])
         
         if 'end' in instances[0]:
             batch['ends'] = torch.stack([instance['end'] for instance in instances]).squeeze()
-            
+        
+        if 'action' in instances[0]:
+            batch['actions'] = torch.stack([instance['action'] for instance in instances]).squeeze()
         return batch
 
-# TODO: wmq. modify airvln.
 def make_supervised_data_module(tokenizer: transformers.PreTrainedTokenizer,
                                 data_args, training_args) -> Dict:
     """Make dataset and collator for supervised fine-tuning."""
     train_dataset = IWTrajectoryDataset(
-                data_path = data_args.data_path,
-                dataset_path = data_args.dataset_path,
+                tokenizer=tokenizer,
+                data_args=data_args,
                 use_iw=True,
                 inflection_weight_coef=float(data_args.inflection_weight_coef),
                 lmdb_map_size=5.0e12,
                 batch_size=training_args.per_device_train_batch_size,
             )
-    # data_collator = collate_fn, tokenizer, chat_template, preprocess_multimodal, preprocess
+    data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
     return dict(train_dataset=train_dataset,
                 eval_dataset=None,
                 data_collator=data_collator)
@@ -1274,7 +1168,7 @@ def train():
             r=training_args.lora_r,
             lora_alpha=training_args.lora_alpha,
             target_modules=find_all_linear_names(model),
-            layers_to_transform=[i for i in range(0, 32)], 
+            layers_to_transform=[i for i in range(0, config.num_hidden_layers)], 
             lora_dropout=training_args.lora_dropout,
             bias=training_args.lora_bias,
             task_type="CAUSAL_LM",
@@ -1315,7 +1209,7 @@ def train():
     else:
         if tokenizer.unk_token:
             tokenizer.pad_token = tokenizer.unk_token
-        else: #TODO: NOT SURE!
+        else: #TODO: wmq. NOT SURE!
             tokenizer.unk_token = "<unk>"
             # tokenizer.pad_token = tokenizer.unk_token
             # tokenizer.add_special_tokens({"unk_token": "<unk>"})
@@ -1366,7 +1260,8 @@ def train():
                                 ',': tokenizer.encode(',', add_special_tokens=False)[0], ';': tokenizer.encode(';', add_special_tokens=False)[0]})
 
     # all the attention modules require grad
-    model.get_model().initialize_attention_modules(model_args)
+    if not ("llava" in model_args.model_name_or_path or "Qwen2.5-VL" in model_args.model_name_or_path):
+        model.get_model().initialize_attention_modules(model_args)
     
     if training_args.bits in [4, 8]:
         from peft.tuners.lora import LoraLayer
@@ -1385,11 +1280,11 @@ def train():
                                               data_args=data_args, training_args=training_args)
     
     if model_args.tune_waypoint_predictor:
-        for p in model.waypoint_emb.parameters():
+        for p in model.action_emb.parameters():
             p.requires_grad = True
-        for p in model.waypoints_fc.parameters():
+        for p in model.actions_fc.parameters():
             p.requires_grad = True
-        for p in model.waypoints_output.parameters():
+        for p in model.actions_output.parameters():
             p.requires_grad = True
         for p in model.history_preprocessor.parameters():
             p.requires_grad = True
@@ -1414,7 +1309,7 @@ def train():
     model.config.use_cache = True
 
     if training_args.lora_enable:
-        print("saving model...")
+        logger.info("saving model...")
         state_dict = get_peft_state_maybe_zero_3(
             model.named_parameters(), training_args.lora_bias
         )
@@ -1426,7 +1321,7 @@ def train():
             model.save_pretrained(training_args.output_dir, state_dict=state_dict)
             torch.save(non_lora_state_dict, os.path.join(training_args.output_dir, 'non_lora_trainables.bin'))
             safe_save_model_for_hf_trainer(trainer=trainer, output_dir=training_args.output_dir)
-        print("saved.")
+        logger.info("saved.")
     else:
         safe_save_model_for_hf_trainer(trainer=trainer,
                                        output_dir=training_args.output_dir)

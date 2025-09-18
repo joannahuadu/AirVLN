@@ -33,3 +33,4 @@ temp/*
 
 tmp/
 */model_zoo
+wandb/*
