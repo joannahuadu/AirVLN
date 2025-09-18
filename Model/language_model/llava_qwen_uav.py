@@ -19,8 +19,8 @@ import torch.nn as nn
 from torch.nn import CrossEntropyLoss
 import torch.nn.functional as F
 
-from transformers import AutoConfig, AutoModelForCausalLM
-from llamavid.qwen2 import Qwen2Config, Qwen2Model
+from transformers import AutoConfig, AutoModelForCausalLM, Qwen2Config, Qwen2Model
+# from llamavid.qwen2 import Qwen2Config, Qwen2Model
 
 from llamavid.model.llamavid_arch import LLaMAVIDMetaModel, LLaMAVIDMetaForCausalLM
 from llamavid.model.language_model.qwen_uav import QwenUAVForCausalLM, CausalLMOutputWithPastUAV, CausalLMOutputWithPastUAVMulLoss
