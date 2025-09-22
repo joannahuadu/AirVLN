@@ -27,11 +27,18 @@ from llamavid.constants import WAYPOINT_LABEL_TOKEN
 class QwenConfig(Qwen2_5_VLConfig):
     model_type = "qwenvl_uav"
 
-class QwenVLUAVForCausalLM(Qwen2_5_VLForConditionalGeneration):
+class Qwen2_5_VLUAVForCausalLM(Qwen2_5_VLForConditionalGeneration):
+    _checkpoint_conversion_mapping = {
+        "^visual": "model.visual",
+        r"^model(?!\.(language_model|visual))": "model.language_model",
+    }
+    _tied_weights_keys = ["lm_head.weight"]
     config_class = QwenConfig
     def __init__(self, config, **model_args):
-        super(Qwen2_5_VLForConditionalGeneration, self).__init__(config)
+        super().__init__(config)
         self.use_angle_and_norm_loss = model_args.get('use_angle_and_norm_loss', True)
+        self.vocab_size = config.vocab_size
+        self.lm_head = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
         self.action_emb = nn.Embedding(1, config.hidden_size)
         self.actions_fc = nn.Sequential(
             nn.Linear(config.hidden_size, config.hidden_size // 2),
@@ -175,4 +182,4 @@ class QwenVLUAVForCausalLM(Qwen2_5_VLForConditionalGeneration):
         )
 
 AutoConfig.register("qwenvl_uav", QwenConfig)
-AutoModelForCausalLM.register(QwenConfig, QwenVLUAVForCausalLM)
+AutoModelForCausalLM.register(QwenConfig, Qwen2_5_VLUAVForCausalLM)

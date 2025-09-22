@@ -40,7 +40,8 @@ from llamavid.train.llava_trainer import LLaVATrainer
 from llamavid import conversation as conversation_lib
 # from llamavid.model import *
 import sys
-sys.path.append(os.getcwd())
+# sys.path.append(os.getcwd())
+sys.path.append("/home/fit/qiuhan/WORK/wmq/AirVLN_ws/AirVLN")
 from Model import *
 from llava.mm_utils import tokenizer_image_token
 
@@ -161,6 +162,9 @@ class TrainingArguments(transformers.TrainingArguments):
     lora_bias: str = "none"
     group_by_modality_length: bool = field(default=False)
     lr_multi: Optional[str] = field(default=None)
+    def __post_init__(self):
+        super().__post_init__()
+        self.accelerator_config.dispatch_batches = False
 
 def _block_shuffle(lst, block_size):
     blocks = [lst[i : i + block_size] for i in range(0, len(lst), block_size)]
@@ -185,7 +189,7 @@ class IWTrajectoryDataset(torch.utils.data.IterableDataset):
         self.tokenizer = tokenizer
         self.lmdb_features_dir = data_args.dataset_path
         self.lmdb_map_size = lmdb_map_size
-        self.preload_size = batch_size * 100
+        self.preload_size = batch_size * 10
         self._preload = []
         self.batch_size = batch_size
 
@@ -214,7 +218,7 @@ class IWTrajectoryDataset(torch.utils.data.IterableDataset):
 
         self.iter_start = 0
         self.iter_end = self.length
-        self.processor = data_args.image_processor
+        self.processor = getattr(data_args, "image_processor", None)
         self.data_args = data_args
         logger.warning("END init Dataset \t start({}) - end({})".format(self.iter_start, self.iter_end))
     
@@ -256,14 +260,18 @@ class IWTrajectoryDataset(torch.utils.data.IterableDataset):
                     sources.append(next(item for item in self.list_data_dict['episodes'] if item['episode_id'] == episode_id))
                 
             for source, new in zip(sources, new_preload):
-                for frame in range(len(source['reference_path'])):
+                for frame in range(1, len(source['reference_path'])+1):
                     src = {}
                     src['episode_id'] = source['episode_id']
-                    src['rgb'] = new[0]['rgb'][frame]
-                    src['depth'] = new[0]['depth'][frame]
+                    src['rgb'] = new[0]['rgb'][frame-1]
+                    src['depth'] = new[0]['depth'][frame-1]
                     src['conversations'] = source['instruction']['instruction_text']
                     assert len(source['actions']) == len(source['reference_path'])
-                    assert np.all(source['actions'] == new[2])
+                    try:
+                        assert np.all(source['actions'] == new[2])
+                    except:
+                        print("np.all(source['actions'] == new[2]): ", src['episode_id'])
+                        
                     src['length'] = len(source['reference_path'])
                     src['actions'] = source['actions']
                     src['reference_path'] = source['reference_path']
@@ -322,8 +330,10 @@ class IWTrajectoryDataset(torch.utils.data.IterableDataset):
         ori_sources = copy.deepcopy(sources)
         frame_num = sources['frame']
         image = sources['rgb']
-        ori_image = Image.fromarray(image)
-        image = self.processor.preprocess(image, return_tensors='pt')['pixel_values'][0]
+        if self.processor is not None:
+            image = self.processor.preprocess(image, return_tensors='pt')['pixel_values'][0]
+        else:
+            image = Image.fromarray(image)
         stage, future_delta, assist = self.get_stage(sources['reference_path'], frame_num)
         cur_pos = sources['reference_path'][frame_num - 1][:3]
         x, y = ori_sources['reference_path'][-1][0], ori_sources['reference_path'][-1][1]
@@ -342,7 +352,7 @@ class IWTrajectoryDataset(torch.utils.data.IterableDataset):
         has_image = (image is not None)
         data_dict = preprocess(
             sources,
-            ori_image,
+            image,
             self.tokenizer,
             has_image=has_image,
             prompt=self.data_args.input_prompt,
@@ -381,7 +391,7 @@ class IWTrajectoryDataset(torch.utils.data.IterableDataset):
         orientation = trajectory_data[frame_num-1, 3:6]
         data_dict['orientation'] = torch.tensor(orientation).view(-1)
         data_dict['is_help'] = torch.tensor(assist).view(-1)
-        data_dict['action'] = torch.tensor(ori_sources['actions'][frame_num]).view(-1)
+        data_dict['action'] = torch.tensor(ori_sources['actions'][frame_num-1]).view(-1)
         ## TODO: wmq. depth?
         
         # prompt exist in the data
@@ -469,7 +479,7 @@ def find_all_linear_names(model):
     lora_module_names = set()
     # multimodal_keywords = ['mm_projector', 'vision_tower', 'vision_resampler', 'vlm_att']
     multimodal_keywords = ['mm_projector', 'vision_tower', 'vision_resampler', 'vlm_att', 'action_emb', 'actions_fc', 'actions_predictor',
-                         'actions_output', 'history_predictor', 'history_preprocessor', 'is_help_predictor'] # end_predictor
+                         'actions_output', 'history_predictor', 'history_preprocessor', 'is_help_predictor', 'visual'] # end_predictor
     
     for name, module in model.named_modules():
         if any(mm_keyword in name for mm_keyword in multimodal_keywords):
@@ -481,6 +491,25 @@ def find_all_linear_names(model):
     if 'lm_head' in lora_module_names: # needed for 16-bit
         lora_module_names.remove('lm_head')
     return list(lora_module_names)
+
+def find_all_exclude_names(model, keys):
+    import re
+    cls = torch.nn.Linear
+    _EXCLUDE_KEYWORDS = (
+        "visual", "vision_tower", "mm_projector",
+        "vision_resampler", "vlm_att", "image", "vision"
+    )
+
+    ks = tuple(_EXCLUDE_KEYWORDS)
+    ls = set(keys)
+    out = []
+    for name, m in model.named_modules():
+        if not isinstance(m, cls):
+            continue
+        if re.search(rf"(?:^|[._])({'|'.join(map(re.escape, ks))})(?:[._]|$)", name):
+            if name.split(".")[-1] in ls:
+                out.append(name)
+    return out
 
 
 def safe_save_model_for_hf_trainer(trainer: transformers.Trainer,
@@ -808,7 +837,7 @@ def preprocess_imgsp_qwen(
     img_token: str = '<image>',
     refine_prompt: bool = False,
 ) -> Dict:
-    processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-7B-Instruct")
+    processor = AutoProcessor.from_pretrained("/home/fit/qiuhan/WORK/wmq/TravelUAV_ws/TravelUAV/Model/LLaMA-UAV/model_zoo/Qwen2.5-VL-7B-Instruct")
     system_message = {
         "role": "system",
         "content": [
@@ -829,7 +858,7 @@ def preprocess_imgsp_qwen(
         ]
         text.append(processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True))
     
-    input = processor(text=text, images=has_image)
+    input = processor(text=text, images=has_image, return_tensors="pt")
     input_ids = input.input_ids
     input_ids_pad_wp = torch.zeros(input_ids.shape[0], input_ids.shape[1] + 1, dtype=torch.long)
     input_ids_pad_wp[:, :-2] = input_ids[:, :-1]
@@ -908,7 +937,7 @@ def preprocess_imgsp_uav(
             max_length=tokenizer.model_max_length,
             truncation=True,
         ).input_ids
-
+    input_ids = input_ids[:, :tokenizer.model_max_length]
     # add wp embedding, input_ids[-1] is </s>, 
     input_ids_pad_wp = torch.zeros(input_ids.shape[0], input_ids.shape[1] + 1, dtype=torch.long)
     input_ids_pad_wp[:, :-2] = input_ids[:, :-1]
@@ -952,6 +981,7 @@ def preprocess_imgsp_uav(
             if cur_len != total_len:
                 target[:] = IGNORE_INDEX
 
+    targets = targets[:, :tokenizer.model_max_length]
     # add wp embedding, input_ids[-1] is </s>
     targets_pad_wp = torch.zeros(targets.shape[0], targets.shape[1] + 1, dtype=torch.long)
     targets_pad_wp[:, :-2] = targets[:, :-1]
@@ -1032,8 +1062,8 @@ class DataCollatorForSupervisedDataset(object):
         labels = torch.nn.utils.rnn.pad_sequence(labels,
                                                  batch_first=True,
                                                  padding_value=IGNORE_INDEX)
-        input_ids = input_ids[:, :self.tokenizer.model_max_length]
-        labels = labels[:, :self.tokenizer.model_max_length]
+        # input_ids = input_ids[:, :self.tokenizer.model_max_length]
+        # labels = labels[:, :self.tokenizer.model_max_length]
         batch = dict(
             input_ids=input_ids,
             labels=labels,
@@ -1043,7 +1073,7 @@ class DataCollatorForSupervisedDataset(object):
         if 'image' in instances[0]:
             images = [instance['image'] for instance in instances]
             # TODO: maybe all list is a good thing. wmq: No! all list is not a good thing for arivln iterable dataset
-            if all(x is not None and x.shape == images[0].shape for x in images) and len(images) > 1:
+            if all(x is not None and x.shape == images[0].shape for x in images):
                 batch['images'] = torch.stack(images)
             else:
                 batch['images'] = images
@@ -1131,7 +1161,7 @@ def train():
     if "llava" in model_args.model_name_or_path:
         ModelClass = LlavaUAVForCausalLM
     elif "Qwen2.5-VL" in model_args.model_name_or_path:
-        ModelClass = QwenVLUAVForCausalLM
+        ModelClass = Qwen2_5_VLUAVForCausalLM
     elif "llama" in model_args.model_name_or_path or 'vicuna' in model_args.model_name_or_path:
         ModelClass = LlavaLlamaAttForCausalLM
     elif "Qwen" in model_args.model_name_or_path:
@@ -1171,6 +1201,7 @@ def train():
             r=training_args.lora_r,
             lora_alpha=training_args.lora_alpha,
             target_modules=find_all_linear_names(model),
+            exclude_modules=find_all_exclude_names(model, find_all_linear_names(model)),
             layers_to_transform=[i for i in range(0, config.num_hidden_layers)], 
             lora_dropout=training_args.lora_dropout,
             bias=training_args.lora_bias,
@@ -1223,7 +1254,7 @@ def train():
             conversation_lib.default_conversation = conversation_lib.conv_templates["vicuna_v1"]
 
     if model_args.vision_tower is not None:
-        if not ("llava" in model_args.model_name_or_path or "Qwen2.5-VL" in model_args.model_name_or_path):
+        if not "llava" in model_args.model_name_or_path:
             model.get_model().initialize_vision_modules(
                 model_args=model_args,
                 fsdp=training_args.fsdp,
@@ -1263,7 +1294,12 @@ def train():
         training_args.use_im_start_end = model_args.mm_use_im_start_end
         model.config.mm_use_im_patch_token = model_args.mm_use_im_patch_token
         model.initialize_vision_tokenizer(model_args, tokenizer=tokenizer)
-        
+
+    if "Qwen2.5-VL" in model_args.model_name_or_path:
+        for p in model.get_model().visual.merger.parameters():
+            p.requires_grad = True
+        if training_args.bits in [4, 8]:
+            model.get_model().visual.merger.to(dtype=compute_dtype, device=training_args.device)
     smarter_tokenizer_and_embedding_resize(special_tokens_list=['<wp>', '<his>'], tokenizer=tokenizer, model=model)
     
     model.get_special_token_id({'<wp>': tokenizer.encode('<wp>', add_special_tokens=False)[0], '<his>': tokenizer.encode('<his>', add_special_tokens=False)[0],
