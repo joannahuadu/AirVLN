@@ -352,10 +352,11 @@ class IWTrajectoryDataset(torch.utils.data.IterableDataset):
             prompt = data_dict['prompt']
         else:
             prompt = None
+        # TODO: wmq qwen!
+        if conversation_lib.default_conversation.version.startswith("imgsp_uav"):
+            data_dict = dict(input_ids=data_dict["input_ids"][0],
+                        labels=data_dict["labels"][0])
 
-        data_dict = dict(input_ids=data_dict["input_ids"][0],
-                            labels=data_dict["labels"][0])
-            
         data_dict['image'] = image
         trajectory_data = np.array(ori_sources['reference_path'])
         history_waypoint = trajectory_data[0:frame_num, 0:3]
