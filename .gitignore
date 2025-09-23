@@ -34,3 +34,7 @@ temp/*
 tmp/
 */model_zoo
 wandb/*
+jobs/*
+work_dirs/*
+*.jpg
+*.png
